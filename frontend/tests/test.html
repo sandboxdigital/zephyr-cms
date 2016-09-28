@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sandbox Cms Frontend Test</title>
+    <script src="js/jquery-1.9.1.js"></script>
+    <script>$.noConflict()</script>
+    <script src="js/jquery.ui.1.9.2.js"></script>
+    <script src="js/tiny_mce/tiny_mce.js"></script>
+    <script src="../js/cms.js"></script>
+    <link rel="stylesheet" href="../css/cms.css" />
+</head>
+<body>
+    <div id="formContainer"></div>
+    <form id="testForm">
+        <a href="#" class="btn-serial">Serialize</a><br>
+        <textarea id="testInput" style="width: 500px;height:500px;"></textarea>
+    </form>
+    <script>
+        jQuery(document).ready (function () {
+            SandboxCMS.Defaults.File.uploadUrl='/index.php/admin/sandboxdigital_cms/upload/key/27aacbed33130c889e2435506084ed1f5c1655f198beda8eada9ad18120d5c07/';
+
+            var formOptions = {
+                subform:true,
+                adapter:'xml',
+                input:'#testInput'
+            };
+            window.form = new SandboxCMS.Form (formOptions);
+            form.loadFile ('xml/home.xml', function (){
+                console.log ("HHHHHASHDHASDHASHDASHDHD");
+                form.populateFromFile('xml/home-data.xml');
+            });
+
+            jQuery('.btn-serial').click(function (ev) {
+                ev.preventDefault();
+                form.onSubmit();
+            })
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<text id="title"></text>
+	<!--<html id="body1"></html>-->
+	<textarea id="body2"></textarea>
+	<group id="group-gallery" label="Gallery">
+		<groupoption id="groupoption-image" label="Gallery image">
+			<file id="image" />
+		</groupoption>
+	</group>
+</form>

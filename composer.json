@@ -1,0 +1,20 @@
+{
+    "name": "sandboxdigital/zephyr-cms",
+    "description": "Framework agnostic PHP CMS",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas Garrood",
+            "email": "thomas@sandboxdigital.com.au"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "SandboxDigital/Cms": "src/"
+        }
+    }
+}

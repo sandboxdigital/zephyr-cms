@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<html id="heroCopy" label="Hero - Copy" />
+
+
+	<group id="coursePanels" label="Course Panels">
+		<groupoption id="testimonial-text" label="Panel">
+			<text id="name" ></text>
+			<file id="image"></file>
+		</groupoption>
+	</group>
+
+
+	<html id="quote" label="Quote" />
+	<html id="about" label="About" />
+	<html id="contact" label="Contact" />
+</form>
+
