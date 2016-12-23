@@ -5,8 +5,9 @@
 		<option label="Panel" value="panel" />
 	</select>
 
-	<html id="heroCopy" label="Hero - Copy" />
+	<text id="testText" />
 
+	<html id="heroCopy" label="Hero - Copy" />
 
 	<group id="coursePanels" label="Course Panels">
 		<groupoption id="testimonial-text" label="Panel">

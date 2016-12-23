@@ -4,12 +4,13 @@ CMS.Form.Field.Select = $.inherit(
 	{
 		options : null,
 
-		__constructor : function(xml, parent) {
-			this.__base (xml, parent);
+		__constructor: function (parent) {
+			this.__base(parent);
+		},
 
-			console.log (xml);
-			
-			var options = new Object ();
+		loadXml : function (xml, adapter){
+			this.__base(xml, adapter);
+			var options = {};
 			
 			$(xml).children().each (function (key) { 
 				var option = 0;

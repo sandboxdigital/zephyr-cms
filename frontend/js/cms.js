@@ -2642,10 +2642,13 @@ CMS.Form.Field.Select = $.inherit(
 	{
 		options : null,
 
-		__constructor : function(xml, parent) {
-			this.__base (xml, parent);
-			
-			var options = new Object ();
+		__constructor: function (parent) {
+			this.__base(parent);
+		},
+
+		loadXml : function (xml, adapter){
+			this.__base(xml, adapter);
+			var options = {};
 			
 			$(xml).children().each (function (key) { 
 				var option = 0;
@@ -2865,6 +2868,7 @@ CMS.Defaults.TinyMce = {
     theme: "advanced",
     plugins: "media,advimage,paste,inlinepopups",
     dialog_type : "modal",
+    extended_valid_elements: "a[rel|rev|charset|hreflang|tabindex|accesskey|type|name|href|target|title|class|data-toggle]",
     theme_advanced_buttons1: "bold,italic,underline,bullist,numlist,separator,outdent,indent,|,link,unlink,image,|,code",
     theme_advanced_buttons2: "justifyleft,justifycenter,justifyright,|,formatselect,|,cleanup,removeformat,|,pastetext,pasteword",
     theme_advanced_buttons3: "",

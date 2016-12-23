@@ -9,7 +9,7 @@ var dest        = "frontend/";
 var destCss     = dest+"css/";
 var destJs      = dest+"js/";
 
-var src         = "frontent-src/";
+var src         = "frontend-src/";
 var srcScss     = src+"scss/";
 var srcJs       = src+"js/";
 
@@ -17,7 +17,7 @@ var watchPaths  = [
     dest+'/**'
 ];
 
-var destJsFile = 'cms1.js';
+var destJsFile = 'cms.js';
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
