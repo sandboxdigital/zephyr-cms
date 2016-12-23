@@ -8,7 +8,7 @@ CMS.Form.Field.Text = $.inherit(
 		},
 		
 		renderField : function() {
-		    return '<div class="field"><input type="text" name="' + this.path + '" id="' + this.elPath + '" class="text" /></div>';
+		    return '<div class="cmsField"><input type="text" name="' + this.path + '" id="' + this.elPath + '" class="text" /></div>';
 		},
 		
 		populate : function (xml) 

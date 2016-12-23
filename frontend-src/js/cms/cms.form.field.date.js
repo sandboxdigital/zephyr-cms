@@ -8,7 +8,7 @@ CMS.Form.Field.Date = $.inherit(
 		},
 		
 		renderField : function() {
-			return '<div class="field"><input type="text" name="'+this.path+'" id="'+this.elPath+'" class="textsmall" /></div>';
+			return '<div class="cmsField"><input type="text" name="'+this.path+'" id="'+this.elPath+'" class="textsmall" /></div>';
 		},
 		
 		populate : function (xml) 

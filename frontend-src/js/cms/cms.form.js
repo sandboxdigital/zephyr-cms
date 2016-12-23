@@ -135,6 +135,7 @@ CMS.Form = CMS.Object.extend({
 
     // TODO - move to adapter
     , populate : function (xmlString) {
+        this.log('populate');
         xmlString = unescape(xmlString);
 
         var xml = CMS.Xml.parseXml(xmlString);

@@ -5,17 +5,19 @@
 // Destination - where all the files are save after processing. Defaults to /public/assets but you can change to
 // something like public/wp-content/themes/THEME_NAME/assets for a Wordpress project
 
-var dest        = "../frontend/";
+var dest        = "frontend/";
 var destCss     = dest+"css/";
 var destJs      = dest+"js/";
 
-var src         = "";
+var src         = "frontent-src/";
 var srcScss     = src+"scss/";
 var srcJs       = src+"js/";
 
 var watchPaths  = [
-    dest+'/**',
+    dest+'/**'
 ];
+
+var destJsFile = 'cms1.js';
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -78,7 +80,7 @@ gulp.task('scripts', function() {
         ])
         //.pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter('default'))
-        .pipe(concat('cms.js'))
+        .pipe(concat(destJsFile))
         .pipe(wrap({ src: srcJs+'templates/wrap.js'}))
         .pipe(gulp.dest(destJs))
         .pipe(notify({ message: 'Scripts task complete' }));

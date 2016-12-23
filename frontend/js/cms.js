@@ -1319,6 +1319,7 @@ CMS.Form = CMS.Object.extend({
 
     // TODO - move to adapter
     , populate : function (xmlString) {
+        this.log('populate');
         xmlString = unescape(xmlString);
 
         var xml = CMS.Xml.parseXml(xmlString);
@@ -1506,7 +1507,7 @@ CMS.Form.Field = $.inherit(
         }
 
         ,render: function () {
-            return '<div class="row">' +this.renderLabel() + this.renderField() + '</div>';
+            return '<div class="cmsRow">' +this.renderLabel() + this.renderField() + '</div>';
         }
 
         ,renderDone: function () {
@@ -1514,11 +1515,11 @@ CMS.Form.Field = $.inherit(
         }
 
         ,renderLabel: function () {
-            return '<div class="label"><label>' + this.label + '</label></div>';
+            return '<div class="cmsLabel"><label>' + this.label + '</label></div>';
         }
 
         ,renderField: function () {
-            return '<div class="field"><input type="hidden" name="' + this.path + '" id="' + this.elPath + '" /></div>';
+            return '<div class="cmsField"><input type="hidden" name="' + this.path + '" id="' + this.elPath + '" /></div>';
         }
 
         ,debug: function (indent) {
@@ -1687,6 +1688,7 @@ CMS.Form.Field = $.inherit(
         },
 
         loadFields : function (xml, parent) {
+            console.log (xml);
             parent.fields = {};
 
             var _this = this;
@@ -1709,6 +1711,7 @@ CMS.Form.Field = $.inherit(
                 field.loadXml(xml, this);
             } catch (e) {
                  Tg.log(e);
+                 Tg.log (xml);
                  alert('Unknown field ' + xml.nodeName + ', try including cms.form.field.' + xml.nodeName + '.js');
             }
 
@@ -1946,7 +1949,7 @@ CMS.Form.Field.Date = $.inherit(
 		},
 		
 		renderField : function() {
-			return '<div class="field"><input type="text" name="'+this.path+'" id="'+this.elPath+'" class="textsmall" /></div>';
+			return '<div class="cmsField"><input type="text" name="'+this.path+'" id="'+this.elPath+'" class="textsmall" /></div>';
 		},
 		
 		populate : function (xml) 
@@ -2001,7 +2004,7 @@ CMS.Form.Field.File = $.inherit(
             output += '<input id="' + this.elPath + '_btnCancel" type="button" class="' + this.elPath + '_btnCancel btnCancel" value="Cancel upload" style="display:none;" />';
             output += '</div></div></div>';
 
-            return '<div class="field">' + output + '</div>';
+            return '<div class="cmsField">' + output + '</div>';
         },
 
         renderDone: function () {
@@ -2172,9 +2175,9 @@ CMS.Form.Field.Group = $.inherit(
                 output += this.render();
             });
 
-            var html = '<div class="row">';
-            html += '<div class="label"><label>' + this.label + '</label></div>';
-            html += '<div class="field">';
+            var html = '<div class="cmsRow">';
+            html += '<div class="cmsLabel"><label>' + this.label + '</label></div>';
+            html += '<div class="cmsField">';
             html += '<div id="' + this.elPath + '-group" class="CMSGroup CMSGroup'+this.id+'"><div class="CMSGroupTitle" id="' + this.elPath + '-title"><div class="CMSLeft">' + this.label + '</div>';
             html += '<a href="#" class="CMSGroupAddTop CMSIconAdd">Add</a>';
             html += '<a href="#" class="CMSGroupCollapse CMSIconHide">Collapse all</a>';
@@ -2563,7 +2566,7 @@ CMS.Form.Field.Html = $.inherit(
         },
         
         renderField : function() {
-            return '<div class="field cmsFormFieldHtml"><textarea type="text" name="' + this.path + '" id="' + this.elPath + '"></textarea></div>';
+            return '<div class="cmsField cmsFormFieldHtml"><textarea type="text" name="' + this.path + '" id="' + this.elPath + '"></textarea></div>';
         }, 
         
         renderDone : function ()
@@ -2662,7 +2665,7 @@ CMS.Form.Field.Select = $.inherit(
 		},
 		
 		renderField : function() {
-    		var html = '<div class="field"><select type="text" name="'+this.path+'" id="'+this.elPath+'" class="select">';
+    		var html = '<div class="cmsField"><select type="text" name="'+this.path+'" id="'+this.elPath+'" class="select">';
 
 			var _this = this;
 			
@@ -2697,7 +2700,7 @@ CMS.Form.Field.Text = $.inherit(
 		},
 		
 		renderField : function() {
-		    return '<div class="field"><input type="text" name="' + this.path + '" id="' + this.elPath + '" class="text" /></div>';
+		    return '<div class="cmsField"><input type="text" name="' + this.path + '" id="' + this.elPath + '" class="text" /></div>';
 		},
 		
 		populate : function (xml) 
@@ -2718,7 +2721,7 @@ CMS.Form.Field.Textarea = $.inherit(
 		},
 		
 		renderField : function() {
-		    return '<div class="field"><textarea name="' + this.path + '" id="' + this.elPath + '" class="text"></textarea></div>';
+		    return '<div class="cmsField"><textarea name="' + this.path + '" id="' + this.elPath + '" class="text"></textarea></div>';
 		},
 		
 		populate : function (xml) 

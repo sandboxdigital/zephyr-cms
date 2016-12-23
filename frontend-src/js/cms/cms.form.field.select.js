@@ -6,6 +6,8 @@ CMS.Form.Field.Select = $.inherit(
 
 		__constructor : function(xml, parent) {
 			this.__base (xml, parent);
+
+			console.log (xml);
 			
 			var options = new Object ();
 			
@@ -27,7 +29,7 @@ CMS.Form.Field.Select = $.inherit(
 		},
 		
 		renderField : function() {
-    		var html = '<div class="field"><select type="text" name="'+this.path+'" id="'+this.elPath+'" class="select">';
+    		var html = '<div class="cmsField"><select type="text" name="'+this.path+'" id="'+this.elPath+'" class="select">';
 
 			var _this = this;
 			

@@ -7,11 +7,11 @@ div.cmsForm {
     padding: 5px;
     margin: 0;
 
-    div.row {
+    div.cmsRow {
         clear: both;
     }
 
-    div.label {
+    div.cmsLabel {
         float: left;
         width: 200px;
         padding: 0;
@@ -28,7 +28,7 @@ div.cmsForm {
         }
     }
 
-    div.field {
+    div.cmsField {
         padding: 0;
         padding-right: 3px;
         margin: 0;

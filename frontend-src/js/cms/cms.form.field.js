@@ -36,7 +36,7 @@ CMS.Form.Field = $.inherit(
         }
 
         ,render: function () {
-            return '<div class="row">' +this.renderLabel() + this.renderField() + '</div>';
+            return '<div class="cmsRow">' +this.renderLabel() + this.renderField() + '</div>';
         }
 
         ,renderDone: function () {
@@ -44,11 +44,11 @@ CMS.Form.Field = $.inherit(
         }
 
         ,renderLabel: function () {
-            return '<div class="label"><label>' + this.label + '</label></div>';
+            return '<div class="cmsLabel"><label>' + this.label + '</label></div>';
         }
 
         ,renderField: function () {
-            return '<div class="field"><input type="hidden" name="' + this.path + '" id="' + this.elPath + '" /></div>';
+            return '<div class="cmsField"><input type="hidden" name="' + this.path + '" id="' + this.elPath + '" /></div>';
         }
 
         ,debug: function (indent) {

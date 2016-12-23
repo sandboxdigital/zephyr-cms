@@ -57,9 +57,9 @@ CMS.Form.Field.Group = $.inherit(
                 output += this.render();
             });
 
-            var html = '<div class="row">';
-            html += '<div class="label"><label>' + this.label + '</label></div>';
-            html += '<div class="field">';
+            var html = '<div class="cmsRow">';
+            html += '<div class="cmsLabel"><label>' + this.label + '</label></div>';
+            html += '<div class="cmsField">';
             html += '<div id="' + this.elPath + '-group" class="CMSGroup CMSGroup'+this.id+'"><div class="CMSGroupTitle" id="' + this.elPath + '-title"><div class="CMSLeft">' + this.label + '</div>';
             html += '<a href="#" class="CMSGroupAddTop CMSIconAdd">Add</a>';
             html += '<a href="#" class="CMSGroupCollapse CMSIconHide">Collapse all</a>';

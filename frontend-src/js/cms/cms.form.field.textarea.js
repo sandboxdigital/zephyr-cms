@@ -7,7 +7,7 @@ CMS.Form.Field.Textarea = $.inherit(
 		},
 		
 		renderField : function() {
-		    return '<div class="field"><textarea name="' + this.path + '" id="' + this.elPath + '" class="text"></textarea></div>';
+		    return '<div class="cmsField"><textarea name="' + this.path + '" id="' + this.elPath + '" class="text"></textarea></div>';
 		},
 		
 		populate : function (xml) 

@@ -23,18 +23,37 @@ class CmsManager
 		return $html;
 	}
 
-	public function getForm($formXml, $dataXml = '', $options = array())
+	public function getForm($options = array ())
 	{
-		if (empty($formXml))
-			return 'Form xml is not set';
+		if (empty($options['formXml']) && empty($options['formFile'])) {
+            return 'Please define formXml or formFile options';
+        }
+        if (!isset($options['dataXml']) && !isset($options['dataFile'])) {
+            return 'Please define dataXml or dataFile options';
+        }
+
+        $formXml = '';
+
+        if (isset($options['formFile'])) {
+            $formXml = $this->getFormSpecFromFile($options['formFile']);
+            unset($options['formFile']);
+        } else {
+            $formXml = $this->getFormSpec($options['formXml']);
+        }
+
+
+        $dataXml = $this->getFormContent($options['dataXml']) ;
+        unset($options['dataXml']);
+
 
 		$output ='
+
 <script>
 jQuery(document).ready (function () {
-    var formOptions = '.json_encode($this->getFormOptions($options)).';
+    var formOptions = '.$this->getFormOptions($options).';
     window.form = new SandboxCMS.Form (formOptions);
-    form.load (\''.$this->getFormSpec($formXml).'\');
-    form.populate (\''.$this->getFormContent($dataXml).'\');
+    form.load (\''.$formXml.'\');
+    //form.populate (\''.$dataXml.'\');
 });
 </script>';
 

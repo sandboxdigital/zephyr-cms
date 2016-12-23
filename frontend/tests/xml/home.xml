@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
+	<select id="linkType" label="Link Type">
+		<option label="Button" value="button" />
+		<option label="Panel" value="panel" />
+	</select>
+
 	<html id="heroCopy" label="Hero - Copy" />
 
 

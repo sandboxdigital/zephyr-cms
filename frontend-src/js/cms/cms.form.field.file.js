@@ -36,7 +36,7 @@ CMS.Form.Field.File = $.inherit(
             output += '<input id="' + this.elPath + '_btnCancel" type="button" class="' + this.elPath + '_btnCancel btnCancel" value="Cancel upload" style="display:none;" />';
             output += '</div></div></div>';
 
-            return '<div class="field">' + output + '</div>';
+            return '<div class="cmsField">' + output + '</div>';
         },
 
         renderDone: function () {

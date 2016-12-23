@@ -32,7 +32,7 @@ class CmsUtils {
 		return $result;
 	}
 	
-	public static function escapebycharacter($char) {
+	public static function escapeByCharacter($char) {
 		if ($char == '+') { return '%20'; }
 		if ($char == '%2A') { return '*'; }
 		if ($char == '%2B') { return '+'; }

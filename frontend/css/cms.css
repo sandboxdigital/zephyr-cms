@@ -11,9 +11,9 @@
 div.cmsForm {
   padding: 5px;
   margin: 0; }
-  div.cmsForm div.row {
+  div.cmsForm div.cmsRow {
     clear: both; }
-  div.cmsForm div.label {
+  div.cmsForm div.cmsLabel {
     float: left;
     width: 200px;
     padding: 0;
@@ -22,9 +22,9 @@ div.cmsForm {
     margin-bottom: 2px;
     padding-top: 5px;
     box-sizing: border-box; }
-    div.cmsForm div.label label {
+    div.cmsForm div.cmsLabel label {
       text-transform: capitalize; }
-  div.cmsForm div.field {
+  div.cmsForm div.cmsField {
     padding: 0;
     padding-right: 3px;
     margin: 0;

@@ -72,6 +72,7 @@
         },
 
         loadFields : function (xml, parent) {
+            console.log (xml);
             parent.fields = {};
 
             var _this = this;
@@ -94,6 +95,7 @@
                 field.loadXml(xml, this);
             } catch (e) {
                  Tg.log(e);
+                 Tg.log (xml);
                  alert('Unknown field ' + xml.nodeName + ', try including cms.form.field.' + xml.nodeName + '.js');
             }
 

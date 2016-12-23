@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sandbox Cms Frontend Test</title>
+    <script src="js/jquery-1.9.1.js"></script>
+    <script>$.noConflict()</script>
+    <script src="js/jquery.ui.1.9.2.js"></script>
+    <script src="js/tiny_mce/tiny_mce.js"></script>
+    <script src="../js/cms.js"></script>
+    <link rel="stylesheet" href="../css/cms.css" />
+</head>
+<body>
+    <div id="formContainer"></div>
+    <form id="testForm">
+        <a href="#" class="btn-serial">Serialize</a><br>
+        <textarea id="testInput" style="width: 500px;height:500px;"></textarea>
+    </form>
+    <script>
+        jQuery(document).ready (function () {
+            SandboxCMS.Defaults.File.uploadUrl='/index.php/admin/sandboxdigital_cms/upload/key/27aacbed33130c889e2435506084ed1f5c1655f198beda8eada9ad18120d5c07/';
+
+            var formOptions = {
+                subform:true,
+                adapter:'xml',
+                input:'#testInput'
+            };
+            window.form = new SandboxCMS.Form (formOptions);
+            form.load ('%253C%253Fxml%2520version%253D%25221.0%2522%2520encoding%253D%2522UTF-8%2522%253F%253E%253Cform%253E%253Chtml%2520id%253D%2522heroCopy%2522%2520label%253D%2522Hero%2520-%2520Copy%2522%2520/%253E%253C/form%253E',function (){
+                form.populate ('%3C%3Fxml%20version%3D%221.0%22%3F%3E%3Cdata%3E%3C/data%3E');
+            });
+//            form.loadFile ('xml/home.xml', function (){
+//                console.log ("HHHHHASHDHASDHASHDASHDHD");
+//                form.populateFromFile('xml/home-data.xml');
+//            });
+
+            jQuery('.btn-serial').click(function (ev) {
+                ev.preventDefault();
+                form.onSubmit();
+            })
+        });
+    </script>
+</body>
+</html>

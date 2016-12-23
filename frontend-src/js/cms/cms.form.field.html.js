@@ -10,7 +10,7 @@ CMS.Form.Field.Html = $.inherit(
         },
         
         renderField : function() {
-            return '<div class="field cmsFormFieldHtml"><textarea type="text" name="' + this.path + '" id="' + this.elPath + '"></textarea></div>';
+            return '<div class="cmsField cmsFormFieldHtml"><textarea type="text" name="' + this.path + '" id="' + this.elPath + '"></textarea></div>';
         }, 
         
         renderDone : function ()
