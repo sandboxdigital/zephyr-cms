@@ -7,8 +7,8 @@
     <script>$.noConflict()</script>
     <script src="js/jquery.ui.1.9.2.js"></script>
     <script src="js/tiny_mce/tiny_mce.js"></script>
-    <script src="../js/cms.js"></script>
-    <link rel="stylesheet" href="../css/cms.css" />
+    <script src="../frontend/js/cms.js"></script>
+    <link rel="stylesheet" href="../frontend/css/cms.css" />
 </head>
 <body>
     <div id="formContainer"></div>
@@ -18,7 +18,7 @@
     </form>
     <script>
         jQuery(document).ready (function () {
-            SandboxCMS.Defaults.File.uploadUrl='/index.php/admin/sandboxdigital_cms/upload/key/27aacbed33130c889e2435506084ed1f5c1655f198beda8eada9ad18120d5c07/';
+            SandboxCMS.Defaults.File.uploadUrl='test.php';
 
             var formOptions = {
                 subform:true,
@@ -26,7 +26,7 @@
                 input:'#testInput'
             };
             window.form = new SandboxCMS.Form (formOptions);
-            form.loadFile ('xml/home.xml', function (){
+            form.loadFile ('xml/home.xml', function () {
                 console.log ("HHHHHASHDHASDHASHDASHDHD");
                 form.populateFromFile('xml/home-data.xml');
             });
