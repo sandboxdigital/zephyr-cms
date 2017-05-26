@@ -27,8 +27,8 @@
             };
             window.form = new SandboxCMS.Form (formOptions);
             form.loadFile ('xml/gallery.xml', function () {
-                console.log ("HHHHHASHDHASDHASHDASHDHD");
-//                form.populateFromFile('xml/gallery-data.xml');
+                console.log ("Form loaded");
+                form.populateFromFile('xml/gallery-data.xml');
             });
 
             jQuery('.btn-serial').click(function (ev) {

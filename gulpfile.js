@@ -14,7 +14,8 @@ var srcScss     = src+"scss/";
 var srcJs       = src+"js/";
 
 var watchPaths  = [
-    dest+'/**'
+    dest+'/**',
+    'tests/*.html'
 ];
 
 var destJsFile = 'cms.js';
@@ -22,10 +23,18 @@ var destJsFile = 'cms.js';
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 var gulp = require('gulp'),
+
+    // SCSS
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
     minifycss = require('gulp-minify-css'),
+
+    // JS
     jshint = require('gulp-jshint'),
+    buble = require('gulp-buble'),
+
+
+    // General
     rename = require('gulp-rename'),
     cache = require('gulp-cache'),
     concat = require('gulp-concat'),
@@ -81,6 +90,7 @@ gulp.task('scripts', function() {
         //.pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter('default'))
         .pipe(concat(destJsFile))
+        .pipe(buble())
         .pipe(wrap({ src: srcJs+'templates/wrap.js'}))
         .pipe(gulp.dest(destJs))
         .pipe(notify({ message: 'Scripts task complete' }));
@@ -116,6 +126,6 @@ gulp.task('watch', function() {
     gulp.watch(watchPaths).on('change', livereload.changed);
 });
 
-gulp.task('dev', ['watch']);
+gulp.task('dev', ['scripts','styles','watch']);
 gulp.task('prod', ['styles:prod','scripts:prod']);
 gulp.task('default', ['styles','scripts']);

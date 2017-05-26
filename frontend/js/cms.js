@@ -463,6 +463,8 @@ $.widget("ui.sortable", $.extend($.ui.mouse, {
 		this.refreshPositions();
 	},
 	refreshItems: function() {
+		var this$1 = this;
+
 		
 		this.items = [];
 		this.containers = [this];
@@ -472,12 +474,12 @@ $.widget("ui.sortable", $.extend($.ui.mouse, {
 	
 		if(this.options.connectWith) {
 			for (var i = this.options.connectWith.length - 1; i >= 0; i--){
-				var cur = $(this.options.connectWith[i]);
+				var cur = $(this$1.options.connectWith[i]);
 				for (var j = cur.length - 1; j >= 0; j--){
 					var inst = $.data(cur[j], 'sortable');
 					if(inst && !inst.options.disabled) {
 						queries.push([$.isFunction(inst.options.items) ? inst.options.items.call(inst.element) : $(inst.options.items, inst.element), inst]);
-						this.containers.push(inst);
+						this$1.containers.push(inst);
 					}
 				};
 			};
@@ -497,6 +499,8 @@ $.widget("ui.sortable", $.extend($.ui.mouse, {
 
 	},
 	refreshPositions: function(fast) {
+		var this$1 = this;
+
 
 		//This has to be redone because due to the item being moved out/into the offsetParent, the offsetParent's position will change
 		if(this.offsetParent) {
@@ -507,32 +511,34 @@ $.widget("ui.sortable", $.extend($.ui.mouse, {
 		for (var i = this.items.length - 1; i >= 0; i--){		
 			
 			//We ignore calculating positions of all connected containers when we're not over them
-			if(this.items[i].instance != this.currentContainer && this.currentContainer && this.items[i].item[0] != this.currentItem[0])
+			if(this$1.items[i].instance != this$1.currentContainer && this$1.currentContainer && this$1.items[i].item[0] != this$1.currentItem[0])
 				continue;
 				
-			var t = this.options.toleranceElement ? $(this.options.toleranceElement, this.items[i].item) : this.items[i].item;
+			var t = this$1.options.toleranceElement ? $(this$1.options.toleranceElement, this$1.items[i].item) : this$1.items[i].item;
 			
 			if(!fast) {
-				this.items[i].width = t.outerWidth();
-				this.items[i].height = t.outerHeight();
+				this$1.items[i].width = t.outerWidth();
+				this$1.items[i].height = t.outerHeight();
 			}
 			
 			var p = t.offset();
-			this.items[i].left = p.left;
-			this.items[i].top = p.top;
+			this$1.items[i].left = p.left;
+			this$1.items[i].top = p.top;
 			
 		};
 		
 		for (var i = this.containers.length - 1; i >= 0; i--){
-			var p =this.containers[i].element.offset();
-			this.containers[i].containerCache.left = p.left;
-			this.containers[i].containerCache.top = p.top;
-			this.containers[i].containerCache.width	= this.containers[i].element.outerWidth();
-			this.containers[i].containerCache.height = this.containers[i].element.outerHeight();
+			var p =this$1.containers[i].element.offset();
+			this$1.containers[i].containerCache.left = p.left;
+			this$1.containers[i].containerCache.top = p.top;
+			this$1.containers[i].containerCache.width	= this$1.containers[i].element.outerWidth();
+			this$1.containers[i].containerCache.height = this$1.containers[i].element.outerHeight();
 		};
 		
 	},
 	destroy: function() {
+		var this$1 = this;
+
 		this.element
 			.removeClass("ui-sortable ui-sortable-disabled")
 			.removeData("sortable")
@@ -540,7 +546,7 @@ $.widget("ui.sortable", $.extend($.ui.mouse, {
 		this.mouseDestroy();
 		
 		for ( var i = this.items.length - 1; i >= 0; i-- )
-			this.items[i].item.removeData("sortable-item");
+			this$1.items[i].item.removeData("sortable-item");
 	},
 	createPlaceholder: function(that) {
 		
@@ -562,49 +568,51 @@ $.widget("ui.sortable", $.extend($.ui.mouse, {
 		o.placeholder.update.call(self.element, self.currentItem, self.placeholder);
 	},
 	contactContainers: function(e) {
+		var this$1 = this;
+
 		for (var i = this.containers.length - 1; i >= 0; i--){
 
-			if(this.intersectsWith(this.containers[i].containerCache)) {
-				if(!this.containers[i].containerCache.over) {
+			if(this$1.intersectsWith(this$1.containers[i].containerCache)) {
+				if(!this$1.containers[i].containerCache.over) {
 					
 
-					if(this.currentContainer != this.containers[i]) {
+					if(this$1.currentContainer != this$1.containers[i]) {
 						
 						//When entering a new container, we will find the item with the least distance and append our item near it
-						var dist = 10000; var itemWithLeastDistance = null; var base = this.positionAbs[this.containers[i].floating ? 'left' : 'top'];
+						var dist = 10000; var itemWithLeastDistance = null; var base = this$1.positionAbs[this$1.containers[i].floating ? 'left' : 'top'];
 						for (var j = this.items.length - 1; j >= 0; j--) {
-							if(!contains(this.containers[i].element[0], this.items[j].item[0])) continue;
-							var cur = this.items[j][this.containers[i].floating ? 'left' : 'top'];
+							if(!contains(this$1.containers[i].element[0], this$1.items[j].item[0])) continue;
+							var cur = this$1.items[j][this$1.containers[i].floating ? 'left' : 'top'];
 							if(Math.abs(cur - base) < dist) {
-								dist = Math.abs(cur - base); itemWithLeastDistance = this.items[j];
+								dist = Math.abs(cur - base); itemWithLeastDistance = this$1.items[j];
 							}
 						}
 						
-						if(!itemWithLeastDistance && !this.options.dropOnEmpty) //Check if dropOnEmpty is enabled
+						if(!itemWithLeastDistance && !this$1.options.dropOnEmpty) //Check if dropOnEmpty is enabled
 							continue;
 						
 						//We also need to exchange the placeholder
-						if(this.placeholder) this.placeholder.remove();
-						if(this.containers[i].options.placeholder) {
-							this.containers[i].createPlaceholder(this);
+						if(this$1.placeholder) this$1.placeholder.remove();
+						if(this$1.containers[i].options.placeholder) {
+							this$1.containers[i].createPlaceholder(this$1);
 						} else {
-							this.placeholder = null;;
+							this$1.placeholder = null;;
 						}
 						
-						this.currentContainer = this.containers[i];
-						itemWithLeastDistance ? this.rearrange(e, itemWithLeastDistance, null, true) : this.rearrange(e, null, this.containers[i].element, true);
-						this.propagate("change", e); //Call plugins and callbacks
-						this.containers[i].propagate("change", e, this); //Call plugins and callbacks
+						this$1.currentContainer = this$1.containers[i];
+						itemWithLeastDistance ? this$1.rearrange(e, itemWithLeastDistance, null, true) : this$1.rearrange(e, null, this$1.containers[i].element, true);
+						this$1.propagate("change", e); //Call plugins and callbacks
+						this$1.containers[i].propagate("change", e, this$1); //Call plugins and callbacks
 
 					}
 					
-					this.containers[i].propagate("over", e, this);
-					this.containers[i].containerCache.over = 1;
+					this$1.containers[i].propagate("over", e, this$1);
+					this$1.containers[i].containerCache.over = 1;
 				}
 			} else {
-				if(this.containers[i].containerCache.over) {
-					this.containers[i].propagate("out", e, this);
-					this.containers[i].containerCache.over = 0;
+				if(this$1.containers[i].containerCache.over) {
+					this$1.containers[i].propagate("out", e, this$1);
+					this$1.containers[i].containerCache.over = 0;
 				}
 			}
 			
@@ -639,6 +647,8 @@ $.widget("ui.sortable", $.extend($.ui.mouse, {
 			
 	},
 	mouseStart: function(e, overrideHandle, noActivation) {
+		var this$1 = this;
+
 
 		var o = this.options;
 		this.currentContainer = this;
@@ -735,7 +745,7 @@ $.widget("ui.sortable", $.extend($.ui.mouse, {
 		
 		//Post 'activate' events to possible containers
 		if(!noActivation) {
-			 for (var i = this.containers.length - 1; i >= 0; i--) { this.containers[i].propagate("activate", e, this); }
+			 for (var i = this.containers.length - 1; i >= 0; i--) { this$1.containers[i].propagate("activate", e, this$1); }
 		}
 		
 		//Prepare possible droppables
@@ -809,6 +819,8 @@ $.widget("ui.sortable", $.extend($.ui.mouse, {
 		return position;
 	},
 	mouseDrag: function(e) {
+		var this$1 = this;
+
 
 
 		//Compute the helpers position
@@ -817,18 +829,18 @@ $.widget("ui.sortable", $.extend($.ui.mouse, {
 
 		//Rearrange
 		for (var i = this.items.length - 1; i >= 0; i--) {
-			var intersection = this.intersectsWithEdge(this.items[i]);
+			var intersection = this$1.intersectsWithEdge(this$1.items[i]);
 			if(!intersection) continue;
 			
-			if(this.items[i].item[0] != this.currentItem[0] //cannot intersect with itself
-				&&	this.currentItem[intersection == 1 ? "next" : "prev"]()[0] != this.items[i].item[0] //no useless actions that have been done before
-				&&	!contains(this.currentItem[0], this.items[i].item[0]) //no action if the item moved is the parent of the item checked
-				&& (this.options.type == 'semi-dynamic' ? !contains(this.element[0], this.items[i].item[0]) : true)
+			if(this$1.items[i].item[0] != this$1.currentItem[0] //cannot intersect with itself
+				&&	this$1.currentItem[intersection == 1 ? "next" : "prev"]()[0] != this$1.items[i].item[0] //no useless actions that have been done before
+				&&	!contains(this$1.currentItem[0], this$1.items[i].item[0]) //no action if the item moved is the parent of the item checked
+				&& (this$1.options.type == 'semi-dynamic' ? !contains(this$1.element[0], this$1.items[i].item[0]) : true)
 			) {
 				
-				this.direction = intersection == 1 ? "down" : "up";
-				this.rearrange(e, this.items[i]);
-				this.propagate("change", e); //Call plugins and callbacks
+				this$1.direction = intersection == 1 ? "down" : "up";
+				this$1.rearrange(e, this$1.items[i]);
+				this$1.propagate("change", e); //Call plugins and callbacks
 				break;
 			}
 		}
@@ -893,24 +905,26 @@ $.widget("ui.sortable", $.extend($.ui.mouse, {
 		
 	},
 	clear: function(e, noPropagation) {
+		var this$1 = this;
+
 
 		if(this.domPosition.prev != this.currentItem.prev().not(".ui-sortable-helper")[0] || this.domPosition.parent != this.currentItem.parent()[0]) this.propagate("update", e, null, noPropagation); //Trigger update callback if the DOM position has changed
 		if(!contains(this.element[0], this.currentItem[0])) { //Node was moved out of the current element
 			this.propagate("remove", e, null, noPropagation);
 			for (var i = this.containers.length - 1; i >= 0; i--){
-				if(contains(this.containers[i].element[0], this.currentItem[0])) {
-					this.containers[i].propagate("update", e, this, noPropagation);
-					this.containers[i].propagate("receive", e, this, noPropagation);
+				if(contains(this$1.containers[i].element[0], this$1.currentItem[0])) {
+					this$1.containers[i].propagate("update", e, this$1, noPropagation);
+					this$1.containers[i].propagate("receive", e, this$1, noPropagation);
 				}
 			};
 		};
 		
 		//Post events to containers
 		for (var i = this.containers.length - 1; i >= 0; i--){
-			this.containers[i].propagate("deactivate", e, this, noPropagation);
-			if(this.containers[i].containerCache.over) {
-				this.containers[i].propagate("out", e, this);
-				this.containers[i].containerCache.over = 0;
+			this$1.containers[i].propagate("deactivate", e, this$1, noPropagation);
+			if(this$1.containers[i].containerCache.over) {
+				this$1.containers[i].propagate("out", e, this$1);
+				this$1.containers[i].containerCache.over = 0;
 			}
 		}
 		
@@ -1143,6 +1157,8 @@ CMS.selectFile = function (options) {
     jQuery('#tempFile').change(function () {
             Tg.log('change');
 
+            options.onStart();
+
             var fileSelect = jQuery('#tempFile').get(0);
             var files = fileSelect.files;
             var formData = new FormData();
@@ -1159,24 +1175,56 @@ CMS.selectFile = function (options) {
                 // Add the file to the request.
                 formData.append('file', file, file.name);
             }
+    
+            var xhr = new XMLHttpRequest();
+            (xhr.upload || xhr).addEventListener('progress', function(e) {
+                var done = e.position || e.loaded;
+                var total = e.totalSize || e.total;
+                var p =  Math.round(done/total*100);
+                // console.log('xhr progress: ' + p + '%');
+                options.onProgress(p);
 
-            $.ajax({
-                url: CMS.Defaults.File.uploadUrl,
-                type: 'POST',
-                cache: false,
-                // dataType:'text',
-                data: formData,
-                // cached: false,
-                contentType: false,  // tell jQuery not to set contentType
-                processData: false,  // tell jQuery not to process the data
-                success: function (data) {
-                    console.log(data);
-                    //alert(data);
-                    var file = typeof data === 'object' ? data : JSON.parse(data);
-                    options.onSelect(file);
-                    jQuery('#tempFile').remove();
-                }
             });
+            xhr.addEventListener('load', function(e) {
+                console.log('xhr upload complete');
+                console.log (e);
+                console.log (this.responseText);
+
+                // {
+                //    id:'',
+                //    url:'',
+                //    thumbnailUrl: ''
+                //    name:''
+                // }
+
+                var data = this.responseText;
+                console.log(data);
+                //alert(data);
+                var file = typeof data === 'object' ? data : JSON.parse(data);
+                options.onSelect(file);
+                jQuery('#tempFile').remove();
+                
+            });
+            xhr.open('post', CMS.Defaults.File.uploadUrl, true);
+            xhr.send(formData);
+
+            // $.ajax({
+            //     url: CMS.Defaults.File.uploadUrl,
+            //     type: 'POST',
+            //     cache: false,
+            //     // dataType:'text',
+            //     data: formData,
+            //     // cached: false,
+            //     contentType: false,  // tell jQuery not to set contentType
+            //     processData: false,  // tell jQuery not to process the data
+            //     success: function (data) {
+            //         console.log(data);
+            //         //alert(data);
+            //         let file = typeof data === 'object' ? data : JSON.parse(data);
+            //         options.onSelect(file);
+            //         jQuery('#tempFile').remove();
+            //     }
+            // });
         })
         .click();
 };
@@ -2031,7 +2079,9 @@ CMS.Form.Field.File = $.inherit(
         {
             Tg.log('#'+this.elPath + '.showFileBrowser');
             CMS.selectFile ({
-                onSelect: this.addFile.bind(this)
+                onStart : this.onStart.bind(this),
+                onProgress : this.onProgress.bind(this),
+                onSelect: this.addFile.bind(this),
             });
         }    
         
@@ -2042,13 +2092,22 @@ CMS.Form.Field.File = $.inherit(
         
         ,addFile : function (file) 
         {
+            jQuery('#' + this.elPath + '_progress').hide();
+            // file = {
+            //    id:'',
+            //    url:'',
+            //    thumbnailUrl: ''
+            //    name:''
+            // }
+
+
             this.file = file;
             
             this._preview  = jQuery('#' + this.elPath + '_table');
 
             this._preview.empty();
     
-            var url = file.url;            
+            var url = file.url;
             // if (file.thumbnailUrl !== undefined)
             // {
             //     url = file.thumbnailUrl;
@@ -2072,9 +2131,18 @@ CMS.Form.Field.File = $.inherit(
             
             this._preview.find('.formFileUploadDelete').bind('click', this.handleFileDelete.bind(this));
 
-            jQuery('#'+this.elPath + '_btnSelect').val('Change file');
+            jQuery('#'+this.elPath + '_btnSelect').val('Change file').show();
 
             jQuery('#'+this.elPath + '_FormFileButtons').css({float:'right'});
+        },
+
+        onStart: function onStart () {
+            jQuery('#' + this.elPath + '_progress').show();
+            jQuery('#' + this.elPath + '_btnSelect').hide();
+        },
+
+        onProgress: function onProgress (percent) {
+            jQuery('#' + this.elPath + '_progress').html(percent+'%');
         },
         
         handleFileDelete : function (ev)
@@ -2199,11 +2267,13 @@ CMS.Form.Field.Group = $.inherit(
         },
 
         renderDone: function () {
+            var this$1 = this;
+
             var bindings = {};
             var html = '<div id="CMSAddMenu' + this.elPath + '"><ul>';
             for (var key in this.options) {
-                bindings['cms_add_' + key] = $.proxy(this.onMenuClick, this);
-                html += '<li id="cms_add_' + key + '">' + this.options[key].label + '</li>';
+                bindings['cms_add_' + key] = $.proxy(this$1.onMenuClick, this$1);
+                html += '<li id="cms_add_' + key + '">' + this$1.options[key].label + '</li>';
             }
             html += '</ul></div>';
 
@@ -2296,10 +2366,12 @@ CMS.Form.Field.Group = $.inherit(
         },
 
         deleteOption: function (elPath) {
+            var this$1 = this;
+
             for (var i = 0; i < this.fields.length; i++) {
-                if (this.fields[i].elPath === elPath) {
+                if (this$1.fields[i].elPath === elPath) {
                     $('#' + elPath).remove();
-                    this.fields.splice(i, 1);
+                    this$1.fields.splice(i, 1);
                     i = 1000000;
                 }
             }
@@ -2336,14 +2408,16 @@ CMS.Form.Field.Group = $.inherit(
         }
 
         , onDragUpdate: function () {
+            var this$1 = this;
+
             Tg.log ("onDragUpdate");
             
             var newFields = [];
             var ids = $("#" + this.elPath).sortable('toArray');
             for (var j = 0; j < ids.length; j++) {
                 for (var i = 0; i < this.fields.length; i++) {
-                    if (this.fields[i].elPath == ids[j]) {
-                        newFields.push(this.fields[i]);
+                    if (this$1.fields[i].elPath == ids[j]) {
+                        newFields.push(this$1.fields[i]);
                         i = 1000000;
                     }
                 }
@@ -2902,9 +2976,11 @@ $.extend (CMS.TinyMce, {
 
     unregisterAll : function ()
     {
+        var this$1 = this;
+
         tinyMCE.triggerSave();
         for (var i = 0; i < this.textareaIds.length; i++) {
-            tinyMCE.execCommand('mceRemoveControl', false, this.textareaIds[i]);
+            tinyMCE.execCommand('mceRemoveControl', false, this$1.textareaIds[i]);
         }
         
         this.textareaIds = [];

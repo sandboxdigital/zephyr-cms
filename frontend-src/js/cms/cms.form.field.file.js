@@ -30,7 +30,7 @@ CMS.Form.Field.File = $.inherit(
         },
 
         renderField: function () {
-            var output = '<div class="FormFile" style="width:98%;"><div class="FormFilePreviewTable" style="float:left;"><table id="' + this.elPath + '_table"></table></div>';
+            let output = '<div class="FormFile" style="width:98%;"><div class="FormFilePreviewTable" style="float:left;"><table id="' + this.elPath + '_table"></table></div>';
             output += '<div id="'+this.elPath + '_FormFileButtons" class="FormFileButtons" style="float:left;"><div id="' + this.elPath + '_progress"></div><div>';
             output += '<input id="' + this.elPath + '_btnSelect" type="button" class="' + this.elPath + '_btnSelect btnSelect" value="Select file" />';
             output += '<input id="' + this.elPath + '_btnCancel" type="button" class="' + this.elPath + '_btnCancel btnCancel" value="Cancel upload" style="display:none;" />';
@@ -41,14 +41,14 @@ CMS.Form.Field.File = $.inherit(
 
         renderDone: function () {
             Tg.log('#'+this.elPath + '_btnSelect');
-            var el = jQuery('#'+this.elPath + '_btnSelect');
+            let el = jQuery('#'+this.elPath + '_btnSelect');
             el.click(this.showFileBrowser.bind(this));
         }    
 
         ,populate: function (xml) {
             this.__base(xml);
             if (jQuery(xml).attr('fileUrl')) {
-                var file = {
+                let file = {
                     url :jQuery(xml).attr('fileUrl'),
                     name :jQuery(xml).attr('fileName'),
                     thumbnailUrl :jQuery(xml).attr('fileThumbnailUrl'),
@@ -63,7 +63,9 @@ CMS.Form.Field.File = $.inherit(
         {
             Tg.log('#'+this.elPath + '.showFileBrowser');
             CMS.selectFile ({
-                onSelect: this.addFile.bind(this)
+                onStart : this.onStart.bind(this),
+                onProgress : this.onProgress.bind(this),
+                onSelect: this.addFile.bind(this),
             });
         }    
         
@@ -74,25 +76,34 @@ CMS.Form.Field.File = $.inherit(
         
         ,addFile : function (file) 
         {
+            jQuery('#' + this.elPath + '_progress').hide();
+            // file = {
+            //    id:'',
+            //    url:'',
+            //    thumbnailUrl: ''
+            //    name:''
+            // }
+
+
             this.file = file;
             
             this._preview  = jQuery('#' + this.elPath + '_table');
 
             this._preview.empty();
     
-            var url = file.url;            
+            let url = file.url;
             // if (file.thumbnailUrl !== undefined)
             // {
             //     url = file.thumbnailUrl;
             // }
-            var ext = Tg.FileUtils.getExtension(url);
+            let ext = Tg.FileUtils.getExtension(url);
 
             if (ext !== "jpg" && ext !== "jpeg" && ext !== "png" && ext !== "gif") {
                 // TODO - this path should be set via config
                 url = "/core/images/fileicons/" + ext + ".png";
             }
             
-            var html = '<tr id="fileUploadRow' + this._id + '">';
+            let html = '<tr id="fileUploadRow' + this._id + '">';
             html += '<td class="fileUploadThumbnail"><img id="' + this._id + '_image" src="' + url + '"  /></td>';
             html += '<td id="' + this._id + '_name" class="fileUploadName">' + file.name + '</td>';
             html += '<td class="fileUploadDelete">';
@@ -104,9 +115,18 @@ CMS.Form.Field.File = $.inherit(
             
             this._preview.find('.formFileUploadDelete').bind('click', this.handleFileDelete.bind(this));
 
-            jQuery('#'+this.elPath + '_btnSelect').val('Change file');
+            jQuery('#'+this.elPath + '_btnSelect').val('Change file').show();
 
             jQuery('#'+this.elPath + '_FormFileButtons').css({float:'right'});
+        },
+
+        onStart () {
+            jQuery('#' + this.elPath + '_progress').show();
+            jQuery('#' + this.elPath + '_btnSelect').hide();
+        },
+
+        onProgress (percent) {
+            jQuery('#' + this.elPath + '_progress').html(percent+'%');
         },
         
         handleFileDelete : function (ev)
@@ -120,7 +140,7 @@ CMS.Form.Field.File = $.inherit(
         }
 
         ,debug: function (indent) {
-            var s = "\t".repeat(indent) + "Field " + this.type + ", id:" + this.id + ", path:" + this.elPath + ", value:" + this.value;
+            let s = "\t".repeat(indent) + "Field " + this.type + ", id:" + this.id + ", path:" + this.elPath + ", value:" + this.value;
             
             if (this.file) {
                 s += ", file:" + this.file.id;
@@ -131,7 +151,7 @@ CMS.Form.Field.File = $.inherit(
         }
 
         ,toXml: function (xmlDoc) {      
-            var el = xmlDoc.createElement(this.type);
+            let el = xmlDoc.createElement(this.type);
             el.setAttribute("id", this.id);
             el.setAttribute("uid", this.uid);
             el.setAttribute("namespace", this.namespace);
