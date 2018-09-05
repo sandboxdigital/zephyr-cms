@@ -3,18 +3,38 @@
 .clear{display:inline-block;}
 .clear:after{display:block;visibility:hidden;clear:both;height:0;content:".";}
 */
-div.cmsForm {
-    padding: 5px;
-    margin: 0;
 
-    div.cmsRow {
-        clear: both;
+.zph-cms-row {
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cms-form {
+    //padding: 5px;
+    margin: 0;
+    padding: 15px 15px 0 15px;
+    background-color: #f9f9f9;
+
+    .cms-form {
+        padding: 0;
     }
 
-    div.cmsLabel {
-        float: left;
-        width: 200px;
-        padding: 0;
+    .cms-row,
+    .cms-row {
+        clear: both;
+        border: 1px solid #e9e9e9;
+        margin-bottom: 8px;
+        //padding-top: 10px;
+        //background-color: rgba(0,0,0,0.05);
+        background-color: #ffffff;
+        border-radius: $border-radius;
+    }
+
+    .cms-label {
+        //float: left;
+        //width: 200px;
+        padding: 5px 8px;
         margin: 0;
         padding-bottom: 0px;
         margin-bottom: 2px;
@@ -25,15 +45,48 @@ div.cmsForm {
             //font-family: Verdana;
             //font-weight: bold;
             text-transform: capitalize;
+            font-weight: bold;
+            margin-bottom: 0;
+            font-size: 0.8em;
         }
     }
 
-    div.cmsField {
-        padding: 0;
-        padding-right: 3px;
+    .cms-field {
+        @include clearfix();
+        padding: 5px 8px;
         margin: 0;
         margin-bottom: 5px;
-        padding-left: 210px;
+        //padding-left: 210px;
         box-sizing: border-box;
+
+        .cms-text {
+            width: 100%;
+            //background-color: rgba(255,255,255,0.5);
+        }
+    }
+
+
+    .cms-row-buttons {
+        padding: 8px;
+        margin-left: -15px;
+        margin-right: -15px;
+        margin-bottom: 0;
+        margin-top: 15px;
+        background-color: #efefef;
+
+        .cms-btn {
+            background-color: #dfdfdf;
+        }
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+}
+
+.cms-row-buttons {
+    .cms-message {
+        margin-left: 10px;
+        font-size: 1rem;
     }
 }

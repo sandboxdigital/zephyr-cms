@@ -1,4 +1,6 @@
-.CMSGroup {
+
+
+.cms-field-group {
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
@@ -9,50 +11,86 @@
     //clear:both;
     //float: none;
     margin-bottom:10px;
-    border:1px solid #CCCCCC;
+    //border:1px solid #CCCCCC;
+    line-height: 1em;
+    //background-color: rgba(0,0,0,0.05);
+    border-radius: $border-radius;
+
+    .cms-group-title {
+        @include clearfix();
+        //background-color:#F0F0F0;
+        padding:5px 0;
+        font-weight:bold;
+
+        .CMSGroupCollapse {
+            float: right;
+            margin-right: 3px;
+            margin-top: -2px;
+        }
+        .CMSGroupExpand {
+            float: right;
+            margin-top: -2px;
+        }
+        label {
+            padding-top: 5px;
+        }
+    }
+    .cms-group-toolbar {
+        float: right;
+    }
+
+    .cms-group-body {
+        padding:5px 0;
+    }
+
+    .cms-group-footer {
+        @include clearfix();
+        //background-color:#F0F0F0;
+        padding:5px 0;
+        font-weight:bold;
+    }
+
+    .cms-group-menu {
+        position: absolute;
+        top: 37px;
+        right: 8px;
+        background-color:#F0F0F0;
+        border:1px solid #dddddd;
+        background-color:#e4e4e4;
+        border:1px solid #e4e4e4;
+        padding: 6px;
+        z-index: 100;
+        border-radius: 4px;
+
+        &.align-bottom {
+            top:auto;
+            bottom:45px;
+
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            li {
+                a {
+                    color:black;
+                    cursor: pointer;
+                    display: block;
+                    padding: 5px;
+
+                    &:hover {
+                        text-decoration: none;
+                        background-color: #efefef;
+                    }
+                }
+            }
+        }
+    }
 }
-.CMSGroupTitle {
-    background-color:#F0F0F0;
-    padding:3px 3px 3px 5px;
-    height:16px;
-    font-size:11px;
-    font-weight:bold;
-    line-height:19px;
-}
-.CMSGroupFooter {
-    background-color:#F0F0F0;
-    padding:3px 3px 3px 5px;
-    height:16px;
-    font-size:11px;
-    font-weight:bold;
-    line-height:19px;
-}
-.CMSGroupTitle .CMSGroupCollapse {
-    float: right;
-    margin-right: 3px;
-    margin-top: -2px;
-}
-.CMSGroupTitle .CMSGroupExpand {
-    float: right;
-    margin-top: -2px;
-}
-.CMSGroupBody {
-    padding:2px;
-}
+
 .CMSGroupoption {
     border:1px solid #dddddd;
     position:relative;
     margin-bottom:2px;
-}
-
-.CMSGroupoptionTitle {
-    height:17px;
-    padding:7px 0 0 4px;
-    background-color: #F0F0F0;
-    background-image:url("/core/extjs/images/gray/toolbar/bg.gif");
-}
-
-.CMSGroupoptionBody
-{
-    padding:5px 3px 3px 3px;
 }

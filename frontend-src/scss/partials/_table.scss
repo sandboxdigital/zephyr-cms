@@ -1,0 +1,34 @@
+.cms-table {
+    width:100%;
+    td,
+    th {
+        text-align: left;
+        font-size: 1rem;
+        padding: 6px 12px;
+    }
+
+    thead {
+        tr {
+            &:nth-child(odd) {
+                background: #ededed;
+                border-bottom: 1px solid #dddddd;
+            }
+        }
+    }
+
+    td.controls {
+        width: 125px;
+    }
+
+    td {
+        //&:o
+    }
+    tr {
+        &:nth-child(even) {
+            background: #f9f9f9
+        }
+        &:nth-child(odd) {
+            background: #fefefe;
+        }
+    }
+}

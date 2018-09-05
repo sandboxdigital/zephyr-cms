@@ -2,3 +2,4 @@
 frontend-src/node_modules
 gulp
 node_modules
+frontend-src/babel-cache

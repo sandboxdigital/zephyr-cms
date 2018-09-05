@@ -4,7 +4,7 @@ CMS.Defaults.Form = {
     adapter:'json',
     container: "#formContainer",
     url: '/admin/content/save',
-    path: 'cmsForm',
+    path: 'cms-form',
     subform: false
 };
 
@@ -29,9 +29,8 @@ CMS.Form = CMS.Object.extend({
         this.elPath = this.options.path;
 
         if (this.options.subform) {
-            console.log (this.options.input);
+            this.log('subForm');
             this.input = jQuery(this.options.input + '');
-            console.log (this.input.length);
             if (this.options.input && this.input.length > 0) {
                 var form = this.input.parents('form');
                 if (form.length === 0) {
@@ -105,7 +104,7 @@ CMS.Form = CMS.Object.extend({
             output += '<form class="cmsFormForm" method="post">';
         }
 
-        output += '<div class="cmsForm">';
+        output += '<div class="cms-form">';
 
         $.each(this.fields, function (id) {
             output += this.render();
@@ -216,12 +215,16 @@ CMS.Form = CMS.Object.extend({
             var valid = this.isValid();
 
             if (valid) {
+                this.log('onSubmit valid');
                 var xml = this.toXml();
+
+                console.log(xml);
 
                 this.input.val(xml);
 
                 return true;
             } else {
+                this.log('onSubmit notvalid');
                 return false;
             }
         // } catch (e) {
@@ -262,7 +265,7 @@ CMS.Form = CMS.Object.extend({
                 'pageId': this.options.pageId,
                 'contentId': this.options.contentId,
                 'contentVersion': this.options.contentVersion,
-                'cmsForm': xml
+                'cms-form': xml
             };
 
             $('#cmsFormSave').hide();

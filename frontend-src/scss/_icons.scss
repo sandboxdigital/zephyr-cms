@@ -1,0 +1,48 @@
+
+
+
+.CMSIconCopy,.CMSIconPaste,.CMSIconAdd, .CMSIconHide, .CMSIconShow, .CMSIconDelete, .CMSIconEdit, .CMSIconMoveUp, .CMSIconMoveDown, .CMSIconMove  {
+    display:block;
+    text-indent:-1000px;
+    overflow:hidden;
+    height:18px;
+    width:18px;
+    float:left;
+}
+
+.CMSIconCopy,.CMSIconPaste,.CMSIconAdd {
+    float:right;
+}
+
+
+.CMSIconCopy {
+    background:url(../images/icons/page_white_copy.png) 0 0 no-repeat;
+}
+
+.CMSIconPaste {
+    background:url(../images/icons/paste_plain.png) 0 0 no-repeat;
+}
+.CMSIconAdd {
+    background:url(../images/icons/add.png) 0 0 no-repeat;
+}
+.CMSIconEdit {
+    background:url(../images/icons/pencil.png) 2px 2px no-repeat;
+}
+.CMSIconDelete {
+    background:url(../images/icons/cross.png) 2px 2px no-repeat;
+}
+.CMSIconMoveUp {
+    background:url(../images/icons/icon_up.gif) 2px 2px no-repeat;
+}
+.CMSIconMoveDown {
+    background:url(../images/icons/icon_down.gif) 2px 2px no-repeat;
+}
+.CMSIconMove {
+    background:url(../images/icons/icon_up.gif) 2px 2px no-repeat;
+}
+.CMSIconHide {
+    background:url(../images/icons/minus.png) 2px 2px no-repeat;
+}
+.CMSIconShow {
+    background:url(../images/icons/plus.png) 2px 2px no-repeat;
+}

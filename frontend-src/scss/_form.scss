@@ -1,0 +1,82 @@
+.cms-select {
+    padding: 0px 8px;
+    border: 1px solid #e9e9e9;
+    //background-color: rgba(239, 239, 239, 0.51);
+    box-shadow: inset 1px 1px 5px rgba(239, 239, 239, 0.51);
+    border-radius: $text-radius;
+    font-size: 1rem;
+    line-height: 40px;
+    height: 40px;
+    width: 100%;
+    margin-bottom: 0;
+
+}
+
+.cms-select-c {
+    position: relative;
+    &:after {
+        content: "\f280";
+        //content: "\f110";
+
+        display: block;
+        position: absolute;
+        top:50%;
+        transform: translateY(-50%);
+        right: 12px;
+        display: inline-block;
+        font-family: "Ionicons";
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        text-rendering: auto;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+input[type='text'],
+input[type='date'],
+input[type='email'],
+input[type='number'],
+textarea {
+    &.cms-text {
+        padding: 0px 8px;
+        border: 1px solid #e9e9e9;
+        //background-color: rgba(239, 239, 239, 0.51);
+        box-shadow: inset 1px 1px 5px rgba(239, 239, 239, .8);
+        border-radius: $text-radius;
+        font-size: 1rem;
+        color: $colour-input-text;
+        margin-bottom: 0;
+    }
+}
+
+input[type='text'],
+input[type='date'],
+input[type='email'],
+input[type='number'] {
+    &.cms-text {
+        line-height: 40px;
+        height: 40px;
+    }
+}
+
+textarea {
+    &.cms-text {
+        padding: 8px;
+        min-height:150px;
+    }
+}
+
+.ql-container.ql-snow {
+    box-shadow: inset 1px 1px 5px rgba(239, 239, 239, .8);
+}
+.ql-editor {
+    p {
+        font-size: 1rem;
+        color: $colour-input-text;
+    }
+}

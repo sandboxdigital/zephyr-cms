@@ -1,0 +1,81 @@
+/*! CSS Used from: http://garage.test/assets/css/app.css ; media=all */
+//@media all {
+//    a {
+//        background-color: transparent;
+//    }
+//    a:active, a:hover {
+//        outline: 0;
+//    }
+//    *, *:before, *:after {
+//        box-sizing: inherit;
+//    }
+//    * {
+//        max-height: 1000000px;
+//    }
+//    a {
+//        transition: color 0.3s linear, background-color 0.3s linear, border 0.3s linear, opacity 0.3s linear, box-shadow 0.3s linear;
+//        color: #328cec;
+//        text-decoration: none;
+//    }
+//    a:hover, a:focus {
+//        opacity: .75;
+//    }
+//}
+
+/*! CSS Used from: Embedded */
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    font-size: 1rem;
+
+    a {
+        cursor: pointer;
+    }
+}
+
+.nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+}
+
+.nav-link:hover, .nav-link:focus {
+    text-decoration: none;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+
+    .nav-item {
+        margin-bottom: -1px;
+    }
+
+    .nav-link {
+        border: 1px solid transparent;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+
+    .nav-link.active {
+        color: #495057;
+        background-color: #fff;
+        border-color: #dee2e6 #dee2e6 #fff;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus {
+        border-color: #e9ecef #e9ecef #dee2e6;
+    }
+}
+
+
+.cms-nav-tabs {
+    padding-left: 15px;
+    width: 100%;
+    .nav-link.active {
+        background-color: #f9f9f9;
+        border-color: #dee2e6 #dee2e6 #f9f9f9;
+    }
+}

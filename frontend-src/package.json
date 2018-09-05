@@ -1,0 +1,50 @@
+{
+    "dependencies": {
+        "axios": "^0.18.0",
+        "bootstrap": "^4.1.1",
+        "jquery": "^3.3.1",
+        "popper.js": "^1.14.3",
+        "vue": "^2.5.16",
+        "vue-quill": "^1.5.0-0",
+        "vue-quill-editor": "^3.0.6"
+    },
+    "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-loader": "^7.1.4",
+        "babel-preset-env": "^1.7.0",
+        "buble-loader": "^0.4.1",
+        "css-loader": "^0.28.4",
+        "exports-loader": "^0.6.4",
+        "expose-loader": "^0.7.3",
+        "extract-text-webpack-plugin": "^4.0.0-beta.0",
+        "file-loader": "^0.11.1",
+        "jshint": "^2.9.4",
+        "node-sass": "^4.5.3",
+        "rollup-plugin-buble": "^0.15.0",
+        "rollup-stream": "^1.19.0",
+        "rollupify": "^0.3.9",
+        "sass-loader": "^6.0.5",
+        "sortablejs": "^1.7.0",
+        "style-loader": "^0.18.1",
+        "url-loader": "^0.5.8",
+        "vue-loader": "^15.1.0",
+        "vue-static-map": "^2.0.1",
+        "vue-template-compiler": "^2.5.16",
+        "webpack": "^4",
+        "webpack-bundle-analyzer": "^2.13.1",
+        "webpack-cli": "^2.1.4",
+        "webpack-dev-server": "^3",
+        "webpack-livereload-plugin": "^1.0.0",
+        "webpack-notifier": "^1.5.0",
+        "webpack-stream": "^3.2.0",
+        "webpack-watch-livereload-plugin": "^0.0.1"
+    },
+    "scripts": {
+        "hot": "NODE_ENV=hot webpack-dev-server --hot --mode=development",
+        "build": "NODE_ENV=dev webpack --config webpack.config.js --progress --mode=development",
+        "prod": "NODE_ENV=production webpack --config webpack.config.js --progress --mode=production",
+        "min": "NODE_ENV=min webpack --config webpack.config.js --progress --mode=production",
+        "watch": "webpack --config webpack.config.js --watch --mode=development",
+        "analyze": "NODE_ENV=analyze webpack --config webpack.config.js --mode=development"
+    }
+}
