@@ -1,12 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thomas
- * Date: 24/7/18
- * Time: 10:54 AM
- */
 
-namespace Sandbox;
+namespace Sandbox\Cms;
 
 use Illuminate\Support\ServiceProvider;
 
