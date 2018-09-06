@@ -1,5 +1,5 @@
 <?php
-namespace Sandbox\Site;
+namespace Sandbox\Cms\Site;
 
 use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NodeTrait;
@@ -43,6 +43,6 @@ class CmsPage extends Model
 
     public function template ()
     {
-        return $this->belongsTo('\Sandbox\Site\CmsPageTemplate', 'cms_page_template_id');
+        return $this->belongsTo('\Sandbox\Cms\Site\CmsPageTemplate', 'cms_page_template_id');
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Sandbox\Content\Field;
+namespace Sandbox\Cms\Content\Field;
 
 use Carbon\Carbon;
 

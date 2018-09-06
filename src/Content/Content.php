@@ -1,10 +1,10 @@
 <?php
 
-namespace Sandbox\Content;
+namespace Sandbox\Cms\Content;
 
 use \Exception;
-use Sandbox\Content\Field\AbstractField;
-use Sandbox\Content\Field\Placeholder;
+use Sandbox\Cms\Content\Field\AbstractField;
+use Sandbox\Cms\Content\Field\Placeholder;
 
 
 class Content

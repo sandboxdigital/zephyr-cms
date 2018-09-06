@@ -1,12 +1,12 @@
 <?php
-namespace Sandbox\Content;
+namespace Sandbox\Cms\Content;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Mockery\Exception;
-use Sandbox\Content\Model\CmsContent;
-use Sandbox\Site\CmsPage;
-use Sandbox\Site\Site;
+use Sandbox\Cms\Content\Model\CmsContent;
+use Sandbox\Cms\Site\CmsPage;
+use Sandbox\Cms\Site\Site;
 
 trait ContentManaged
 {

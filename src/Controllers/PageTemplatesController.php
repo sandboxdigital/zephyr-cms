@@ -1,9 +1,9 @@
 <?php
  
-namespace Sandbox\Controllers;
+namespace Sandbox\Cms\Controllers;
 
 use Illuminate\Http\Request;
-use Sandbox\Site\CmsPageTemplate;
+use Sandbox\Cms\Site\CmsPageTemplate;
 
 class PageTemplatesController extends AbstractController {
 

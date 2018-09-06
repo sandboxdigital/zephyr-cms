@@ -3,7 +3,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::namespace('Sandbox\Controllers')
+Route::namespace('Sandbox\Cms\Controllers')
     ->prefix('cms-api')
     ->middleware(['web','auth','role:admin'])
     ->group(function () {

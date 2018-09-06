@@ -1,6 +1,6 @@
 <?php
  
-namespace Sandbox\Controllers;
+namespace Sandbox\Cms\Controllers;
 
 use Illuminate\Http\Request;
 

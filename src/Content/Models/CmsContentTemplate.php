@@ -1,5 +1,5 @@
 <?php
-namespace Sandbox\Content\Model;
+namespace Sandbox\Cms\Content\Model;
 
 use Illuminate\Database\Eloquent\Model;
 

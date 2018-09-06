@@ -4,7 +4,7 @@
 // Destination - where all the files are save after processing. Defaults to /public/assets but you can change to
 // something like public/wp-content/themes/THEME_NAME/assets for a Wordpress project
 
-const publicPath = '../../laravel/public/';
+const publicPath = '../../../../laravel/public/';
 const assetPath = 'cms-assets/';
 const distPath = publicPath + assetPath;
 const srcPath = "./";

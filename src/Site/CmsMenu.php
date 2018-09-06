@@ -1,5 +1,5 @@
 <?php
-namespace Sandbox\Site;
+namespace Sandbox\Cms\Site;
 
 use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NodeTrait;

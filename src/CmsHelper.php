@@ -1,13 +1,13 @@
 <?php
 
-namespace Sandbox;
+namespace Sandbox\Cms;
 
 use \Exception;
-use Sandbox\Content\Field\AbstractField;
-use Sandbox\Content\Field\Placeholder;
+use Sandbox\Cms\Content\Field\AbstractField;
+use Sandbox\Cms\Content\Field\Placeholder;
 
 
-class Cms
+class CmsHelper
 {
     public static function js()
     {

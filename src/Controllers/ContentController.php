@@ -1,9 +1,9 @@
 <?php
  
-namespace Sandbox\Controllers;
+namespace Sandbox\Cms\Controllers;
 
 use Illuminate\Http\Request;
-use Sandbox\Content\Model\CmsContent;
+use Sandbox\Cms\Content\Model\CmsContent;
 
 class ContentController extends AbstractController {
 

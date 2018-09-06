@@ -1,5 +1,5 @@
 <?php
-namespace Sandbox\Site;
+namespace Sandbox\Cms\Site;
 
 use Illuminate\Support\Facades\Route;
 

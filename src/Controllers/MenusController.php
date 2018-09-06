@@ -1,9 +1,9 @@
 <?php
  
-namespace Sandbox\Controllers;
+namespace Sandbox\Cms\Controllers;
 
 use Illuminate\Http\Request;
-use Sandbox\Site\CmsMenu;
+use Sandbox\Cms\Site\CmsMenu;
 
 class MenusController extends AbstractController {
 
