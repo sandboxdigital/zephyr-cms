@@ -11,4 +11,14 @@ As of version "1.0.0" it will be considered stable.
 
 ## Installation
 
-1. Do something awesome
+You may use Composer to install Zephyr into your Laravel project:
+   
+`composer require sandboxdigital/zephyr-cms`
+   
+After installing Zephyr, publish its assets using the vendor:publish Artisan command:
+   
+`php artisan vendor:publish --provider="Sandbox\Cms\ZephyrServiceProvider"`
+
+If you're updating use:
+
+`php artisan vendor:publish --provider="Sandbox\Cms\ZephyrServiceProvider" --force`

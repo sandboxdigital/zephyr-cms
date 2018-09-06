@@ -21,5 +21,9 @@ class ZephyrServiceProvider extends ServiceProvider {
         $this->loadMigrationsFrom(__DIR__.'/resources/migrations');
         $this->loadViewsFrom(__DIR__.'/resources/views', 'curator');
         $this->loadRoutesFrom(__DIR__.'/routes.php');
+
+        $this->publishes([
+            __DIR__.'/../frontend' => public_path('vendor/zephyr'),
+        ], 'public');
     }
 }

@@ -5,8 +5,9 @@
 // something like public/wp-content/themes/THEME_NAME/assets for a Wordpress project
 
 const publicPath = '../../../../laravel/public/';
-const assetPath = 'cms-assets/';
-const distPath = publicPath + assetPath;
+const assetPath = 'vendor/zephyr/';
+const distPath = '../frontend';
+//const distPath = publicPath + assetPath;
 const srcPath = "./";
 
 const watchPaths = [
