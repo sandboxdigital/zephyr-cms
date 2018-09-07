@@ -2,7 +2,7 @@
  
 namespace Sandbox\Cms\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 
 class AbstractController extends Controller {
 

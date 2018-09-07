@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 class Site
 {
-    private static $rootPage = null;
+    private static $rootPages = null;
     private static $rootMenus = null;
 
     public static function routes($forceRun = false)
@@ -21,7 +21,7 @@ class Site
         }
     }
 
-    public static function findPage ($path)
+    public static function findPage ($path, $rootPath = 'ROOT')
     {
 //        echo ($path).'<br>';
         if (str_start($path,'/')) {
@@ -34,23 +34,17 @@ class Site
         }
         $pathParts = explode('/', $path);
 
-        if (!self::$rootPage) {
-            $rootPages = CmsPage::with('template')
-                ->defaultOrder()
-                ->get()
-                ->toTree();
+        if ($rootPage = self::findRootPage($rootPath)) {
+            if (count($pathParts) == 1 && empty($pathParts[0])) {
+                return $rootPage;
+            }
 
-            self::$rootPage = $rootPages[0];
+            $page = self::_findPage($rootPage->children, $pathParts);
+
+            return $page;
+        } else {
+            throw new \Exception('Could not find root page with path '.$rootPath);
         }
-
-        if (count($pathParts)==1 && empty($pathParts[0])) {
-            return self::$rootPage;
-        }
-//        dd($pathParts);
-
-        $page = self::_findPage(self::$rootPage->children, $pathParts);
-
-        return $page;
     }
 
     public static function findMenu ($name)
@@ -118,5 +112,29 @@ class Site
                 self::mapRoutes($page->children, $prefixToRemove);
             }
         }
+    }
+
+    /**
+     * @param $rootPath
+     * @return CmsPage
+     */
+    public static function findRootPage($rootPath)
+    {
+        if (!self::$rootPages) {
+            $rootPages = CmsPage::with('template')
+                ->defaultOrder()
+                ->get()
+                ->toTree();
+
+            self::$rootPages = $rootPages;
+        }
+
+        foreach (self::$rootPages as $rootPage) {
+            if ($rootPath == $rootPage->path) {
+                return $rootPage;
+            }
+        }
+
+        return null;
     }
 }

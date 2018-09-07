@@ -3,11 +3,15 @@
 namespace Sandbox\Cms;
 
 use Illuminate\Support\ServiceProvider;
+use Sandbox\Cms\Commands\DemoPages;
+use Sandbox\Cms\Commands\InitMenus;
+use Sandbox\Cms\Commands\InitPages;
 
 class ZephyrServiceProvider extends ServiceProvider {
 
     protected $commands = [
-
+        InitPages::class,
+        InitMenus::class,
     ];
 
     public function register() {
@@ -19,7 +23,7 @@ class ZephyrServiceProvider extends ServiceProvider {
         }
 
         $this->loadMigrationsFrom(__DIR__.'/resources/migrations');
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'curator');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'zephyr');
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         $this->publishes([

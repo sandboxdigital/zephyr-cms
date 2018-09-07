@@ -6,7 +6,7 @@
                     v-if="pageListVisible"
                     ref="pages"
                     v-on:page-selected="pageSelected"></cms-page-list>
-            <a href="#" @click.prevent="togglePageList" class="cms-btn-icon toggle-pages"><i class="icon" :class="{'ion-md-arrow-dropleft':pageListVisible,'ion-md-arrow-dropright':!pageListVisible}"></i></a>
+            <a @click.prevent="togglePageList" class="cms-btn-icon toggle-pages"><i class="icon" :class="{'ion-md-arrow-dropleft':pageListVisible,'ion-md-arrow-dropright':!pageListVisible}"></i></a>
         </div>
         <div class="zph-page-form" :class="{'list-hidden':!pageListVisible}">
             <div>

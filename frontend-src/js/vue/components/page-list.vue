@@ -84,7 +84,7 @@
             load (pageId) {
                 PageService.load()
                     .then ( response => {
-                        // console.log(response);
+                        console.log(response);
                         this.treeData = response.data;
 
                         let subPage = pageId ? this.findPageById (pageId) : null;

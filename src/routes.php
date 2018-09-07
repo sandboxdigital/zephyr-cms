@@ -1,11 +1,10 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 
 Route::namespace('Sandbox\Cms\Controllers')
     ->prefix('cms-api')
-    ->middleware(['web','auth','role:admin'])
+    ->middleware(['web','auth'])
     ->group(function () {
         // Pages
         Route::get   ('pages',              'PagesController@index');
@@ -20,8 +19,8 @@ Route::namespace('Sandbox\Cms\Controllers')
 
         // Content
 //        Route::get('content', 'TemplatesController@index');
-        Route::get('content/{linkType}/{linkId}', 'ContentController@get');
-        Route::post('content/save', 'ContentController@save');
+        Route::get   ('content/{linkType}/{linkId}', 'ContentController@get');
+        Route::post  ('content/save', 'ContentController@save');
 
 
         // Content Templates
