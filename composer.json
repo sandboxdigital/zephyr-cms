@@ -1,6 +1,7 @@
 {
     "name": "sandboxdigital/zephyr-cms",
     "description": "Laravel CMS",
+    "version": "0.0.2",
     "license": "MIT",
     "authors": [
         {
