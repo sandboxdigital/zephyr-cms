@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Sandbox\Cms\Content;
 
 use \Exception;
@@ -102,7 +103,7 @@ class Content
 	
 	public function addElementXml ($type, $id, $xml)
 	{	
-		$elementClassName = "Sandbox\\Content\\Field\\".ucfirst($type);
+		$elementClassName = "Sandbox\\Cms\\Content\\Field\\".ucfirst($type);
 		$element = new $elementClassName ($xml);
 //		$element->loadXml ($xml);
 		$this->_elements[$id] = $element;
@@ -112,7 +113,7 @@ class Content
 
 	public function addElementJson ($type, $id, $json)
 	{
-		$elementClassName = "Sandbox\\Content\\Field\\".ucfirst($type);
+		$elementClassName = "Sandbox\\Cms\\Content\\Field\\".ucfirst($type);
 
 		$element = new $elementClassName ($json);
 //		$element->loadJson ($json);
