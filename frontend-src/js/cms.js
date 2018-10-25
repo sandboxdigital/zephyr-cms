@@ -21,12 +21,21 @@ import CmsFieldRow from './vue/fields/field-row';
 import CmsPagePages from './vue/pages/cms-pages';
 import CmsPageMenus from './vue/pages/cms-menus';
 
+import SSREditor from './vue/components/ssr-editor';
+
 Vue.component("cms-content-form",CmsContentForm);
 Vue.component("cms-page-form",CmsPageForm);
 Vue.component("cms-page-list",CmsPageList);
 Vue.component("cms-page-list-item",CmsPageListItem);
 Vue.component("cms-menu-list-item",CmsMenuListItem);
 Vue.component("cms-field-row", CmsFieldRow);
+
+if (process.browser) {
+    const VueQuillEditor = require('vue-quill-editor/dist/ssr')
+    Vue.use(VueQuillEditor, /* { default global options } */)
+}
+
+Vue.component("ssr-editor", SSREditor);
 
 
 if (jQuery('#cms').length) {

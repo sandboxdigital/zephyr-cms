@@ -99,7 +99,7 @@ class Crud
             $query = $query->whereNull('deleted_at');
         }
 
-        return $query->get();
+        return $query->paginate(100);
     }
 
     public function getModelInstance($id)

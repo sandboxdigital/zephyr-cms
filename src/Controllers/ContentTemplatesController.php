@@ -28,7 +28,7 @@ class ContentTemplatesController extends AbstractController {
         $data = $template->toArray();
 
         if (empty($data['spec'])) {
-            $file = app_path('content/'.$template->file);
+            $file = resource_path('cms-templates/'.$template->file);
             $data['spec'] = file_get_contents($file);
 
         }

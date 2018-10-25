@@ -1,0 +1,54 @@
+{
+  "fields": [
+    {
+      "id":"title",
+      "label":"Heading",
+      "type": "text"
+    },
+    {
+      "id":"content",
+      "type":"group",
+      "options": [
+        {
+          "id":"heading",
+          "fields": [{
+            "id":   "title",
+            "type": "text"
+          }]
+        },
+        {
+          "id":"html",
+          "fields": [{
+            "id":   "body",
+            "type": "html"
+          }]
+        },
+        {
+          "id": "image",
+          "label": "Image",
+          "fields": [{
+            "id":"image",
+            "type": "file"
+          },{
+            "id":"col_type",
+            "type":"select",
+            "options":[
+              {"value":"column-width","label":"Column width"},
+              {"value":"full-width","label":"Full width"}
+            ]
+          }]
+        },
+        {
+          "id":"quote-inline",
+          "fields": [{
+            "id":   "quote",
+            "type": "textarea"
+          },{
+            "id":   "author",
+            "type": "text"
+          }]
+        }
+      ]
+    }
+  ]
+}

@@ -13,10 +13,10 @@ class CrudController extends Controller
     public $crud;
 
     private $views = [
-        'show' => 'admin.crud.show',
-        'list' => 'admin.crud.list',
-        'create' => 'admin.crud.create',
-        'edit' => 'admin.crud.edit',
+        'show' => 'zephyr::crud.show',
+        'list' => 'zephyr::crud.list',
+        'create' => 'zephyr::crud.create',
+        'edit' => 'zephyr::crud.edit',
     ];
 
     public function setCrud($model)

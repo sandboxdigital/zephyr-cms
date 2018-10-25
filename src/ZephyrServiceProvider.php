@@ -29,5 +29,12 @@ class ZephyrServiceProvider extends ServiceProvider {
         $this->publishes([
             __DIR__.'/../frontend' => public_path('vendor/zephyr'),
         ], 'public');
+
+        $this->publishes([
+            __DIR__.'/resources/views' => resource_path('views/vendor/zephyr'),
+        ], 'views');
+        $this->publishes([
+            __DIR__.'/resources/cms-templates' => resource_path('cms-templates'),
+        ], 'views');
     }
 }

@@ -20,7 +20,7 @@
     {!! \Sandbox\Cms\CmsHelper::css() !!}
 </head>
 <body>
-    <div id="app">
+    <div id="cms">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('admin.home') }}">
@@ -75,12 +75,12 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div class="card">
-                        <?php
-                        $adminHome = \Sandbox\Cms\Site\Site::findPage('/','ADMIN');
-                        ?>
-                        <ul class="nav nav-pills">
+                        @php
+                        $adminHome = \Sandbox\Cms\Site\Site::findPage('/','admin');
+                        @endphp
+                        <ul class="nav nav-pills flex-column">
                             @foreach($adminHome->children as $childPage)
-                                <li class="nav-item"><a class="nav-link" href="{{$childPage->path}}">{{$childPage->name}}</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{'/' . $adminHome->path . '/' . $childPage->path}}">{{$childPage->name}}</a></li>
                             @endforeach
                         </ul>
                         </div>
