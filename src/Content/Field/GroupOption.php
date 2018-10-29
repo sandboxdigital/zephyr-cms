@@ -44,7 +44,7 @@ class GroupOption extends AbstractField
 	public function addElement ($type, $id, $xml)
 	{
 		// TODO - move to adapter
-        $elementClassName = "Sandbox\\Content\\Field\\".ucfirst($type);
+        $elementClassName = "Sandbox\\Cms\\Content\\Field\\".ucfirst($type);
         $element = new $elementClassName ($xml);
 
         $this->_elements[$id] = $element;
