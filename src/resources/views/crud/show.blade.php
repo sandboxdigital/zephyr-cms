@@ -23,6 +23,6 @@
         </div>
     </div>
     <div class="container-md">
-        @include(isset($crud->customShowLowerView) ? $crud->customShowLowerView : 'empty')
+        @includeIf($crud->customShowLowerView)
     </div>
 @endsection
