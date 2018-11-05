@@ -30,13 +30,11 @@
         props: ['name', 'initialContent'],
         mounted() {
             let html = this.$el.getElementsByClassName("slot-wrapper")[0].innerHTML;
-            console.log('content', html)
             this.content = html;
-            console.log('this is current quill instance object', this.myQuillEditor)
         },
         methods: {
             onEditorChange(event) {
-                console.log('onEditorChange')
+
             }
         },
         // Omit the same parts as in the following component sample code
