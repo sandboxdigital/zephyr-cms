@@ -20,7 +20,7 @@
     {!! \Sandbox\Cms\CmsHelper::css() !!}
 </head>
 <body>
-    <div id="app">
+    <div id="cms">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('admin.home') }}">
@@ -92,7 +92,8 @@
             </div>
         </main>
     </div>
-
+    <script src="https://maps.googleapis.com/maps/api/js?key={{config('zephyr.google_map.api_key')}}&libraries=places" ></script>
     {!! \Sandbox\Cms\CmsHelper::js() !!}
+    @yield('footer-scripts')
 </body>
 </html>

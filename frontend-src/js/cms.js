@@ -22,6 +22,7 @@ import CmsPagePages from './vue/pages/cms-pages';
 import CmsPageMenus from './vue/pages/cms-menus';
 
 import SSREditor from './vue/components/ssr-editor';
+import GoogleMap from './vue/components/google-map';
 
 Vue.component("cms-content-form",CmsContentForm);
 Vue.component("cms-page-form",CmsPageForm);
@@ -36,6 +37,7 @@ if (process.browser) {
 }
 
 Vue.component("ssr-editor", SSREditor);
+Vue.component("google-map", GoogleMap);
 
 
 if (jQuery('#cms').length) {
