@@ -51,12 +51,14 @@ trait ContentManaged
         $page = Site::findPage($path);
 
         if ($page) {
-            View::share('page', $page);
-            $this->loadContent('PAGE', $page->id);
+            $page = View::share('page', $page);
+            $content = $this->loadContent('PAGE', $page->id);
         } else {
             if (app()->environment() == 'local') {
                 throw new Exception('Could not find CmsPage for '.$path);
             }
         }
+
+        return compact('page', 'content');
     }
 }
