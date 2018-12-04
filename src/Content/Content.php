@@ -80,6 +80,11 @@ class Content
 		}
 		return $current;
 	}
+
+	public function elementCount()
+    {
+        return count($this->_elements);
+    }
 	
 	public function hasElement ($name)
 	{
