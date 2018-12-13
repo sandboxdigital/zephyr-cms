@@ -1,4 +1,5 @@
 import log from './log'
+import $ from 'jquery'
 
 let uploadController = '/cms-api/file/upload';
 
@@ -63,7 +64,9 @@ const form = {
             }
 
         });
+
         xhr.open('post', uploadController, true);
+        xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
         xhr.send(formData);
     },
 };
