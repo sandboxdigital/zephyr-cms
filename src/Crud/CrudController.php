@@ -77,7 +77,11 @@ class CrudController extends Controller
 
             return redirect()->back()->with('success', $this->crud->tableLabel . ' successfully added.');
         } catch (\Exception $e){
-            Rollbar::log(Level::ERROR, $e);
+            if(class_exists(Rollbar::class)){
+                Rollbar::log(Level::ERROR, $e);
+            }else {
+                die($e->getMessage());
+            }
         }
     }
 

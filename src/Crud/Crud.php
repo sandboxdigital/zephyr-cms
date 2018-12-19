@@ -124,7 +124,6 @@ class Crud
     /* Queries Builders */
     public function updateModel($id, $data)
     {
-
         $relationShips = [];
 
         $model = $this->model::findOrFail($id);
@@ -161,8 +160,39 @@ class Crud
 
     public function storeModel($data)
     {
+        $relationShips = [];
+
         $model = new $this->model;
-        return $model->fill($data)->save();
+        foreach($this->attributes as $key => $attribute){
+            if($attribute->isPrimaryKey){
+                continue;
+            }
+
+            if($attribute->fromRelation) {
+
+                /* Only works with single level nested model (relation) */
+                $modelKeys = explode('.', $attribute->name);
+                $key = str_replace('.', '_', $key);
+                $relation = $attribute->relation;
+
+                if(!in_array($relation, $relationShips)){
+                    $relationShips[] = $relation;
+                }
+
+                $model->{$relation}->{$modelKeys[1]} = $attribute->getSavingData($data[$key]);
+            }else {
+                if(isset($data[$key])){
+                    $model->{$key} = $attribute->getSavingData($data[$key]);
+                }
+            }
+        }
+
+        foreach($relationShips as $relation) {
+            $model->{$relation}->save();
+        }
+
+        return $model->save();
+
     }
 
     public function destroyModel($id)
