@@ -7,6 +7,30 @@
         right: 13px;
     }
 
+    .quill-editor {
+        .ql-toolbar {
+            .ql-header2 {
+                .ql-picker-label{
+                    &:before {
+                        content: 'Normal';
+                    }
+                }
+
+                .ql-picker-item:before{
+                    content: 'a';
+                }
+            }
+        }
+        .ql-container {
+            link-arrow {
+                color: #e72b21;
+                text-decoration: underline;
+                &:before {
+                    content: '> ';
+                }
+            }
+        }
+    }
 }
 
 .cms-field-html-editor {

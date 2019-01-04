@@ -2627,6 +2627,15 @@ h3.cms {
     position: absolute;
     top: -23px;
     right: 13px; }
+  .cms-field-html .quill-editor .ql-toolbar .ql-header2 .ql-picker-label:before {
+    content: 'Normal'; }
+  .cms-field-html .quill-editor .ql-toolbar .ql-header2 .ql-picker-item:before {
+    content: 'a'; }
+  .cms-field-html .quill-editor .ql-container link-arrow {
+    color: #e72b21;
+    text-decoration: underline; }
+    .cms-field-html .quill-editor .ql-container link-arrow:before {
+      content: '> '; }
 
 .cms-field-html-editor {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
