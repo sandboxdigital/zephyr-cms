@@ -8,6 +8,7 @@
         <div v-if="!codeVisible">
             <rich-text-editor
                 ref="quillEditor"
+                v-model="value"
                 :content="value"
                 @change="onQuillEditorChange($event)"
                 :options="editorOption" />
