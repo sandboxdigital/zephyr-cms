@@ -83,7 +83,7 @@ class Attribute
 
     public function renderField()
     {
-        return $this->fieldType()->render(str_replace('.', '_', $this->name), $this->value);
+        return $this->fieldType()->render(str_replace('.', '_', $this->name), htmlentities($this->value,ENT_QUOTES));
     }
 
     public function value($model)
