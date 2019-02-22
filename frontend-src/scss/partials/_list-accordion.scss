@@ -46,12 +46,12 @@
         /* icons */
         content: '';
         display: inline-block;
-        width: 16px;
-        height: 16px;
+        width: 10px;
+        height: 10px;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        transform-origin: 40% 35%;
+        transform-origin: 50% 50%;
         left: 3px;
 
         font: normal normal normal 14px/1 FontAwesome;
@@ -59,10 +59,10 @@
 
         &:after {
             display: inline-block;
-            width: 16px;
-            height: 16px;
+            width: 10px;
+            height: 10px;
             font: normal normal normal 14px/1 FontAwesome;
-            content: "\f15b";
+            content: url(../svg/right_arrow.svg);
         }
     }
 
@@ -109,12 +109,12 @@
     a {
         &.file {
             &:after {
-                content: "\f15b";
+                content: url(../svg/bullet.svg);
             }
         }
         &.folder {
             &:after {
-                content: "\f054";
+                content: url(../svg/right_arrow.svg);
             }
         }
     }
