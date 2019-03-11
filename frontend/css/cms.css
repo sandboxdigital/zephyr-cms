@@ -2346,7 +2346,8 @@
     padding: 5px 8px;
     margin: 0;
     margin-bottom: 5px;
-    box-sizing: border-box; }
+    box-sizing: border-box;
+    position: relative; }
     .cms-form .cms-field:before, .cms-form .cms-field:after {
       content: " ";
       display: block;
@@ -2356,6 +2357,10 @@
       clear: both; }
     .cms-form .cms-field .cms-text {
       width: 100%; }
+    .cms-form .cms-field .toolbar {
+      position: absolute;
+      top: -23px;
+      right: 13px; }
   .cms-form .cms-row-buttons {
     padding: 8px;
     margin-left: -15px;

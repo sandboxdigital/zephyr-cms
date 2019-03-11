@@ -7,9 +7,9 @@ import Vue from 'vue';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
-import { quillEditor } from 'vue-quill-editor';
+import VueQuillEditor from 'vue-quill-editor'
 
-Vue.component('rich-text-editor', quillEditor);
+Vue.use(VueQuillEditor, /* { default global options } */)
 
 import CmsContentForm from './vue/components/content-form';
 import CmsPageForm from './vue/components/page-form';
@@ -21,7 +21,7 @@ import CmsFieldRow from './vue/fields/field-row';
 import CmsPagePages from './vue/pages/cms-pages';
 import CmsPageMenus from './vue/pages/cms-menus';
 
-import SSREditor from './vue/components/ssr-editor';
+import RichTextEditor from './vue/components/rich-text-editor';
 import GoogleMap from './vue/components/google-map';
 
 Vue.component("cms-content-form",CmsContentForm);
@@ -31,12 +31,11 @@ Vue.component("cms-page-list-item",CmsPageListItem);
 Vue.component("cms-menu-list-item",CmsMenuListItem);
 Vue.component("cms-field-row", CmsFieldRow);
 
-if (process.browser) {
-    const VueQuillEditor = require('vue-quill-editor/dist/ssr')
-    Vue.use(VueQuillEditor, /* { default global options } */)
-}
+// if (process.browser) {
+//     const VueQuillEditor = require('vue-quill-editor/dist/ssr')
+// }
 
-Vue.component("ssr-editor", SSREditor);
+Vue.component("rich-text-editor", RichTextEditor);
 Vue.component("google-map", GoogleMap);
 
 
