@@ -32,6 +32,7 @@ class PagesController extends AbstractController {
         $data = $request->only([
             'name',
             'path',
+            'meta_description',
             'cms_page_template_id',
             'page_template_id',
         ]);
