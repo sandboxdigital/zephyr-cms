@@ -36,5 +36,9 @@ class ZephyrServiceProvider extends ServiceProvider {
         $this->publishes([
             __DIR__.'/resources/cms-templates' => resource_path('cms-templates'),
         ], 'views');
+
+        $this->publishes([
+            __DIR__.'/config.php' => config_path('zephyr.php'),
+        ]);
     }
 }

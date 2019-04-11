@@ -4,6 +4,7 @@ import CmsFieldFile from '../fields/field-file.vue'
 import CmsFieldTextarea from '../fields/field-textarea.vue'
 import CmsFieldGroup from '../fields/field-group.vue'
 import CmsSelect from '../fields/field-select.vue'
+import CmsMedia from '../fields/field-media.vue'
 
 let componentTypes = {
     'text': CmsFieldText,
@@ -12,6 +13,7 @@ let componentTypes = {
     'group': CmsFieldGroup,
     'html': CmsFieldHtml,
     'select': CmsSelect,
+    'media': CmsMedia,
 };
 
 const form = {

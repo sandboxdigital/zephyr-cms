@@ -1,7 +1,7 @@
 
 import jQuery from 'jquery';
 import Vue from 'vue';
-
+import BootstrapVue from 'bootstrap-vue'
 
 // Quill Rich Text Editor
 import 'quill/dist/quill.core.css';
@@ -10,6 +10,7 @@ import 'quill/dist/quill.bubble.css';
 import VueQuillEditor from 'vue-quill-editor'
 
 Vue.use(VueQuillEditor, /* { default global options } */)
+Vue.use(BootstrapVue)
 
 import CmsContentForm from './vue/components/content-form';
 import CmsPageForm from './vue/components/page-form';
@@ -17,6 +18,7 @@ import CmsPageList from './vue/components/page-list';
 import CmsPageListItem from './vue/components/page-list-item';
 import CmsMenuListItem from './vue/components/menu-list-item';
 import CmsFieldRow from './vue/fields/field-row';
+import FilePicker from './vue/components/file-picker';
 
 import CmsPagePages from './vue/pages/cms-pages';
 import CmsPageMenus from './vue/pages/cms-menus';
@@ -30,6 +32,15 @@ Vue.component("cms-page-list",CmsPageList);
 Vue.component("cms-page-list-item",CmsPageListItem);
 Vue.component("cms-menu-list-item",CmsMenuListItem);
 Vue.component("cms-field-row", CmsFieldRow);
+Vue.component("cms-field-row", CmsFieldRow);
+Vue.component("file-picker", FilePicker);
+
+/* File Manager */
+import ChildMenu from './vue/components/file-manager/child-menu';
+import FileManager from './vue/components/file-manager/file-manager';
+
+Vue.component("file-manager", FileManager);
+Vue.component("child-menu", ChildMenu);
 
 // if (process.browser) {
 //     const VueQuillEditor = require('vue-quill-editor/dist/ssr')
