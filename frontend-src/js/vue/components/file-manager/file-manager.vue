@@ -149,7 +149,8 @@
                         title : null
                     }
                 },
-                pageListVisible:true
+                pageListVisible:true,
+                loadingFiles: false
             }
         },
         computed: {
@@ -163,8 +164,7 @@
                     uploadMultiple: true,
                     addRemoveLinks: true,
                     maxFiles: 5,
-                    maxFilesize: 10,
-                    loadingFiles: false
+                    maxFilesize: 10
                 }
             }
         },

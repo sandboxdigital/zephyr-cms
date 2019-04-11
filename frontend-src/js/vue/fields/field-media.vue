@@ -11,7 +11,7 @@
             <button  type="button" class="cms-btn" v-b-modal.choose-media-file>Select file</button>
         </div>
         <b-modal id="choose-media-file" ref="choose-media-file" size="lg">
-            <file-manager @change="fileChanged" has-choose="true"></file-manager>
+            <file-manager @change="fileChanged" :has-choose="true"></file-manager>
             <div slot="modal-footer"></div>
         </b-modal>
     </div>
