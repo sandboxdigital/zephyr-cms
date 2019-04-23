@@ -3,6 +3,7 @@
 namespace Sandbox\Cms;
 
 use Illuminate\Support\ServiceProvider;
+use Intervention\Image\ImageServiceProvider;
 use Sandbox\Cms\Commands\DemoPages;
 use Sandbox\Cms\Commands\InitMenus;
 use Sandbox\Cms\Commands\InitPages;
@@ -15,6 +16,16 @@ class ZephyrServiceProvider extends ServiceProvider {
     ];
 
     public function register() {
+        /*
+            * Register the service provider for the dependency.
+            */
+
+        $this->app->register(ImageServiceProvider::class );
+        /*
+         * Create aliases for the dependency.
+         */
+        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+        $loader->alias('Image', 'Intervention\Image\Facades\Image::class');
     }
 
     public function boot () {

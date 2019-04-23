@@ -4,6 +4,7 @@ namespace Sandbox\Cms\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use Sandbox\Cms\Site\CmsFile;
 use Sandbox\Cms\Site\CmsFileFolder;
 use Sandbox\Cms\Site\CmsFileFolderFile;
@@ -100,6 +101,55 @@ class FileController extends AbstractController {
             ];
         } else {
             return response()->json(['message'=>'File failed to upload'],422);
+        }
+    }
+
+    public function viewFile($file){
+        $filePath = CmsFile::files_path($file);
+
+        if(is_file($filePath))
+            return redirect($filePath);
+
+        try{
+            $cmsFile = CmsFile::getFile($file);
+            $filePath = $cmsFile->getPath(); /* original path without size */
+            if($cmsFile){
+
+                $size = $cmsFile->size;
+
+                if($size == 'original' || $size == ''){
+                    if(!is_file($filePath)){
+                        throw new \Exception('file not found');
+                    }
+                } else if(in_array($size, array_keys(config('zephyr.imageSizes', [])))) {
+                    $width = config('zephyr.imageSizes.' . $size . '.width', null);
+                    $height = config('zephyr.imageSizes.' . $size . '.height', null);
+
+                    if (!$width || !$height) {
+                        throw new \Exception('invalid size');
+                    }
+                }else {
+                    if(preg_match('/(\d+)x(\d+)/', $size, $matches) && count($matches) == 3){
+                        $width = $matches[1];
+                        $height = $matches[2];
+                    } else {
+                        throw new \Exception('invalid size');
+                    }
+                }
+
+                $img = Image::make($filePath)->resize($width, $height);
+                $newFilePath = CmsFile::files_path($cmsFile->addSize($size));
+                $img->save($newFilePath);
+                return redirect($newFilePath);
+            }else {
+                throw new \Exception('file not found');
+            }
+
+
+            return redirect($filePath);
+        } catch (\Exception $e){
+            return $e->getMessage();
+            return abort(404);
         }
     }
 }

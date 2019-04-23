@@ -77,13 +77,14 @@
                     <tbody class="files" v-show="files.length && !loadingFiles">
                         <tr v-for="file in files" v-if="file">
                             <td>{{file.id}}</td>
-                            <td><img :src="file.url" alt="" width="100px"> {{file.fullname}}</td>
+                            <td><img :src="file['url-thumbnail']" alt="" width="48px"> {{file.fullname}}</td>
                             <td>
                                 <a class="cms-btn btn-sm" href="#" v-if="hasChoose" @click.prevent="chooseFile(file)">choose</a>
                                 <a class="cms-btn btn-sm" href="#" @click.prevent="deleteFile(file.id)">delete</a>
                             </td>
                         </tr>
                     </tbody>
+                    <span v-show="files.length === 0 && !loadingFiles" class="ml-3">There's no files</span>
                     <span v-show="loadingFiles">Loading...</span>
 
                 </table>

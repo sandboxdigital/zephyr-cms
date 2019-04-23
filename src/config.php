@@ -9,4 +9,11 @@ return [
         'api_key' => env('ZEPHYR_GMAP_API_KEY', null)
     ],
     'files_path' => env('ZEPHYR_CMS_FILE_PATH', '/files'),
+
+    'imageSizes' => [
+        'thumbnail' => [
+            'width' => 48,
+            'height' => 48
+        ]
+    ]
 ];

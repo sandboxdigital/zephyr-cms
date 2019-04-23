@@ -12,7 +12,8 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.1.0",
-        "kalnoy/nestedset": "^4.3"
+        "kalnoy/nestedset": "^4.3",
+        "intervention/image": "^2.4@dev"
     },
     "autoload": {
         "psr-0": {
