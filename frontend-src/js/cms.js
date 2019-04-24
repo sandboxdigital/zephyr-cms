@@ -1,16 +1,16 @@
 
 import jQuery from 'jquery';
 import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue'
+import BootstrapVue from 'bootstrap-vue';
 
 // Quill Rich Text Editor
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
-import VueQuillEditor from 'vue-quill-editor'
+import VueQuillEditor from 'vue-quill-editor';
 
-Vue.use(VueQuillEditor, /* { default global options } */)
-Vue.use(BootstrapVue)
+Vue.use(VueQuillEditor, /* { default global options } */);
+Vue.use(BootstrapVue);
 
 import CmsContentForm from './vue/components/content-form';
 import CmsPageForm from './vue/components/page-form';
