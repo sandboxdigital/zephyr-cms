@@ -16,7 +16,10 @@ class FileController extends AbstractController {
         return response()->json(compact('file'));
     }
     public function files(CmsFileFolder $node) {
-        return $node->folderFiles()->with('file')->get()->pluck('file');
+        $files = CmsFile::whereHas('folders', function($query) use ($node){
+            $query->where('cms_file_folders.id', $node->id);
+        })->orderBy('fullname')->get();
+        return $files;
     }
 
     public function tree() {

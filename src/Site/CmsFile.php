@@ -14,6 +14,11 @@ class CmsFile extends Model
     protected $appends = ['url', 'url-thumbnail'];
     public $timestamps = false;
 
+    public function folders()
+    {
+        return $this->belongsToMany(CmsFileFolder::class, 'cms_file_folder_files', 'file_id', 'folder_id');
+    }
+
     public function getUrlAttribute()
     {
         return '/cms-files/view/' . $this->fullname;
