@@ -93,6 +93,11 @@ class InitPages extends Command
                     'name' => 'Menus',
                     'path' => 'cms-menus',
                     'cms_page_template_id'=>0,
+                ],
+                [
+                    'name' => 'Files',
+                    'path' => 'cms-files',
+                    'cms_page_template_id'=>0,
                 ]
             ],
         ]);
