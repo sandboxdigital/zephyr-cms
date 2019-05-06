@@ -14,6 +14,7 @@ Vue.use(BootstrapVue);
 
 import CmsContentForm from './vue/components/content-form';
 import CmsPageForm from './vue/components/page-form';
+import CmsMetaForm from './vue/components/meta-form';
 import CmsPageList from './vue/components/page-list';
 import CmsPageListItem from './vue/components/page-list-item';
 import CmsMenuListItem from './vue/components/menu-list-item';
@@ -28,6 +29,7 @@ import GoogleMap from './vue/components/google-map';
 
 Vue.component("cms-content-form",CmsContentForm);
 Vue.component("cms-page-form",CmsPageForm);
+Vue.component("cms-meta-form",CmsMetaForm);
 Vue.component("cms-page-list",CmsPageList);
 Vue.component("cms-page-list-item",CmsPageListItem);
 Vue.component("cms-menu-list-item",CmsMenuListItem);

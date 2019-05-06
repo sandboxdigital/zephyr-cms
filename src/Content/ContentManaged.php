@@ -52,6 +52,8 @@ trait ContentManaged
 
         if ($page) {
             $page = View::share('page', $page);
+            $pageTitle = $page->meta_title ?? $page->name;
+            View::share('cmsPageTitle', $pageTitle);
             $content = $this->loadContent('PAGE', $page->id);
         } else {
             if (app()->environment() == 'local') {

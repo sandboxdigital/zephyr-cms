@@ -91,6 +91,8 @@ class CreateCmsTables extends Migration
                 $table->increments('id');
                 $table->string('name', 255);
                 $table->string('path', 255)->default('');
+                $table->string('meta_title', 255)->nullable();
+                $table->text('meta_description')->nullable();
                 $table->nullableTimestamps();
                 $table->softDeletes();
                 $table->unsignedInteger('_lft')->default(0);

@@ -13,6 +13,7 @@ class CmsPage extends Model
     protected $fillable = [
         'name',
         'path',
+        'meta_title',
         'meta_description',
         'page_template_id',
         'cms_page_template_id',

@@ -10,9 +10,9 @@
                     <input name="path" type="text" id="path"  v-model="page.path" class="cms-text">
                 </cms-field-row>
 
-                <cms-field-row label="Meta Description">
-                    <textarea name="meta_description" type="text" id="meta_description"  v-model="page.meta_description" class="cms-text"></textarea>
-                </cms-field-row>
+                <!--<cms-field-row label="Meta Description">-->
+                    <!--<textarea name="meta_description" type="text" id="meta_description"  v-model="page.meta_description" class="cms-text"></textarea>-->
+                <!--</cms-field-row>-->
 
                 <cms-field-row label="Template">
                     <div class="cms-select-c">

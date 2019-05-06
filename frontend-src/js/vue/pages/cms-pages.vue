@@ -17,6 +17,9 @@
                     <li class="nav-item">
                         <a class="nav-link" :class="{active:tab==='content'}" href="#" @click.prevent="show('content')">Content</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" :class="{active:tab==='meta'}" href="#" @click.prevent="show('meta')">Meta</a>
+                    </li>
                 </ul>
             </div>
             <div v-show="tab==='page'" >
@@ -29,6 +32,12 @@
                 <div class="cms-content-container">
                     <!--<h5><i class="fa fa-user-plus"></i> Content</h5>-->
                     <cms-content-form ref="content"></cms-content-form>
+                </div>
+            </div>
+            <div v-show="tab==='meta'">
+                <div class="cms-content-container">
+                    <!--<h5><i class="fa fa-user-plus"></i> Content</h5>-->
+                    <cms-meta-form ref="meta"></cms-meta-form>
                 </div>
             </div>
         </div>
@@ -58,6 +67,7 @@
 
                 // if (this.tab === 'page') {
                     this.$refs.page.loadPage(page);
+                    this.$refs.meta.loadPage(page);
                 // } else {
                 if (page.template && page.template.cms_content_template_id) {
                     this.$refs.content.loadTemplateId(page.template.cms_content_template_id, 'PAGE', page.id);
