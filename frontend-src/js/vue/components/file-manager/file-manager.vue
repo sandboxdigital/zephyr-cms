@@ -65,7 +65,7 @@
                 </div>
                 <a @click.prevent="pageListVisible = !pageListVisible;" class="cms-btn-icon toggle-pages"><i class="icon" :class="{'ion-md-arrow-dropleft':pageListVisible,'ion-md-arrow-dropright':!pageListVisible}"></i></a>
             </div>
-            <div class="zph-page-form" :class="{'list-hidden':!pageListVisible}">
+            <div id="files-table-container" class="zph-page-form" :class="{'list-hidden':!pageListVisible}">
                 <table class="cms-table">
                     <thead>
                         <tr>
@@ -88,6 +88,7 @@
                     <span v-show="loadingFiles">Loading...</span>
 
                 </table>
+                <pagination v-model="page" :records="recordsCount" :per-page="100" @paginate="pageChanged"></pagination>
             </div>
         </div>
         <b-modal id="upload-modal" ref="upload-modal">
@@ -125,13 +126,16 @@
     import Vue from 'vue'
     import FileService from '../../services/file'
     import vue2Dropzone from 'vue2-dropzone'
+    import Pagination from 'vue-pagination-2';
     import 'vue2-dropzone/dist/vue2Dropzone.min.css'
     import Events from '../../core/event-bus'
     import $ from 'jquery'
+    import _chunk from 'lodash/chunk'
 
     export default {
         components: {
-            vueDropzone: vue2Dropzone
+            vueDropzone: vue2Dropzone,
+            pagination: Pagination
         },
         props: {
             hasChoose: Boolean
@@ -140,6 +144,8 @@
             return {
                 tree: [],
                 files: [],
+                recordsCount: 0,
+                page: 1,
                 selectedDirectoryNode: {
                     id: null,
                     title: null
@@ -212,6 +218,7 @@
                 this.loadingFiles = true;
                 FileService.getFiles(id).then(response => {
                     this.files = response.data;
+                    this.paginate(response.data);
                     this.loadingFiles = false;
                 })
             },
@@ -247,7 +254,17 @@
                     this.resetUpload();
                 }, 1000)
             },
-
+            paginate(results){
+                this.page = 1;
+                this.recordsCount = results.length;
+                this.results = _chunk(results, 100);
+                this.files = this.results[this.page - 1];
+            },
+            pageChanged() {
+                this.files = this.results[this.page - 1];
+                let top = $("#files-table-container").offset().top;
+                $('html,body').animate({ scrollTop: top}, 500);
+            },
         }
     }
 </script>
