@@ -1,3 +1,9 @@
+<style>
+    #choose-media-file .modal-body{
+        height: 80vh;
+        overflow: scroll;
+    }
+</style>
 <template>
   <div>
     <table>
