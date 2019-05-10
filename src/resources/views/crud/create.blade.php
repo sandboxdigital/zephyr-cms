@@ -12,7 +12,7 @@
         <div class="col-8">
 
             <div class="cms-form">
-                <form action="{{ route($crud->routeName . '.store') }}" method="POST" @if($crud->enableFileUploads)  enctype="multipart/form-data" @endif>
+                <form action="{{ route($crud->routeName . '.store') }}" method="POST" @if($crud->enableFileUploads)  enctype="multipart/form-data" @endif novalidate>
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         @foreach($crud->attributes as $key => $attribute)
                             @if(in_array($key, array_keys($crud->attributes)) && in_array($key, $crud->attributesCreate))

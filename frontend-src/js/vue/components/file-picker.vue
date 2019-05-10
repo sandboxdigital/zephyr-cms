@@ -7,7 +7,7 @@
 <template>
   <div>
     <table>
-      <tr>
+      <tr v-if="value">
         <td class="fileUploadThumbnail"><img :src="value.url" /></td>
         <td class="fileUploadName">{{value.name}}</td>
       </tr>
@@ -27,7 +27,9 @@
   export default {
     data () {
       return {
-        value:'',
+        value: {
+            id: 0
+        },
       }
     },
     props: ['name', 'initialValue'],
@@ -40,7 +42,9 @@
     mounted() {
         if(!!this.initialValue){
             FileService.getFile(this.initialValue).then((response)=> {
-                this.value = response.data.file;
+                if(response.data.file){
+                    this.value = response.data.file;
+                }
             })
         }
     }

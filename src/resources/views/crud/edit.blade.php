@@ -15,7 +15,7 @@
                     <strong class="text-danger d-block mb-2">There are some errors</strong>
                 @endif
                 @includeIf($crud->customEditHeadView )
-                <form action="{{ route($crud->routeName . '.update', $model->id) }}" method="POST" @if($crud->enableFileUploads)  enctype="multipart/form-data" @endif>
+                <form action="{{ route($crud->routeName . '.update', $model->id) }}" method="POST" @if($crud->enableFileUploads)  enctype="multipart/form-data" @endif novalidate>
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     @foreach($crud->attributes as $key => $attribute)
