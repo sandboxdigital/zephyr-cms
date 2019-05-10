@@ -51,6 +51,9 @@ Vue.component("child-menu", ChildMenu);
 Vue.component("rich-text-editor", RichTextEditor);
 Vue.component("google-map", GoogleMap);
 
+import FileManagerPlug from './vue/plugins/file-manager';
+Vue.use(FileManagerPlug);
+
 
 if (jQuery('#cms').length) {
     let app = new Vue({

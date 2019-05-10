@@ -1,12 +1,12 @@
-import log from './log'
-import $ from 'jquery'
+import log from './log';
+import $ from 'jquery';
 
 let uploadController = '/cms-api/file/upload';
 
 const form = {
     getExtension (filename) {
         let ext = /^.+\.([^.]+)$/.exec(filename);
-        return ext == null ? "" : ""+ext[1].toLowerCase();
+        return ext === null ? "" : ""+ext[1].toLowerCase();
     },
 
     selectFile (fileSelect, options) {
@@ -42,13 +42,8 @@ const form = {
 
         });
         xhr.addEventListener('load', function(e) {
-            console.log('xhr upload complete');
-            console.log (e);
             let data = this.responseText;
-            console.log(data);
             data = typeof data === 'object' ? data : JSON.parse(data);
-
-            console.log(data);
 
             // data = {
             //    id:'',
@@ -69,6 +64,10 @@ const form = {
         xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
         xhr.send(formData);
     },
+
+    showFileManager () {
+
+    }
 };
 
 export default form;

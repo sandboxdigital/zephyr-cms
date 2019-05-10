@@ -33,7 +33,7 @@ export default {
         if (this.field.spec && this.field.spec.options) {
             this.options = this.field.spec.options;
             for (let option of this.options) {
-                console.log(option);
+                // console.log(option);
                 if (option.default) {
                     this.value = option.value;
                 }

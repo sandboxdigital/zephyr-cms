@@ -107,36 +107,37 @@ class FileController extends AbstractController {
         }
     }
 
-    public function viewFile($file){
+    public function viewFile($file)
+    {
         $filePath = CmsFile::files_path($file);
 
-        if(is_file($filePath))
+        if (is_file($filePath))
             return redirect($filePath);
 
-        try{
+        try {
             $cmsFile = CmsFile::getFile($file);
             $filePath = $cmsFile->getPath(); /* original path without size */
-            if($cmsFile){
+            if ($cmsFile) {
 
                 $size = $cmsFile->size;
 
-                if($size == 'original' || $size == ''){
-                    if(!is_file($filePath)){
+                if ($size == 'original' || $size == '') {
+                    if (!is_file($filePath)) {
                         throw new \Exception('file not found');
                     }
-                } else if(in_array($size, array_keys(config('zephyr.imageSizes', [])))) {
+                } else if (in_array($size, array_keys(config('zephyr.imageSizes', [])))) {
                     $width = config('zephyr.imageSizes.' . $size . '.width', null);
                     $height = config('zephyr.imageSizes.' . $size . '.height', null);
 
                     if (!$width || !$height) {
-                        throw new \Exception('invalid size');
+                        throw new \Exception('Size ['.$size.'] found - width or height missing');
                     }
-                }else {
-                    if(preg_match('/(\d+)x(\d+)/', $size, $matches) && count($matches) == 3){
+                } else {
+                    if (preg_match('/(\d+)x(\d+)/', $size, $matches) && count($matches) == 3) {
                         $width = $matches[1];
                         $height = $matches[2];
                     } else {
-                        throw new \Exception('invalid size');
+                        throw new \Exception('Invalid size - ['.$size.'] not found');
                     }
                 }
 
@@ -144,13 +145,13 @@ class FileController extends AbstractController {
                 $newFilePath = CmsFile::files_path($cmsFile->addSize($size));
                 $img->save($newFilePath);
                 return redirect($newFilePath);
-            }else {
+            } else {
                 throw new \Exception('file not found');
             }
 
 
             return redirect($filePath);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return $e->getMessage();
             return abort(404);
         }

@@ -1,0 +1,69 @@
+
+
+
+.fileUploadThumbnail {
+    width: 100px;
+    img {
+        width: 100%;
+    }
+}
+
+.FormFilePreviewTable {
+    float:left;
+}
+
+
+.file-preview {
+    display:inline-block;
+
+    .file-preview-container {
+        position: relative;
+        padding: 10px;
+        display: block;
+        border:1px solid #e9e9e9;
+        background-color: #fefefe;
+        width: 120px;
+        height: 120px;
+        //border-radius: 3px;
+        box-shadow: inset 0px 0px 5px rgba(0.1,0.1,0.1,0.1);
+
+        .no-file,
+        .image-container,
+        .icon-container {
+            display:  block;
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+
+        .image-container {
+            background-size: cover;
+        }
+
+        .icon-container {
+            span {
+                font-size: 20px;
+                color: grey;
+                @include  vertical-center;
+            }
+        }
+
+        .no-file {
+            span {
+                font-size: .8em;
+                @include vertical-center;
+            }
+        }
+
+        .btn-round-delete {
+            position: absolute;
+            right: -10px;
+            top: -10px;
+            z-index: 2;
+        }
+    }
+
+    .file-name {
+        font-size: .8em;
+    }
+}

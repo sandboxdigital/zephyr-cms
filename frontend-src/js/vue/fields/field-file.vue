@@ -1,34 +1,23 @@
 <template>
-    <div class="cms-row cms-row-text">
-        <b-modal ref="fileManager" size="lg">
-            <file-manager @change="onFileManagerFileChanged" :has-choose="true"></file-manager>
-            <div slot="modal-footer"></div>
-        </b-modal>
+    <div class="cms-row cms-row-file">
 
         <div class="cms-label"><label>{{label}}</label></div>
 
         <div class="cms-field">
-            <div class="FormFile">
-                <div class="FormFilePreviewTable">
-                    <table>
-                        <tr id="fileUploadRow" v-for="file in files">
-                            <td class="fileUploadThumbnail"><img :src="file.url" /></td>
-                            <td class="fileUploadName">{{file.name}}</td>
-                            <td class="fileUploadDelete">
-                                <a href="#" class="formFileUploadDelete" @click.prevent="deleteFile(file)">Remove this file</a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div id="'+this.elPath + '_FormFileButtons" class="FormFileButtons" style="float:left;">
-                    <div v-if="progressText">{{progressText}}</div>
-                    <div>
-                        <button id="btnSelect" type="button" class="cms-btn" @click.prevent="selectFile">Select file</button>
-                        <button id="btnCancel" type="button" class="cms-btn" style="display:none;" @click.prevent="deleteFile">Cancel upload</button>
+            <div class="row">
+                <div class="col">
+                    <div style="display:inline-block;position: relative">
+                        <file-preview v-model="file" show-delete="true" v-on:delete="deleteFile()"></file-preview>
                     </div>
                 </div>
-                <input class="fileUpload" type="file" style="visibility: hidden">
+                <div class="col">
+                    <div v-if="progressText">{{progressText}}</div>
+                    <button type="button" class="cms-btn" @click.prevent="selectFile">Select file</button>
+                    <button type="button" class="cms-btn" style="display:none;" @click.prevent="deleteFile">Cancel upload</button>
+                    <input class="fileUpload" type="file" style="visibility: hidden;width: 100px">
+                </div>
             </div>
+
         </div>
     </div>
 </template>
@@ -37,8 +26,12 @@
 import jQuery from 'jquery'
 import fieldMixins from '../mixins/field'
 import FileHelper from '../helpers/file'
+import FilePreview from '../components/file-preview'
 
 export default {
+    components: {
+        FilePreview
+    },
 
     mixins : [fieldMixins],
 
@@ -52,6 +45,23 @@ export default {
 
     created () {
 
+    },
+
+    computed : {
+        file () {
+            if (this.files.length > 0) {
+                return this.files[0];
+            } else {
+                return {
+                    id:0,
+                    url:''
+                };
+            }
+        },
+
+        hasFile () {
+            return (this.file && this.file.id !== 0);
+        }
     },
 
     mounted () {
@@ -70,9 +80,6 @@ export default {
         });
     },
 
-    computed : {
-    },
-
     methods : {
         loadData (data) {
             this.files = data.files;
@@ -89,13 +96,18 @@ export default {
 
         selectFile () {
             if (this.useFileBrowser) {
-                this.$refs.fileManager.show();
+                this.$showFileManager().then(response => {
+                    if (response.status === 'success') {
+                        this.files.push(response.data);
+                    }
+                });
             } else {
                 this.$fileSelect.click();
             }
         },
 
-        deleteFile (file) {
+        deleteFile () {
+            let file = this.file;
             let i = this.findOptionIndex(file);
 
             if (i !== false) {
@@ -146,13 +158,6 @@ export default {
                 // TODO - this path should be set via config
                 url = "/core/images/fileicons/" + ext + ".png";
             }
-        },
-
-        onFileManagerFileChanged (fileObject) {
-            let file = fileObject.url;
-            console.log(file);
-            this.files.push(fileObject);
-            this.$refs.fileManager.hide();
         }
     }
 }
