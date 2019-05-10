@@ -1,5 +1,10 @@
 <template>
     <div class="cms-row cms-row-text">
+        <b-modal ref="fileManager" size="lg">
+            <file-manager @change="onFileManagerFileChanged" :has-choose="true"></file-manager>
+            <div slot="modal-footer"></div>
+        </b-modal>
+
         <div class="cms-label"><label>{{label}}</label></div>
 
         <div class="cms-field">
@@ -40,7 +45,8 @@ export default {
     data () {
         return {
             progressText:'',
-            files:[]
+            files:[],
+            useFileBrowser: true
         }
     },
 
@@ -82,7 +88,11 @@ export default {
         },
 
         selectFile () {
-            this.$fileSelect.click();
+            if (this.useFileBrowser) {
+                this.$refs.fileManager.show();
+            } else {
+                this.$fileSelect.click();
+            }
         },
 
         deleteFile (file) {
@@ -136,6 +146,13 @@ export default {
                 // TODO - this path should be set via config
                 url = "/core/images/fileicons/" + ext + ".png";
             }
+        },
+
+        onFileManagerFileChanged (fileObject) {
+            let file = fileObject.url;
+            console.log(file);
+            this.files.push(fileObject);
+            this.$refs.fileManager.hide();
         }
     }
 }
