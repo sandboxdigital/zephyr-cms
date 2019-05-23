@@ -27,9 +27,15 @@ class FileController extends AbstractController {
         return response()->json(compact('tree'), 200);
     }
 
-    public function createDirectory(Request $request, CmsFileFolder $node)
+    public function createDirectory(Request $request, CmsFileFolder $node = null)
     {
         $request->validate([ 'title' => 'required' ]);
+        if(!$node){
+            $node = new CmsFileFolder();
+            $node->title = 'Root';
+            $node->save();
+        }
+
         $new = new CmsFileFolder;
         $new->title = $request->title;
         $new->save();
@@ -155,5 +161,24 @@ class FileController extends AbstractController {
             return $e->getMessage();
             return abort(404);
         }
+    }
+
+    public function addDirectoryPermissions(Request $request, CmsFileFolder $node)
+    {
+        $permissions = $request->permissions;
+        $node->permissions()->sync($permissions);
+        return response()->json(compact('permissions'));
+    }
+
+    public function directoryPermissions(CmsFileFolder $node)
+    {
+        $permissions = $node->permissions;
+        return response()->json(compact('permissions'));
+    }
+
+    public function deleteDirectoryPermission(CmsFileFolder $node, $permission)
+    {
+        $result = $node->permissions()->detach($permission);
+        return response()->json(compact('result'));
     }
 }

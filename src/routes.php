@@ -50,9 +50,18 @@ Route::namespace('Sandbox\Cms\Controllers')
             Route::get('/get/{node}', 'FileController@files');
             Route::post('/delete/{fileId}', 'FileController@deleteFile');
             Route::get('/tree', 'FileController@tree');
-            Route::post('/directory/{node}', 'FileController@createDirectory');
+            Route::post('/directory/{node?}', 'FileController@createDirectory');
             Route::post('/directory/{node}/update', 'FileController@updateDirectory');
             Route::post('/directory/{node}/delete', 'FileController@deleteDirectory');
             Route::post('/upload', 'FileController@uploadFiles');
+            Route::get('/directory/{node}/permissions', 'FileController@directoryPermissions');
+            Route::post('/directory/{node}/permissions', 'FileController@addDirectoryPermissions');
+            Route::post('/directory/{node}/permissions/{permission}/delete', 'FileController@deleteDirectoryPermission');
+        });
+
+        Route::prefix('roles')->group(function(){
+            Route::get('/', 'RolesController@index');
+            Route::post('/create-update', 'RolesController@createUpdate');
+            Route::post('/delete/{id}', 'RolesController@delete');
         });
     });

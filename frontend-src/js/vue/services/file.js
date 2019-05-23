@@ -16,13 +16,27 @@ const FileService = {
     },
     createUpdateDirectory (id, create, data) {
         if(create){
-            return axios.post('/cms-api/files/directory/' + id, data);
+            let url = '/cms-api/files/directory/';
+            url += id ? id : ''
+            return axios.post(url, data);
         } else {
             return axios.post('/cms-api/files/directory/' + id + '/update', data);
         }
     },
     deleteDirectory (id) {
         return axios.post('/cms-api/files/directory/' + id + '/delete');
+    },
+    addDirectoryPermissions(id, permissions) {
+        let data = {
+            permissions: permissions
+        }
+        return axios.post('/cms-api/files/directory/' + id + '/permissions', data)
+    },
+    getDirectoryPermissions(id) {
+        return axios.get('/cms-api/files/directory/' + id + '/permissions')
+    },
+    deleteDirectoryPermission(directoryId, permissionId){
+        return axios.post('/cms-api/files/directory/' + directoryId + '/permissions/' + permissionId + '/delete')
     }
 };
 

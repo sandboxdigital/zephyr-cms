@@ -9,8 +9,21 @@ import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
 import VueQuillEditor from 'vue-quill-editor';
 
+import VeeValidate from 'vee-validate';
+
+import VeeValidateLaravel from 'vee-validate-laravel';
+
+
 Vue.use(VueQuillEditor, /* { default global options } */);
 Vue.use(BootstrapVue);
+Vue.use(VeeValidate,{
+    errorBagName: 'veeErrors',
+    fieldsBagName: 'veeFields'
+});
+Vue.use(VeeValidateLaravel);
+
+
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import CmsContentForm from './vue/components/content-form';
 import CmsPageForm from './vue/components/page-form';
@@ -23,6 +36,7 @@ import FilePicker from './vue/components/file-picker';
 
 import CmsPagePages from './vue/pages/cms-pages';
 import CmsPageMenus from './vue/pages/cms-menus';
+import CmsPageRoles from './vue/pages/cms-roles';
 
 import RichTextEditor from './vue/components/rich-text-editor';
 import GoogleMap from './vue/components/google-map';
@@ -40,6 +54,8 @@ Vue.component("file-picker", FilePicker);
 /* File Manager */
 import ChildMenu from './vue/components/file-manager/child-menu';
 import FileManager from './vue/components/file-manager/file-manager';
+
+Vue.component("cms-roles", CmsPageRoles);
 
 Vue.component("file-manager", FileManager);
 Vue.component("child-menu", ChildMenu);
@@ -61,7 +77,7 @@ if (jQuery('#cms').length) {
 
         components: {
             CmsPagePages,
-            CmsPageMenus,
+            CmsPageMenus
         },
 
         methods: {

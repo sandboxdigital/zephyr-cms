@@ -7,6 +7,7 @@
                 <div class="directory-actions" v-if="pageListVisible">
                     <a class="cms-btn-icon btn-cms-default float-left" href="#" @click.prevent="openCreateUpdateDirectory()"><i class="icon ion-md-folder"></i></a>
                     <a class="cms-btn-icon btn-cms-default float-left" href="#" @click.prevent="openCreateUpdateDirectory(true)"><i class="icon ion-md-create"></i></a>
+                    <a class="cms-btn-icon btn-cms-default float-left" href="#" @click.prevent="openDrectoryPermissionsModal()"><i class="icon ion-md-people"></i></a>
                     <a class="cms-btn-icon btn-cms-default float-left" href="#" @click.prevent="deleteDirectory()"><i class="icon ion-md-trash"></i></a>
                 </div>
                 <div class="lists" v-if="pageListVisible">
@@ -28,7 +29,7 @@
                             <th class="controls"><button class="cms-btn btn-sm float-right" v-b-modal.upload-modal><i class="icon ion-md-cloud-upload"></i> Upload</button></th>
                         </tr>
                     </thead>
-                    <tbody class="files" v-show="files.length && !loadingFiles">
+                    <tbody class="files" v-show="files && files.length && !loadingFiles">
                         <tr v-for="file in files" v-if="file">
                             <td>{{file.id}}</td>
                             <td><img :src="file['url-thumbnail']" alt="" width="48px"> {{file.fullname}}</td>
@@ -38,7 +39,7 @@
                             </td>
                         </tr>
                     </tbody>
-                    <span v-show="files.length === 0 && !loadingFiles" class="ml-3">There's no files</span>
+                    <span v-show="files && files.length === 0 && !loadingFiles" class="ml-3">There's no files</span>
                     <span v-show="loadingFiles">Loading...</span>
 
                 </table>
@@ -73,6 +74,49 @@
                 <b-button v-if="!directoryCreate" @click="createUpdateDirectory" variant="primary">Save</b-button>
             </div>
         </b-modal>
+
+        <b-modal size="lg" id="add-directory-permissions" ref="add-directory-permissions">
+            <div slot="modal-header">Add/Update Permissions</div>
+            <b-form-group>
+                <template slot="label">
+                    <b>Choose roles:</b><br>
+                    <b-form-checkbox
+                        v-model="areAllRolesSelected"
+                        aria-describedby="flavours"
+                        aria-controls="flavours"
+                        @change="toggleSelectedRoles"
+                    >
+                        {{ areAllRolesSelected ? 'Un-select All' : 'Select All' }}
+                    </b-form-checkbox>
+                </template>
+
+                <b-form-checkbox-group
+                    v-model="selectedRoles"
+                    :options="roles"
+                    name="selected_roles"
+                    class="ml-4"
+                    text-field="label"
+                    value-field="id"
+                    aria-label="Roles"
+                    stacked
+                ></b-form-checkbox-group>
+            </b-form-group>
+            <div slot="modal-footer">
+                <b-button @click="addDirectoryPermissions" variant="primary">Save</b-button>
+            </div>
+        </b-modal>
+
+        <b-modal size="lg" id="directory-permissions" ref="directory-permissions">
+            <div slot="modal-header">Permissions</div>
+            <button class="cms-btn btn-sm float-right" @click="openAddDirectoryPermissionsModal()"><i class="icon ion-md-add"></i> Add/Update Permission</button>
+            <b-table class="cms-table" :items="directoryPermissions" :fields="['value', 'label', 'actions']">
+                <template slot="actions" slot-scope="row">
+                    <button @click="deleteDirectoryPermission(row.item.id)" class="cms-btn btn-sm">
+                        <i class="icon ion-md-trash"></i>
+                    </button>
+                </template>
+            </b-table>
+        </b-modal>
     </div>
 </template>
 
@@ -85,6 +129,8 @@
     import Events from '../../core/event-bus'
     import $ from 'jquery'
     import _chunk from 'lodash/chunk'
+    import RoleService from '../../services/roles'
+    import _map from 'lodash/map'
 
     export default {
         components: {
@@ -105,13 +151,17 @@
                     title: null
                 },
                 directoryCreate: true,
+                directoryPermissions: [],
                 form : {
                     directory : {
                         title : null
                     }
                 },
                 pageListVisible:true,
-                loadingFiles: false
+                loadingFiles: false,
+                selectedRoles: [],
+                roles : [],
+                areAllRolesSelected: false
             }
         },
         computed: {
@@ -139,8 +189,20 @@
                 this.selectedDirectoryNode = node;
             })
             this.getTree(true)
+            this.getRoles()
         },
         methods : {
+            /* Directories */
+            getTree(goBackToRoot = false) {
+                FileService.getTree().then(response => {
+                    this.tree = response.data.tree;
+                    if(goBackToRoot){
+                        Vue.nextTick(() => {
+                            Events.$emit('fm-change-directory', this.tree[0]);
+                        })
+                    }
+                })
+            },
             openCreateUpdateDirectory(update = false){
                 this.directoryCreate = !update;
                 this.$refs['create-update-directory'].show()
@@ -160,6 +222,8 @@
                     })
                 }
             },
+
+            /* Files */
             chooseFile(file){
                 this.$emit('change', file)
             },
@@ -179,17 +243,44 @@
             refreshFiles(){
                 this.getFiles(this.selectedDirectoryNode.id);
             },
-            getTree(goBackToRoot = false) {
-                FileService.getTree().then(response => {
-                    this.tree = response.data.tree;
-                    if(goBackToRoot){
-                        Vue.nextTick(() => {
-                            Events.$emit('fm-change-directory', this.tree[0]);
-                        })
-                    }
 
+            /* Permissions */
+            getDirectoryPermissions(){
+                FileService.getDirectoryPermissions(this.selectedDirectoryNode.id).then(response => {
+                    this.directoryPermissions = response.data.permissions;
                 })
             },
+            openDrectoryPermissionsModal() {
+                this.$refs['directory-permissions'].show()
+                this.getDirectoryPermissions()
+            },
+            openAddDirectoryPermissionsModal() {
+                this.selectedRoles = _map(this.directoryPermissions, 'id')
+                this.$refs['add-directory-permissions'].show()
+            },
+            addDirectoryPermissions() {
+                FileService.addDirectoryPermissions(this.selectedDirectoryNode.id, this.selectedRoles).then(response => {
+                    this.getDirectoryPermissions()
+                    this.$refs['add-directory-permissions'].hide()
+                })
+            },
+            deleteDirectoryPermission(id) {
+                FileService.deleteDirectoryPermission(this.selectedDirectoryNode.id, id).then(response => {
+                    this.getDirectoryPermissions()
+                })
+            },
+
+            /* Roles */
+            getRoles() {
+                RoleService.getRoles().then((response) => {
+                    this.roles = response.data
+                })
+            },
+            toggleSelectedRoles(checked) {
+                console.log(checked     )
+                this.selectedRoles = checked ? _map(this.roles, 'id') : []
+            },
+
             /* Dropzone methods */
             processQueue(){
                 this.$refs.myVueDropzone.processQueue()
