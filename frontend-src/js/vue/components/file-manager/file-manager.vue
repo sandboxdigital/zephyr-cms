@@ -337,7 +337,7 @@
     .zph-page-list{
         max-width: 200px;
         flex: 0 0 25%;
-
+        overflow-x: scroll;
     }
     .zph-page-form {
         max-width: 75%;

@@ -3416,41 +3416,42 @@ li.selected > label[data-v-6238789c] {
   color: #E72B21 !important;
 }
 
-.directory-actions[data-v-27ccb8f0] {
+.directory-actions[data-v-4947a8c3] {
   display: block;
   width: 100%;
   min-height: 30px;
 }
-.directory-actions a[data-v-27ccb8f0] {
+.directory-actions a[data-v-4947a8c3] {
     margin-right: 3px;
 }
-.lists[data-v-27ccb8f0] {
+.lists[data-v-4947a8c3] {
   display: block;
 }
-.files td[data-v-27ccb8f0] {
+.files td[data-v-4947a8c3] {
   height: 45px;
   font-size: 14px;
   max-height: 75px;
   max-width: 500px;
   text-overflow: ellipsis;
 }
-.files td img[data-v-27ccb8f0] {
+.files td img[data-v-4947a8c3] {
     max-height: 50px;
 }
-.cms-btn[data-v-27ccb8f0] {
+.cms-btn[data-v-4947a8c3] {
   box-shadow: 0px 0px 1px 0px #a5a0a0;
   margin: 3px 0;
   color: #666;
   display: inline-block;
 }
-.cms-btn.btn-sm[data-v-27ccb8f0] {
+.cms-btn.btn-sm[data-v-4947a8c3] {
     padding: 4px 8px !important;
 }
-.zph-page-list[data-v-27ccb8f0] {
+.zph-page-list[data-v-4947a8c3] {
   max-width: 200px;
   flex: 0 0 25%;
+  overflow-x: scroll;
 }
-.zph-page-form[data-v-27ccb8f0] {
+.zph-page-form[data-v-4947a8c3] {
   max-width: 75%;
   flex: 0 0 75%;
 }
