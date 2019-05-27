@@ -14,6 +14,6 @@ class CmsFileFolder extends Model
     }
 
     public function permissions() {
-        return $this->belongsToMany(CmsRole::class, 'cms_folder_file_permissions', 'role_id', 'folder_id');
+        return $this->belongsToMany(CmsRole::class, 'cms_folder_file_permissions', 'folder_id', 'role_id');
     }
 }

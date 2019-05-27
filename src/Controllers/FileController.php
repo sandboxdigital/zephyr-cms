@@ -65,7 +65,7 @@ class FileController extends AbstractController {
         $uploadedPhotos = [];
         foreach ($photos as $photo){
             $identifier = uniqid();
-            $extension = $photo->extension();
+            $extension = $photo->getClientOriginalExtension();
             $name = $photo->getClientOriginalName();
             $filename =  substr($name, 0, strrpos($name, ".")) . '_' . $identifier . '.' . $extension;
 
