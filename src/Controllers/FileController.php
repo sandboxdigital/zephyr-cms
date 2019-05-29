@@ -122,8 +122,9 @@ class FileController extends AbstractController {
 
         try {
             $cmsFile = CmsFile::getFile($file);
-            $filePath = $cmsFile->getPath(); /* original path without size */
+
             if ($cmsFile) {
+                $filePath = $cmsFile->getAbsolutePath(); /* original path without size */
 
                 $size = $cmsFile->size;
 
@@ -146,15 +147,15 @@ class FileController extends AbstractController {
                         throw new \Exception('Invalid size - ['.$size.'] not found');
                     }
                 }
+                $filePathWithSize = $cmsFile->getAbsolutePath($cmsFile->size);
+                $urlWithSize = $cmsFile->getUrl($cmsFile->size);
 
                 $img = Image::make($filePath)->resize($width, $height);
-                $newFilePath = CmsFile::files_path($cmsFile->addSize($size));
-                $img->save($newFilePath);
-                return redirect($newFilePath);
+                $img->save($filePathWithSize);
+                return redirect($urlWithSize);
             } else {
                 throw new \Exception('file not found');
             }
-
 
             return redirect($filePath);
         } catch (\Exception $e) {

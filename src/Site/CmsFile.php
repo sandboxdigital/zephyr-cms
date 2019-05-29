@@ -1,18 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jesign
- * Date: 4/4/19
- * Time: 8:01 AM
- */
 
 namespace Sandbox\Cms\Site;
 
 use Illuminate\Database\Eloquent\Model;
+
+/**
+ * Class CmsFile
+ * @package Sandbox\Cms\Site
+ *
+ *
+ * @property string size
+ */
 class CmsFile extends Model
 {
-    protected $appends = ['url', 'url-thumbnail'];
-    public $timestamps = false;
+    protected $appends = [
+        'url',
+        'url-thumbnail'
+    ];
+    //public $timestamps = false;
 
     public function folders()
     {
@@ -31,6 +36,28 @@ class CmsFile extends Model
 
     public function getPath(){
         return 'storage' . config('zephyr.files_path') . '/' . $this->fullname;
+    }
+
+    public function getAbsolutePath()
+    {
+        $path = trim(config('zephyr.files_path'), '/');
+        return Storage::disk('public')->path($path . '/' . $this->fullname);
+    }
+
+    public function getUrl($size='')
+    {
+        $path = trim(config('zephyr.files_path'), '/');
+        return Storage::disk('public')->url($path . '/' . $this->getName($size));
+    }
+
+    public function getName($size='')
+    {
+        if ($size) {
+            $pathInfo = pathinfo($this->fullname);
+            return $pathInfo['filename'] . '-' . $size . '.' . $pathInfo['extension'];
+        } else {
+            return $this->fullname;
+        }
     }
 
     public function isImage()
@@ -80,21 +107,27 @@ class CmsFile extends Model
         return 'storage' . config('zephyr.files_path') . '/' . $file;
     }
 
-    public static function getFile($file){
+    /**
+     * @param $file
+     * @return CmsFile
+     * @throws \Exception
+     */
+    public static function getFile($file)
+    {
         $fileNameInfo = pathinfo($file);
 
-        $parts = explode ('_',$fileNameInfo['filename']);
+        $parts = explode('_', $fileNameInfo['filename']);
 
-        $identifier = $parts[count($parts)-1];
-        $size = substr($identifier,14);
-        $identifier = substr($identifier,0,13);
+        $identifierAndSize = $parts[count($parts) - 1];
+        $size = substr($identifierAndSize, 14);
+        $identifier = substr($identifierAndSize, 0, 13);
 
-        if (strlen($identifier)==13) {
+        if (strlen($identifier) == 13) {
 
             $file = CmsFile::where('identifier', $identifier)->first();
 
             if ($file) {
-                if (strlen($size)>0) {
+                if (strlen($size) > 0) {
                     $file->size = $size;
                 }
             }
