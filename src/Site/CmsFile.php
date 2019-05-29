@@ -3,6 +3,7 @@
 namespace Sandbox\Cms\Site;
 
 use Illuminate\Database\Eloquent\Model;
+use \Storage;
 
 /**
  * Class CmsFile
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  *
  * @property string size
+ * @property string fullname
  */
 class CmsFile extends Model
 {
@@ -34,14 +36,21 @@ class CmsFile extends Model
         return '/cms-files/view/' . $this->addSize('thumbnail') ;
     }
 
-    public function getPath(){
+    public function getPath()
+    {
         return 'storage' . config('zephyr.files_path') . '/' . $this->fullname;
     }
 
-    public function getAbsolutePath()
+    public function getAbsolutePath($size='')
     {
+        $fullName = $this->fullname;
+        if ($size) {
+            $pathInfo = pathinfo($fullName);
+            $fullName = $pathInfo['filename'] . '-' . $size . '.' . $pathInfo['extension'];
+        }
+
         $path = trim(config('zephyr.files_path'), '/');
-        return Storage::disk('public')->path($path . '/' . $this->fullname);
+        return Storage::disk('public')->path($path . '/' . $fullName);
     }
 
     public function getUrl($size='')
