@@ -34,7 +34,8 @@
                     <tbody class="files" v-show="files && files.length && !loadingFiles">
                         <tr v-for="file in files" v-if="file">
                             <td>{{file.id}}</td>
-                            <td><img :src="file['url-thumbnail']" alt="" width="48px"> {{file.fullname}}</td>
+                            <td v-if="file.type === 'file'"><img :src="file['url-thumbnail']" alt="" width="48px"> {{file.fullname}}</td>
+                            <td v-if="file.type === 'link'"><a target="_blank" :href="file.link_url">{{file.link_url}}</a></td>
                             <td style="text-align: right">
                                 <button class="cms-btn btn-sm" v-if="hasChoose" @click.prevent="chooseFile(file)">Choose</button>
                                 <button class="cms-btn btn-sm" @click.prevent="deleteFile(file.id)"><i class="icon ion-md-trash"></i></button>
@@ -48,15 +49,36 @@
                 <pagination v-model="page" :records="recordsCount" :options="paginationOption" :per-page="100" @paginate="pageChanged"></pagination>
             </div>
         </div>
-        <b-modal id="upload-modal" ref="upload-modal">
-            <div slot="modal-header">Drop files</div>
-            <vue-dropzone ref="myVueDropzone" id="dropzone"
-                          v-on:vdropzone-queue-complete="queueComplete"
-                          v-on:vdropzone-sending="sendingEvent"
-                          :options="dropzoneOptions">
-            </vue-dropzone>
-            <div slot="modal-footer">
-                <b-button @click="processQueue">Upload</b-button>
+        <b-modal id="upload-modal" size="lg" ref="upload-modal" hide-footer>
+            <div slot="modal-header">Upload file</div>
+            <div class="row">
+                <div class="col-6">
+                    <b-form-group>
+                        <vue-dropzone ref="myVueDropzone" id="dropzone"
+                                      v-on:vdropzone-queue-complete="queueComplete"
+                                      v-on:vdropzone-sending="sendingEvent"
+                                      :options="dropzoneOptions">
+                        </vue-dropzone>
+                    </b-form-group>
+                    <b-form-group>
+                        <b-button @click="processQueue">Upload</b-button>
+                    </b-form-group>
+                </div>
+                <div class="col-6 border-left">
+                    <form @submit.prevent="createLink()">
+                        <b-form-group>
+                            <label>Enter Link</label>
+                            <b-form-input
+                                v-model="linkForm.url"
+                                required
+                                placeholder="Enter link"
+                            ></b-form-input>
+                        </b-form-group>
+                        <b-form-group >
+                            <b-button class="float-right" type="submit">Submit</b-button>
+                        </b-form-group>
+                    </form>
+                </div>
             </div>
         </b-modal>
 
@@ -90,11 +112,10 @@
                 >
                     {{ areAllRolesSelected ? 'Un-select All' : 'Select All' }}
                 </b-form-checkbox>
-                <b-button class="float-right" @click="addDirectoryPermissions" variant="primary">Save</b-button>
+                <b-button class="float-right" @click="addDirectoryPermissions" variant="primary">{{savingPermission ? 'Saving' : 'Save'}}</b-button>
 
                 <b-form-checkbox-group
                     v-model="selectedRoles"
-
                     name="selected_roles"
                     aria-label="Roles"
                     switches
@@ -107,7 +128,7 @@
                 </b-form-checkbox-group>
             </b-form-group>
             <div slot="modal-footer">
-                <b-button @click="addDirectoryPermissions" variant="primary">Save</b-button>
+                <b-button @click="addDirectoryPermissions" variant="primary">{{savingPermission ? 'Saving' : 'Save'}}</b-button>
             </div>
         </b-modal>
     </div>
@@ -123,9 +144,11 @@
     import _chunk from 'lodash/chunk'
     import RoleService from '../../services/roles'
     import _map from 'lodash/map'
+    import BFormCheckboxGroup from 'bootstrap-vue/src/components/form-checkbox/form-checkbox-group'
 
     export default {
         components: {
+            BFormCheckboxGroup,
             vueDropzone: vue2Dropzone,
         },
         props: {
@@ -137,6 +160,7 @@
                 files: [],
                 recordsCount: 0,
                 page: 1,
+                savingPermission: false,
                 selectedDirectoryNode: {
                     id: null,
                     title: null
@@ -147,6 +171,9 @@
                     directory : {
                         title : null
                     }
+                },
+                linkForm: {
+                    url: null
                 },
                 pageListVisible:true,
                 loadingFiles: false,
@@ -184,6 +211,15 @@
             this.getRoles()
         },
         methods : {
+            createLink(){
+                let node = this.selectedDirectoryNode.id;
+                this.linkForm.node = node;
+                FileService.createLink(this.linkForm).then( response => {
+                    this.linkForm.url = null
+                    this.refreshFiles()
+                    this.$refs['upload-modal'].hide()
+                })
+            },
             /* Directories */
             getTree(goBackToRoot = false) {
                 FileService.getTree().then(response => {
@@ -253,8 +289,10 @@
                 this.getDirectoryPermissions()
             },
             addDirectoryPermissions() {
+                this.savingPermission = true;
                 FileService.addDirectoryPermissions(this.selectedDirectoryNode.id, this.selectedRoles).then(response => {
                     this.getDirectoryPermissions()
+                    this.savingPermission = false
                     this.$refs['add-directory-permissions'].hide()
                 })
             },

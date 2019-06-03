@@ -87,7 +87,9 @@ class FileController extends AbstractController {
 
     public function deleteFile(Request $request, $fileId){
         $file = CmsFile::find($fileId);
-        Storage::delete('public' . config('zephyr.files_path') . '/' . $file->fullname);
+        if($file->type === 'file'){
+            Storage::delete('public' . config('zephyr.files_path') . '/' . $file->fullname);
+        }
 
         $file->delete();
         return response()->json(['success' => true]);
@@ -168,6 +170,10 @@ class FileController extends AbstractController {
     {
         $permissions = $request->permissions;
         $node->permissions()->sync($permissions);
+        foreach($node->descendants as $child){
+            $child->permissions()->sync($permissions);
+        }
+
         return response()->json(compact('permissions'));
     }
 
@@ -181,5 +187,25 @@ class FileController extends AbstractController {
     {
         $result = $node->permissions()->detach($permission);
         return response()->json(compact('result'));
+    }
+
+    public function createLink(Request $request)
+    {
+        $request->validate([ 'url' => 'required' , 'node' => 'required']);
+
+        $node = CmsFileFolder::find($request->node);
+
+        $cmsFile = new CmsFile;
+        $cmsFile->link_url = $request->url ;
+        $cmsFile->type = 'link';
+
+        $cmsFile->save();
+
+        $cmsFileFolderFile = new CmsFileFolderFile;
+        $cmsFileFolderFile->folder_id = $node->id;
+        $cmsFileFolderFile->file_id = $cmsFile->id;
+        $cmsFileFolderFile->save();
+
+        return response()->json(['success' => true]);
     }
 }

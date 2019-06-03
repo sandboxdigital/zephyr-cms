@@ -54,6 +54,7 @@ Route::namespace('Sandbox\Cms\Controllers')
             Route::post('/directory/{node}/update', 'FileController@updateDirectory');
             Route::post('/directory/{node}/delete', 'FileController@deleteDirectory');
             Route::post('/upload', 'FileController@uploadFiles');
+            Route::post('/create-link', 'FileController@createLink');
             Route::get('/directory/{node}/permissions', 'FileController@directoryPermissions');
             Route::post('/directory/{node}/permissions', 'FileController@addDirectoryPermissions');
             Route::post('/directory/{node}/permissions/{permission}/delete', 'FileController@deleteDirectoryPermission');

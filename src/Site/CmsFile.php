@@ -107,7 +107,20 @@ class CmsFile extends Model
 
     public function addSize($size){
         $pathInfo = pathinfo($this->fullname);
-        return $pathInfo['filename'] . '-' . $size . '.' . $pathInfo['extension'];
+        if (isset($pathinfo['extension']))
+            return $pathInfo['filename'] . '-' . $size . '.' . $pathInfo['extension'];
+        else
+            return '';
+
+    }
+
+    public function setLinkUrlAttribute($value){
+        $arrParsedUrl = parse_url($value);
+        if (isset($arrParsedUrl['scheme']) && ($arrParsedUrl['scheme'] === "http" || $arrParsedUrl['scheme'] === "https")){
+            $this->attributes['link_url'] = $value;
+        } else{
+            $this->attributes['link_url'] = 'https://' . $value;
+        }
     }
 
 

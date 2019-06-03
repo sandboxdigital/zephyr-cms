@@ -2,6 +2,9 @@ import axios from 'axios';
 
 
 const FileService = {
+    createLink(data){
+        return axios.post('/cms-api/files/create-link', data);
+    },
     getFile(id){
       return axios.get('/cms-api/files/file/' + id);
     },
