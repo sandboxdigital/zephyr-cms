@@ -144,11 +144,9 @@
     import _chunk from 'lodash/chunk'
     import RoleService from '../../services/roles'
     import _map from 'lodash/map'
-    import BFormCheckboxGroup from 'bootstrap-vue/src/components/form-checkbox/form-checkbox-group'
 
     export default {
         components: {
-            BFormCheckboxGroup,
             vueDropzone: vue2Dropzone,
         },
         props: {

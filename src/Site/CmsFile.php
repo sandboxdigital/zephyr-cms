@@ -107,10 +107,11 @@ class CmsFile extends Model
 
     public function addSize($size){
         $pathInfo = pathinfo($this->fullname);
-        if (isset($pathinfo['extension']))
+
+        if (isset($pathInfo['extension']))
             return $pathInfo['filename'] . '-' . $size . '.' . $pathInfo['extension'];
         else
-            return '';
+            return $pathInfo['filename'] . '-' . $size;
 
     }
 
