@@ -1,4 +1,8 @@
-
+<style>
+    .VuePagination__count{
+        display: none;
+    }
+</style>
 <template>
     <div>
         <div class="zph-cms-row">
@@ -18,9 +22,7 @@
                 <a @click.prevent="pageListVisible = !pageListVisible;" class="cms-btn-icon toggle-pages"><i class="icon" :class="{'ion-md-arrow-dropleft':pageListVisible,'ion-md-arrow-dropright':!pageListVisible}"></i></a>
             </div>
             <div id="files-table-container" class="zph-page-form" :class="{'list-hidden':!pageListVisible}">
-                <div class="clearfix">
-
-                </div>
+                <div class="clearfix"></div>
                 <table class="cms-table">
                     <thead>
                         <tr>
@@ -43,7 +45,7 @@
                     <span v-show="loadingFiles">Loading...</span>
 
                 </table>
-                <pagination v-model="page" :records="recordsCount" :per-page="100" @paginate="pageChanged"></pagination>
+                <pagination v-model="page" :records="recordsCount" :options="paginationOption" :per-page="100" @paginate="pageChanged"></pagination>
             </div>
         </div>
         <b-modal id="upload-modal" ref="upload-modal">
@@ -115,7 +117,6 @@
     import Vue from 'vue'
     import FileService from '../../services/file'
     import vue2Dropzone from 'vue2-dropzone'
-    import Pagination from 'vue-pagination-2';
     import 'vue2-dropzone/dist/vue2Dropzone.min.css'
     import Events from '../../core/event-bus'
     import $ from 'jquery'
@@ -126,7 +127,6 @@
     export default {
         components: {
             vueDropzone: vue2Dropzone,
-            pagination: Pagination
         },
         props: {
             hasChoose: Boolean
@@ -153,7 +153,8 @@
                 selectedRoles: [],
                 roles : [],
                 loadingRoles: false,
-                areAllRolesSelected: false
+                areAllRolesSelected: false,
+                paginationOption: { theme: 'bootstrap4'}
             }
         },
         computed: {
@@ -161,13 +162,12 @@
                 return {
                     url: '/cms-api/files/upload',
                     thumbnailWidth: 150,
-                    maxFilesize: 0.5,
                     autoProcessQueue: false,
                     headers: { 'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content') },
                     uploadMultiple: true,
                     addRemoveLinks: true,
                     maxFiles: 5,
-                    maxFilesize: 10
+                    maxFilesize: 20
                 }
             }
         },
@@ -176,7 +176,7 @@
 
 
             Events.$on('fm-change-directory', node => {
-                console.log('Event: directory changed')
+                // console.log('Event: directory changed')
                 this.getFiles(node.id)
                 this.selectedDirectoryNode = node;
             })
@@ -220,9 +220,12 @@
                 this.$emit('change', file)
             },
             deleteFile(id){
-                FileService.deleteFile(id).then(response => {
-                    this.refreshFiles()
-                })
+                var r = confirm("Are you sure you want to delete this file?");
+                if (r == true) {
+                    FileService.deleteFile(id).then(response => {
+                        this.refreshFiles()
+                    })
+                }
             },
             getFiles(id){
                 this.loadingFiles = true;
@@ -335,7 +338,7 @@
     }
 
     .zph-page-list{
-        max-width: 200px;
+        max-width: 250px;
         flex: 0 0 25%;
         overflow-x: scroll;
     }

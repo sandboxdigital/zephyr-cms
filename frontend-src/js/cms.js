@@ -21,6 +21,8 @@ Vue.use(VeeValidate,{
     fieldsBagName: 'veeFields'
 });
 Vue.use(VeeValidateLaravel);
+import Pagination from 'vue-pagination-2';
+Vue.component('pagination', Pagination);
 
 
 import 'bootstrap-vue/dist/bootstrap-vue.css'
