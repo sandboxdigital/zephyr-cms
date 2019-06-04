@@ -1,9 +1,9 @@
 <template>
     <li :class="{'folder':isFolder}" :data-id="model.id">
         <label :class="{'open': open}" @click="menuItemClick">
-            <a @click.prevent="toggle" class="toggle folder" v-if="isFolder"></a>
-            <a class="toggle file" v-if="!isFolder"></a>
-            <a>{{ model.name }}</a>
+            <a @click.prevent="toggle" class="toggle oi oi-folder" v-if="isFolder"></a>
+            <a class="toggle oi oi-file" v-if="!isFolder"></a>
+            <a class="title">{{ model.name }}</a>
             <!--<span v-if="isFolder">{{ isFolder ? model.children.length : '' }}</span>-->
             <!--<a class="cms-btn-icon"><span class="oi oi-ellipses"></span></a>-->
         </label>

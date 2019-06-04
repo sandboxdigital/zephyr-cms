@@ -1,18 +1,12 @@
 <template>
     <div class="cms-row cms-field-group">
-        <!--<div class="cms-label"><label>{{label}}</label></div>-->
-
         <div class="cms-field">
             <div :id="elPath+'-group'" class="CMSGroup">
                 <div class="cms-group-title" :id="elPath+'-title'">
                     <label>{{label}}</label>
-                <!--<a href="#" class="CMSGroupAddTop CMSIconAdd">Add</a>-->
-                <!--<a href="#" class="CMSGroupCollapse CMSIconHide">Collapse all</a>-->
-                <!--<a href="#" class="CMSGroupExpand CMSIconShow">Expand all</a>-->
-                           <!--<a href="#" class="CMSGroupPaste CMSIconPaste">Paste</a>-->
-                               <!--<a href="#" class="CMSGroupCopy CMSIconCopy">Copy</a>-->
                     <div class="cms-group-toolbar">
-                        <a href="" class="cms-btn-icon" @click.prevent @mouseenter="addHover" @mouseleave="addLeave"><span class="oi oi-plus"></span></a>
+                        <button class="cms-btn-icon" :class="{'diag':!allVisible}" @click.prevent="hideShowAll()"><span class="oi oi-eye"></span></button>
+                        <button class="cms-btn-icon" @mouseenter="addHover" @mouseleave="addLeave"><span class="oi oi-plus"></span></button>
                     </div>
                 </div>
                 <div class="cms-group-body" :id="elPath">
@@ -24,9 +18,8 @@
                 </div>
 
                 <div class="cms-group-footer" :id="elPath+'-footer'">
-                    <!--<div class="left"> &gt; {{label}}</div>-->
                     <div class="cms-group-toolbar">
-                        <a class="cms-btn-icon bottom" @mouseenter="addHover" @mouseleave="addLeave"><span class="oi oi-plus"></span></a>
+                        <button class="cms-btn-icon bottom" @mouseenter="addHover" @mouseleave="addLeave"><span class="oi oi-plus"></span></button>
                     </div>
                 </div>
 
@@ -69,7 +62,9 @@ export default {
             ],
 
             children : [
-            ]
+            ],
+
+            allVisible : true
         }
     },
 
@@ -108,8 +103,8 @@ export default {
         },
 
         loadData (data) {
-            console.log('Group->loadData');
-            console.log(data);
+            // console.log('Group->loadData');
+            // console.log(data);
 
             for(let option of data.options) {
                 this.addOption(option.id, option.data)
@@ -117,8 +112,7 @@ export default {
         },
 
         addHover (ev) {
-
-            if (ev.target.tagName === 'A') {
+            if (ev.target.tagName === 'A' || ev.target.tagName === 'BUTTON') {
                 let $a = $(ev.target);
                 this.menuAlignBottom = $a.hasClass('bottom');
             }
@@ -131,6 +125,16 @@ export default {
             this.hoverTo = setTimeout(() => {
                 this.showMenu = false;
             },200)
+        },
+
+        hideShowAll () {
+            this.allVisible = !this.allVisible;
+
+            for (let compKey in this.$refs) {
+                let comp = this.$refs[compKey][0];
+                comp.visible = this.allVisible;
+            }
+
         },
 
         optionDelete (option) {
@@ -153,7 +157,7 @@ export default {
         },
 
         addOption (id, data) {
-            console.log('Group->addOption '+id);
+            // console.log('Group->addOption '+id);
             let spec = this.getOption(id);
 
             if (spec) {

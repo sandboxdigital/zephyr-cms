@@ -1,10 +1,13 @@
 <template>
     <div class="cms-form">
         <div v-for="child in fields" v-bind:is="child.component" v-bind:field="child" v-bind:ref="child.ref" :key="child.ref"></div>
-        <div class="cms-row cms-row-buttons" v-if="link_id && !hideSave">
-            <button class="cms-btn" @click="save">Save</button>
-            <!--<button class="cms-btn cms-btn-secondary" @click="saveAndClose">Save &amp; Close</button>-->
-            <span class="cms-message" v-if="message">{{message}}</span>
+
+        <div class="cms-row-buttons-fixed" v-fixed-in-parent>
+            <div class="cms-row cms-row-buttons" v-if="link_id && !hideSave">
+                <button class="cms-btn" @click="save">Save</button>
+                <!--<button class="cms-btn cms-btn-secondary" @click="saveAndClose">Save &amp; Close</button>-->
+                <span class="cms-message" v-if="message">{{message}}</span>
+            </div>
         </div>
         <div v-if="!templateId">
             <p>No content template defined</p>
@@ -46,7 +49,6 @@
                 this.hideSave = true;
 
                 let form = $el.parents('form');
-                console.log(form);
 
                 if (form.length) {
                     form.on('submit',()=>{

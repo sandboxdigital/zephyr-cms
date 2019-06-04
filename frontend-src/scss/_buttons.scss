@@ -24,6 +24,7 @@ $w:30px;
     color: #666;
     border-radius: 0px;
     cursor: pointer;
+    border: none;
 
     &:hover {
         background-color: rgba(0,0,0,0.05);
@@ -65,4 +66,23 @@ $w:30px;
         color:white;
         @include vertical-center;
     }
+}
+
+.diag {
+    position: relative;
+}
+.diag:before {
+    position: absolute;
+    content: "";
+    left: 5px;
+    top: 50%;
+    right: 5px;
+    border-top: 1px solid;
+    border-color: inherit;
+
+    -webkit-transform:rotate(-45deg);
+    -moz-transform:rotate(-45deg);
+    -ms-transform:rotate(-45deg);
+    -o-transform:rotate(-45deg);
+    transform:rotate(-45deg);
 }

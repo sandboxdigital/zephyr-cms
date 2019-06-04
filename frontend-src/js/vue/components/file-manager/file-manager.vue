@@ -34,7 +34,7 @@
                     <tbody class="files" v-show="files && files.length && !loadingFiles">
                         <tr v-for="file in files" v-if="file">
                             <td>{{file.id}}</td>
-                            <td v-if="file.type === 'file'"><img :src="file['url-thumbnail']" alt="" width="48px"> {{file.fullname}}</td>
+                            <td v-if="file.type === 'file'"><img :src="file['url-thumbnail']" alt="" width="48px"> {{file.name}}</td>
                             <td v-if="file.type === 'link'"><a target="_blank" :href="file.link_url">{{file.link_url}}</a></td>
                             <td style="text-align: right">
                                 <button class="cms-btn btn-sm" v-if="hasChoose" @click.prevent="chooseFile(file)">Choose</button>

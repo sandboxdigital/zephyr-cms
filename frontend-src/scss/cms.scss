@@ -4,7 +4,8 @@
 
 $button-radius: 5px;
 $border-radius: 0px;
-$text-radius: 2px;
+$text-radius: 0px;
+$inputFontSize:.9rem;
 
 $colour-input-text: #000000;
 
@@ -38,6 +39,10 @@ $colour-input-text: #000000;
     .nav-link.active {
         background-color: #f9f9f9;
         border-color: #dee2e6 #dee2e6 #f9f9f9;
+    }
+
+    .cms-nav-tabs-buttons {
+        padding: 6px;
     }
 }
 
@@ -498,3 +503,5 @@ body {
         min-height: calc(100vh - 180px);
     }
 }
+
+@import "themes/light";

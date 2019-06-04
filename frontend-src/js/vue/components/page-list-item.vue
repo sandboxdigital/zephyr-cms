@@ -1,9 +1,9 @@
 <template>
-    <li :class="{'folder':isFolder}" :data-id="model.id">
+    <li :class="{'folder':isFolder,'selected':isSelected}" :data-id="model.id">
         <label :class="{'open': open}" @click="pageItemClick">
-            <a @click.prevent="toggle" class="toggle folder" v-if="isFolder"></a>
-            <a class="toggle file" v-if="!isFolder"></a>
-            <a>{{ model.name }}</a>
+            <a @click.prevent="toggle" class="toggle oi oi-folder" v-if="isFolder"></a>
+            <a class="toggle oi oi-file" v-if="!isFolder" ></a>
+            <a class="title">{{ model.name }}</a>
             <!--<span v-if="isFolder">{{ isFolder ? model.children.length : '' }}</span>-->
             <!--<a class="cms-btn-icon"><span class="oi oi-ellipses"></span></a>-->
         </label>
@@ -12,6 +12,7 @@
                     v-for="(model, index) in model.children"
                     :key="index"
                     :model="model"
+                    :currentItem="currentItem"
                     v-on:page-selected="pageSelect">
             </cms-page-list-item>
             <!--<li class="add" @click="addChild"><label>Add New Item</label></li>-->
@@ -20,13 +21,13 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import FormHelper from '../helpers/form'
-    import Events from '../core/event-bus'
-
     export default {
 
         props: {
+            currentItem: {
+                type:Object,
+                defaultValue: {id: 0}
+            },
             model: Object
         },
         data () {
@@ -37,6 +38,14 @@
         computed: {
             isFolder () {
                 return this.model.children && this.model.children.length;
+            },
+
+            isSelected () {
+                if (this.currentItem) {
+                    return this.model.id === this.currentItem.id;
+                } else {
+                    return false;
+                }
             }
         },
         created () {

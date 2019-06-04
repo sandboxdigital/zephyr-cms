@@ -14,18 +14,18 @@ import VeeValidate from 'vee-validate';
 import VeeValidateLaravel from 'vee-validate-laravel';
 
 
-Vue.use(VueQuillEditor, /* { default global options } */);
+Vue.use(VueQuillEditor);
 Vue.use(BootstrapVue);
 Vue.use(VeeValidate,{
     errorBagName: 'veeErrors',
     fieldsBagName: 'veeFields'
 });
 Vue.use(VeeValidateLaravel);
+
 import Pagination from 'vue-pagination-2';
 Vue.component('pagination', Pagination);
 
-
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 import CmsContentForm from './vue/components/content-form';
 import CmsPageForm from './vue/components/page-form';
@@ -71,6 +71,8 @@ Vue.component("google-map", GoogleMap);
 
 import FileManagerPlug from './vue/plugins/file-manager';
 Vue.use(FileManagerPlug);
+
+import './vue/directives/index';
 
 
 if (jQuery('#cms').length) {

@@ -5,7 +5,7 @@ const mixin = {
 
 
         createFields (fields) {
-            console.log('->createFields');
+            // console.log('->createFields');
 
             for (let field of fields) {
                 this.createField(field);
@@ -13,7 +13,7 @@ const mixin = {
         },
 
         loadFieldsData(data) {
-            console.log('->loadFieldsData');
+            // console.log('->loadFieldsData');
             for (let fieldData of data) {
                 this.loadFieldData(fieldData);
             }
@@ -21,7 +21,7 @@ const mixin = {
 
         loadFieldData(data) {
             let key = data.id;
-            console.log('->loadChildData for:' + data.id);
+            // console.log('->loadChildData for:' + data.id);
             let comp = this.getFieldComponent(data.id);
 
             if (comp) {

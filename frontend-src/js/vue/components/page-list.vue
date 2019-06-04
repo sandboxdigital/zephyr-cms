@@ -2,6 +2,7 @@
     <div>
         <ul class="list-accordion" id="sortable">
             <cms-page-list-item
+                    :currentItem="currentItem"
                     :model="page"
                     v-for="page in treeData"
                     :key="page.id"
@@ -60,6 +61,10 @@
     }
 
     export default {
+
+        props : {
+            currentItem:{}
+        },
 
         data () {
             return {

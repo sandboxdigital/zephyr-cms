@@ -22,10 +22,12 @@
                     </div>
                 </cms-field-row>
 
-                <div class="cms-row cms-row-buttons">
-                    <button class="cms-btn" @click.prevent="update">Save</button>
-                    <button class="cms-btn cms-btn-secondary" @click.prevent="remove" v-if="page.id">Delete</button>
-                    <button class="cms-btn float-right" @click.prevent="subpage()" v-if="page.id">Add sub-page</button>
+                <div class="cms-row-buttons-fixed" v-fixed-in-parent>
+                    <div class="cms-row cms-row-buttons">
+                        <button class="cms-btn" @click.prevent="update">Save</button>
+                        <button class="cms-btn cms-btn-secondary" @click.prevent="remove" v-if="page.id">Delete</button>
+                        <button class="cms-btn float-right" @click.prevent="subpage()" v-if="page.id">Add sub-page</button>
+                    </div>
                 </div>
             </div>
         </div>

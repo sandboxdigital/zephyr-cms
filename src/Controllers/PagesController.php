@@ -16,9 +16,6 @@ class PagesController extends AbstractController {
 
     public function add(Request $request)
     {
-        \Log::debug('add');
-        \Log::debug($request->all());
-
         $page = new CmsPage ($request->all());
         $page->parent_id = $request->get('parent_id');
         $page->path = str_slug($request->get('name'));

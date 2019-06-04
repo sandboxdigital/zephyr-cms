@@ -45,14 +45,11 @@ export default {
             this.loadData(this.field.data)
         }
 
-        let quill = this.$refs.quillEditor.quill
+        let quill = this.$refs.quillEditor.quill;
 
         $( this.$el ).find( '.ql-picker-options .ql-picker-item').click(function() {
             quill.format('header2', $(this).data('value'));
         });
-    },
-
-    computed : {
     },
 
     methods : {

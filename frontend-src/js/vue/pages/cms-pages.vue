@@ -5,12 +5,13 @@
             <cms-page-list
                     v-if="pageListVisible"
                     ref="pages"
-                    v-on:page-selected="pageSelected"></cms-page-list>
+                    v-on:page-selected="pageSelected"
+                    :currentItem="currentPage"></cms-page-list>
             <a @click.prevent="togglePageList" class="cms-btn-icon toggle-pages"><i class="icon" :class="{'ion-md-arrow-dropleft':pageListVisible,'ion-md-arrow-dropright':!pageListVisible}"></i></a>
         </div>
         <div class="zph-page-form" :class="{'list-hidden':!pageListVisible}">
-            <div>
-                <ul class="nav nav-tabs cms-nav-tabs">
+            <div class="cms-nav-tabs clearfix" >
+                <ul class="nav nav-tabs float-left">
                     <li class="nav-item">
                         <a class="nav-link" :class="{active:tab==='page'}" href="#" @click.prevent="show('page')">Page</a>
                     </li>
@@ -21,6 +22,10 @@
                         <a class="nav-link" :class="{active:tab==='meta'}" href="#" @click.prevent="show('meta')">Meta</a>
                     </li>
                 </ul>
+                <div class="float-right cms-nav-tabs-buttons">
+                    <code>{{currentUrl}}</code>
+                    <a :href="currentUrl" target="_blank" class="cms-btn-icon"><i class="oi oi-external-link"></i></a>
+                </div>
             </div>
             <div v-show="tab==='page'" >
                 <div class="cms-form-container">
@@ -55,6 +60,17 @@
             }
         },
 
+        computed : {
+            currentUrl () {
+                if (this.currentPage.url === '/ROOT') {
+                    return '/'
+                } else {
+                    return this.currentPage.url;
+                }
+
+            }
+        },
+
         created () {
 
         },
@@ -64,7 +80,6 @@
 
         methods : {
             pageSelected (page) {
-
                 // if (this.tab === 'page') {
                     this.$refs.page.loadPage(page);
                     this.$refs.meta.loadPage(page);

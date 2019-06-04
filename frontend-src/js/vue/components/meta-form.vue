@@ -10,9 +10,10 @@
                     <textarea name="meta_description" type="text" id="meta_description"  v-model="page.meta_description" class="cms-text"></textarea>
                 </cms-field-row>
 
-
-                <div class="cms-row cms-row-buttons">
-                    <button class="cms-btn" @click.prevent="update">Save</button>
+                <div class="cms-row-buttons-fixed" v-fixed-in-parent>
+                    <div class="cms-row cms-row-buttons">
+                        <button class="cms-btn" @click.prevent="update">Save</button>
+                    </div>
                 </div>
             </div>
         </div>

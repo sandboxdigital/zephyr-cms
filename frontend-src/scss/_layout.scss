@@ -80,10 +80,18 @@
         margin-bottom: 0;
         margin-top: 15px;
         background-color: #efefef;
+        width: 100%;
 
         .cms-btn {
-            background-color: #dfdfdf;
+            background-color: #ccc;
         }
+    }
+
+    .cms-row-buttons-fixed {
+        position: fixed;
+        bottom: 0;
+        z-index: 100;
+        width: inherit;
     }
 
     * {
