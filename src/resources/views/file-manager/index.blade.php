@@ -9,7 +9,8 @@
 
     <div class="row">
         <div class="col-12">
-            <file-manager></file-manager>
+            <file-manager :dz-option="{maxFilesize: {{ config('')  }}"></file-manager>
+            <file-manager :dz-option="{maxFilesize: {{ config('zephyr.file.max_upload_size')  }}}"></file-manager>
         </div>
     </div>
 @endsection

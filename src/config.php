@@ -15,5 +15,9 @@ return [
             'width' => 48,
             'height' => 48
         ]
+    ],
+
+    'file' => [
+        'max_upload_size' => 20
     ]
 ];

@@ -150,7 +150,8 @@
             vueDropzone: vue2Dropzone,
         },
         props: {
-            hasChoose: Boolean
+            hasChoose: Boolean,
+            dzOption: Object
         },
         data () {
             return {
@@ -184,7 +185,7 @@
         },
         computed: {
             dropzoneOptions(){
-                return {
+                let defaultOptions = {
                     url: '/cms-api/files/upload',
                     thumbnailWidth: 150,
                     autoProcessQueue: false,
@@ -194,6 +195,12 @@
                     maxFiles: 5,
                     maxFilesize: 20
                 }
+
+                if(this.dzOption && typeof this.dzOption === 'object'){
+                    return Object.assign({}, defaultOptions, this.dzOption)
+                }
+
+                return defaultOptions
             }
         },
 
