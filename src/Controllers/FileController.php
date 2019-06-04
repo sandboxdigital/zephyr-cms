@@ -41,6 +41,10 @@ class FileController extends AbstractController {
         $new->save();
 
         $node->appendNode($new);
+
+        $parentPermissions = $node->permissions->pluck('id');
+        $new->permissions()->sync($parentPermissions);
+
         return $node;
     }
 
