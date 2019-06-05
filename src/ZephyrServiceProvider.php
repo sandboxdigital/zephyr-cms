@@ -79,6 +79,12 @@ class ZephyrServiceProvider extends ServiceProvider {
      */
     protected function mergeConfig(array $original, array $merging)
     {
+        // Don't merge jsFiles and cssFiles otherwise we get duplicates
+        $ignoreKeys = [
+            'cssFiles',
+            'jsFiles',
+        ];
+
         $array = array_merge($original, $merging);
         foreach ($original as $key => $value) {
             if (! is_array($value)) {
@@ -90,6 +96,12 @@ class ZephyrServiceProvider extends ServiceProvider {
             if (is_numeric($key)) {
                 continue;
             }
+            if (in_array($key, $ignoreKeys)) {
+                //dd($key);
+                //dd($array);
+                continue;
+            }
+
             $array[$key] = $this->mergeConfig($value, $merging[$key]);
         }
         return $array;

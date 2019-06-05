@@ -5,7 +5,7 @@
 </style>
 <template>
     <div>
-        <div class="zph-cms-row">
+        <div class="zph-cms-row zph-file-manager">
             <div class="zph-page-list" :class="{'list-hidden':!pageListVisible}">
                 <h5 v-if="pageListVisible">Directories</h5>
                 <div class="directory-actions" v-if="pageListVisible">
@@ -16,7 +16,7 @@
                 </div>
                 <div class="lists" v-if="pageListVisible">
                     <ul class="list-accordion" id="sortable">
-                        <child-menu :node="tree[0]" initial-state="open"></child-menu>
+                        <file-manager-child :node="tree[0]" initial-state="open"></file-manager-child>
                     </ul>
                 </div>
                 <a @click.prevent="pageListVisible = !pageListVisible;" class="cms-btn-icon toggle-pages"><i class="icon" :class="{'ion-md-arrow-dropleft':pageListVisible,'ion-md-arrow-dropright':!pageListVisible}"></i></a>
@@ -31,8 +31,8 @@
                             <th class="controls"><button class="cms-btn btn-sm float-right" v-b-modal.upload-modal><i class="icon ion-md-cloud-upload"></i> Upload</button></th>
                         </tr>
                     </thead>
-                    <tbody class="files" v-show="files && files.length && !loadingFiles">
-                        <tr v-for="file in files" v-if="file">
+                    <tbody class="files">
+                        <tr v-for="file in files" v-if="file" :key="file.id">
                             <td>{{file.id}}</td>
                             <td v-if="file.type === 'file'"><img :src="file['url-thumbnail']" alt="" width="48px"> {{file.name}}</td>
                             <td v-if="file.type === 'link'"><a target="_blank" :href="file.link_url">{{file.link_url}}</a></td>
@@ -41,9 +41,13 @@
                                 <button class="cms-btn btn-sm" @click.prevent="deleteFile(file.id)"><i class="icon ion-md-trash"></i></button>
                             </td>
                         </tr>
+                        <tr v-if="files && files.length === 0 && !loadingFiles">
+                            <td colspan="4">There are no files</td>
+                        </tr>
+                        <tr v-if="loadingFiles">
+                            <td colspan="4">Loading...</td>
+                        </tr>
                     </tbody>
-                    <span v-show="files && files.length === 0 && !loadingFiles" class="ml-3">There's no files</span>
-                    <span v-show="loadingFiles">Loading...</span>
 
                 </table>
                 <pagination v-model="page" :records="recordsCount" :options="paginationOption" :per-page="100" @paginate="pageChanged"></pagination>
@@ -194,7 +198,7 @@
                     addRemoveLinks: true,
                     maxFiles: 5,
                     maxFilesize: 20
-                }
+                };
 
                 if(this.dzOption && typeof this.dzOption === 'object'){
                     return Object.assign({}, defaultOptions, this.dzOption)
@@ -209,10 +213,10 @@
 
             Events.$on('fm-change-directory', node => {
                 // console.log('Event: directory changed')
-                this.getFiles(node.id)
+                this.getFiles(node.id);
                 this.selectedDirectoryNode = node;
-            })
-            this.getTree(true)
+            });
+            this.getTree(true);
             this.getRoles()
         },
         methods : {
@@ -220,8 +224,8 @@
                 let node = this.selectedDirectoryNode.id;
                 this.linkForm.node = node;
                 FileService.createLink(this.linkForm).then( response => {
-                    this.linkForm.url = null
-                    this.refreshFiles()
+                    this.linkForm.url = null;
+                    this.refreshFiles();
                     this.$refs['upload-modal'].hide()
                 })
             },
@@ -241,7 +245,7 @@
                 this.$refs['create-update-directory'].show()
             },
             createUpdateDirectory(){
-                this.$refs['create-update-directory'].hide()
+                this.$refs['create-update-directory'].hide();
                 FileService.createUpdateDirectory(this.selectedDirectoryNode.id, this.directoryCreate , this.form.directory).then(response => {
                     this.getTree();
                     this.form.directory.title = '';
@@ -249,7 +253,7 @@
             },
             deleteDirectory(){
                 var r = confirm("Are you sure you want to delete?");
-                if (r == true) {
+                if (r === true) {
                     FileService.deleteDirectory(this.selectedDirectoryNode.id).then(response => {
                         this.getTree();
                     })
@@ -262,7 +266,7 @@
             },
             deleteFile(id){
                 var r = confirm("Are you sure you want to delete this file?");
-                if (r == true) {
+                if (r === true) {
                     FileService.deleteFile(id).then(response => {
                         this.refreshFiles()
                     })
@@ -270,6 +274,7 @@
             },
             getFiles(id){
                 this.loadingFiles = true;
+                this.files = [];
                 FileService.getFiles(id).then(response => {
                     this.files = response.data;
                     this.paginate(response.data);
@@ -282,22 +287,22 @@
 
             /* Permissions */
             getDirectoryPermissions(){
-                this.loadingRoles = true
+                this.loadingRoles = true;
                 FileService.getDirectoryPermissions(this.selectedDirectoryNode.id).then(response => {
                     this.directoryPermissions = response.data.permissions;
-                    this.selectedRoles = _map(this.directoryPermissions, 'id')
+                    this.selectedRoles = _map(this.directoryPermissions, 'id');
                     this.loadingRoles = false
                 })
             },
             openAddDirectoryPermissionsModal() {
-                this.$refs['add-directory-permissions'].show()
+                this.$refs['add-directory-permissions'].show();
                 this.getDirectoryPermissions()
             },
             addDirectoryPermissions() {
                 this.savingPermission = true;
                 FileService.addDirectoryPermissions(this.selectedDirectoryNode.id, this.selectedRoles).then(response => {
-                    this.getDirectoryPermissions()
-                    this.savingPermission = false
+                    this.getDirectoryPermissions();
+                    this.savingPermission = false;
                     this.$refs['add-directory-permissions'].hide()
                 })
             },
@@ -309,7 +314,6 @@
                 })
             },
             toggleSelectedRoles(checked) {
-                console.log(checked     )
                 this.selectedRoles = checked ? _map(this.roles, 'id') : []
             },
 
@@ -325,8 +329,8 @@
             },
             queueComplete (file, response){
                 console.log('queue complete');
-                this.$refs['upload-modal'].hide()
-                this.refreshFiles()
+                this.$refs['upload-modal'].hide();
+                this.refreshFiles();
                 setTimeout(() =>{
                     this.resetUpload();
                 }, 1000)
@@ -334,8 +338,14 @@
             paginate(results){
                 this.page = 1;
                 this.recordsCount = results.length;
-                this.results = _chunk(results, 100);
-                this.files = this.results[this.page - 1];
+                this.results = _chunk(results, 50);
+
+                let files = this.results[this.page - 1];
+                if (files) {
+                    this.files = files;
+                } else {
+                    this.files = [];
+                }
             },
             pageChanged() {
                 this.files = this.results[this.page - 1];
@@ -345,49 +355,3 @@
         }
     }
 </script>
-<style lang="scss" scoped>
-    .directory-actions{
-        display: block;
-        width: 100%;
-        min-height: 30px;
-        a {
-            margin-right: 3px;
-        }
-    }
-    .lists{
-        display: block;
-    }
-    .files {
-        td {
-            height: 45px;
-            font-size: 14px;
-            max-height: 75px;
-            max-width: 500px;
-            text-overflow: ellipsis;
-            img {
-                max-height: 50px;
-            }
-        }
-    }
-    .cms-btn{
-        box-shadow: 0px 0px 1px 0px #a5a0a0;
-        margin: 3px 0;
-        color: #666;
-        display: inline-block;
-
-        &.btn-sm {
-            padding: 4px 8px !important;
-        }
-    }
-
-    .zph-page-list{
-        max-width: 250px;
-        flex: 0 0 25%;
-        overflow-x: scroll;
-    }
-    .zph-page-form {
-        max-width: 75%;
-        flex: 0 0 75%;
-    }
-
-</style>

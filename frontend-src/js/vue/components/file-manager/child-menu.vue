@@ -1,14 +1,17 @@
 <template>
     <li v-if="node" :class="{'selected' : isSelected, 'folder':hasChildren}">
         <label :class="{'open': open}" @click.prevent.stop="changeDirectory(node)">
-          <a @click.prevent="toggle" class="toggle oi oi-folder" v-if="hasChildren"></a>
-          <a class="toggle oi oi-folder" v-if="!hasChildren"></a>
+          <a @click.prevent="toggle" class="toggle" v-if="hasChildren">
+              <i class=" icon ion-ios-folder-open" v-if="open"></i>
+              <i class=" icon ion-ios-folder" v-if="!open"></i>
+          </a>
+          <span class="toggle" v-if="!hasChildren"><i class=" icon ion-ios-folder"></i></span>
           <a class="title">{{node.title}}</a>
         </label>
 
         <!--<a href="" @click.prevent.stop="changeDirectory(node)">{{node.title}}</a>-->
         <ul v-show="open" v-if="hasChildren" :class="{'open': open}">
-            <child-menu v-for="item in node.children" :key="item.id" :node="item" @click="changeDirectory(item.id)"></child-menu>
+            <file-manager-child v-for="item in node.children" :key="item.id" :node="item" @click="changeDirectory(item.id)"></file-manager-child>
         </ul>
     </li>
 </template>
@@ -50,7 +53,9 @@
                 }
             },
             changeDirectory(node){
-                Events.$emit('fm-change-directory', node)
+                Events.$emit('fm-change-directory', node);
+
+                this.open = true;
             }
         },
     }

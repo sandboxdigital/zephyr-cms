@@ -54,13 +54,13 @@ Vue.component("cms-field-row", CmsFieldRow);
 Vue.component("file-picker", FilePicker);
 
 /* File Manager */
-import ChildMenu from './vue/components/file-manager/child-menu';
+import FileManagerChild from './vue/components/file-manager/child-menu';
 import FileManager from './vue/components/file-manager/file-manager';
 
 Vue.component("cms-roles", CmsPageRoles);
 
 Vue.component("file-manager", FileManager);
-Vue.component("child-menu", ChildMenu);
+Vue.component("file-manager-child", FileManagerChild);
 
 // if (process.browser) {
 //     const VueQuillEditor = require('vue-quill-editor/dist/ssr')

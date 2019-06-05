@@ -14,9 +14,6 @@ class ContentTemplatesController extends AbstractController {
 
     public function add(Request $request)
     {
-        \Log::debug('add');
-        \Log::debug($request->all());
-
         $page = new CmsContentTemplate ($request->all());
         $page->save ();
 
@@ -28,9 +25,9 @@ class ContentTemplatesController extends AbstractController {
         $data = $template->toArray();
 
         if (empty($data['spec'])) {
-            $file = resource_path('cms-templates/'.$template->file);
+            $contentPath = config('zephyr.cms.jsonTemplatePath');
+            $file = $contentPath.'/'.$template->file;
             $data['spec'] = file_get_contents($file);
-
         }
 
         return $data;

@@ -1,8 +1,11 @@
 <template>
     <li :class="{'folder':isFolder,'selected':isSelected}" :data-id="model.id">
         <label :class="{'open': open}" @click="pageItemClick">
-            <a @click.prevent="toggle" class="toggle oi oi-folder" v-if="isFolder"></a>
-            <a class="toggle oi oi-file" v-if="!isFolder" ></a>
+            <a @click.prevent.stop="toggle()" class="toggle" v-if="isFolder">
+                <i class=" icon ion-ios-folder-open" v-if="open"></i>
+                <i class=" icon ion-ios-folder" v-if="!open"></i>
+            </a>
+            <span class="toggle" v-if="!isFolder"><i class="icon ion-ios-document"></i></span>
             <a class="title">{{ model.name }}</a>
             <!--<span v-if="isFolder">{{ isFolder ? model.children.length : '' }}</span>-->
             <!--<a class="cms-btn-icon"><span class="oi oi-ellipses"></span></a>-->
@@ -53,6 +56,7 @@
         },
         methods: {
             toggle () {
+                console.log('toggle');
                 if (this.isFolder) {
                     this.open = !this.open;
                 }
@@ -73,8 +77,9 @@
             },
 
             pageItemClick () {
-                console.log(this.model.id);
+                console.log('pageItemClick');
                 this.$emit('page-selected', this.model);
+                this.open = true;
             },
 
             pageSelect (page) {

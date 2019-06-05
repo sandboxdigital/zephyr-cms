@@ -7,6 +7,7 @@ class CmsHelper
 {
     public static function js()
     {
+
         $js = '';
         $port = config('zephyr.cms.port');
         $jsFiles = config('zephyr.cms.jsFiles');
