@@ -48,14 +48,12 @@
 
         methods: {
             toggle () {
-                if (this.hasChildren) {
-                    this.open = !this.open;
-                }
+                this.open = !this.open;
             },
             changeDirectory(node){
                 Events.$emit('fm-change-directory', node);
 
-                this.open = true;
+                // this.open = true;
             }
         },
     }
