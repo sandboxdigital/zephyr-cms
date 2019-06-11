@@ -2,14 +2,22 @@
 namespace Sandbox\Cms\Site;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\View;
 use Kalnoy\Nestedset\NodeTrait;
+use Sandbox\Cms\Content\Content;
+use Sandbox\Cms\Content\Model\CmsContent;
+use Sandbox\Cms\Site\Events\CmsPageSaved;
 
 /**
  * Class CmsPage
  * @package Sandbox\Cms\Site
  *
+ * @property int id
  * @property int parent_id
+ * @property string name
+ * @property string meta_description
  * @property string path
+ * @property string url
  *
  * @property  CmsPage[] ancestors
  */
@@ -32,9 +40,9 @@ class CmsPage extends Model
         'url'
     ];
 
-    public static function findByPath($path)
+    public function template ()
     {
-        return self::wherePath($path)->first();
+        return $this->belongsTo('\Sandbox\Cms\Site\CmsPageTemplate', 'cms_page_template_id');
     }
 
     public function getUrlAttribute()
@@ -56,8 +64,38 @@ class CmsPage extends Model
         }
     }
 
-    public function template ()
+    public function getIndexableContent()
     {
-        return $this->belongsTo('\Sandbox\Cms\Site\CmsPageTemplate', 'cms_page_template_id');
+        $index = [];
+
+        if ($content = CmsContent::whereLinkType('PAGE')
+            ->whereLinkId($this->id)
+            ->orderBy('version','DESC')
+            ->first()) {
+
+            $contentJson = json_decode($content->content);
+
+            foreach ($contentJson->data as $field) {
+                if ($field->type == 'html') {
+                    $index[] =  strip_tags($field->value);
+                }
+            }
+        }
+
+        return implode(' ',$index);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saved(function($model){
+            event(new CmsPageSaved($model));
+        });
+    }
+
+    public static function findByPath($path)
+    {
+        return self::wherePath($path)->first();
     }
 }

@@ -19,5 +19,9 @@ return [
 
     'file' => [
         'max_upload_size' => 20
+    ],
+    
+    'search' => [
+        'defaultThumbnail' => '/images/default.png'
     ]
 ];

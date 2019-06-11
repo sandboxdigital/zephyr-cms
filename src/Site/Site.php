@@ -21,6 +21,12 @@ class Site
         }
     }
 
+    /**
+     * @param $path
+     * @param string $rootPath
+     * @return CmsPage
+     * @throws \Exception
+     */
     public static function findPage ($path, $rootPath = 'ROOT')
     {
 //        echo ($path).'<br>';

@@ -1,6 +1,8 @@
 <?php
 namespace Sandbox\Cms\Content\Model;
 
+use Sandbox\Cms\Content\Events\CmsContentSaved;
+
 use Illuminate\Database\Eloquent\Model;
 
 class CmsContent extends Model
@@ -12,4 +14,14 @@ class CmsContent extends Model
         'content',
         'version',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saved(function($model){
+
+            event(new CmsContentSaved($model));
+        });
+    }
 }

@@ -13,5 +13,9 @@ return [
         ],
 
         'jsonTemplatePath' => resource_path('cms-templates')
+    ],
+
+    'search' => [
+        'defaultThumbnail' => '/images/default.png'
     ]
 ];
