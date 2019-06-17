@@ -106,31 +106,40 @@
         <b-modal size="lg" id="add-directory-permissions" ref="add-directory-permissions">
             <div slot="modal-header">Add/Update Permissions</div>
             <b-form-group>
-                <b-form-checkbox
-                    class="float-left"
-                    v-model="areAllRolesSelected"
-                    aria-describedby="flavours"
-                    aria-controls="flavours"
-                    @change="toggleSelectedRoles"
-                    switch
-                >
-                    {{ areAllRolesSelected ? 'Un-select All' : 'Select All' }}
-                </b-form-checkbox>
                 <b-button class="float-right" @click="addDirectoryPermissions" variant="primary">{{savingPermission ? 'Saving' : 'Save'}}</b-button>
-
-                <b-form-checkbox-group
-                    v-model="selectedRoles"
-                    name="selected_roles"
-                    aria-label="Roles"
-                    switches
-                >
-                    <b-table class="cms-table" :items="roles" :fields="['label', 'actions']">
-                        <template slot="actions" slot-scope="row">
-                            <b-form-checkbox :value="row.item.id"></b-form-checkbox>
-                        </template>
-                    </b-table>
-                </b-form-checkbox-group>
             </b-form-group>
+            <b-form-group>
+                <b-row>
+                    <b-col>
+                        <b-form-checkbox
+                            class="float-left"
+                            v-model="areAllRolesSelected"
+                            aria-describedby="flavours"
+                            aria-controls="flavours"
+                            @change="toggleSelectedRoles"
+                            switch
+                        >
+                            {{ areAllRolesSelected ? 'Un-select All' : 'Select All' }}
+                        </b-form-checkbox>
+                    </b-col>
+                    <div class="col">
+                        <b-form-input v-model="filterRole" />
+                    </div>
+                </b-row>
+            </b-form-group>
+            <b-form-checkbox-group
+                v-model="selectedRoles"
+                name="selected_roles"
+                aria-label="Roles"
+                switches
+            >
+                <b-table class="cms-table" :items="roleOptions" :fields="['label', 'actions']">
+                    <template slot="actions" slot-scope="row">
+                        <b-form-checkbox :value="row.item.id"></b-form-checkbox>
+                    </template>
+                </b-table>
+            </b-form-checkbox-group>
+
             <div slot="modal-footer">
                 <b-button @click="addDirectoryPermissions" variant="primary">{{savingPermission ? 'Saving' : 'Save'}}</b-button>
             </div>
@@ -148,6 +157,7 @@
     import _chunk from 'lodash/chunk'
     import RoleService from '../../services/roles'
     import _map from 'lodash/map'
+    import _filter from 'lodash/filter'
 
     export default {
         components: {
@@ -180,6 +190,8 @@
                 },
                 pageListVisible:true,
                 loadingFiles: false,
+
+                filterRole: '',
                 selectedRoles: [],
                 roles : [],
                 loadingRoles: false,
@@ -188,6 +200,13 @@
             }
         },
         computed: {
+            roleOptions() {
+                let results = _filter(this.roles,(item) => {
+                    return item.label.indexOf(this.filterRole)>-1;
+                });
+
+                return results;
+            },
             dropzoneOptions(){
                 let defaultOptions = {
                     url: '/cms-api/files/upload',
@@ -314,7 +333,7 @@
                 })
             },
             toggleSelectedRoles(checked) {
-                this.selectedRoles = checked ? _map(this.roles, 'id') : []
+                this.selectedRoles = checked ? _map(this.roleOptions, 'id') : []
             },
 
             /* Dropzone methods */
