@@ -157,6 +157,8 @@
     import _chunk from 'lodash/chunk'
     import RoleService from '../../services/roles'
     import _map from 'lodash/map'
+    import _union from 'lodash/union'
+    import _difference from 'lodash/difference'
     import _filter from 'lodash/filter'
 
     export default {
@@ -202,8 +204,12 @@
         computed: {
             roleOptions() {
                 let results = _filter(this.roles,(item) => {
-                    return item.label.indexOf(this.filterRole)>-1;
+                    let label = item.label.toLowerCase()
+                    let filter = this.filterRole.toLowerCase()
+                    return label.indexOf(filter)>-1;
                 });
+
+                this.areAllRolesSelected = !_difference(_map(results, 'id'), this.selectedRoles).length
 
                 return results;
             },
@@ -322,7 +328,7 @@
                 FileService.addDirectoryPermissions(this.selectedDirectoryNode.id, this.selectedRoles).then(response => {
                     this.getDirectoryPermissions();
                     this.savingPermission = false;
-                    this.$refs['add-directory-permissions'].hide()
+                    // this.$refs['add-directory-permissions'].hide()
                 })
             },
 
@@ -333,7 +339,15 @@
                 })
             },
             toggleSelectedRoles(checked) {
-                this.selectedRoles = checked ? _map(this.roleOptions, 'id') : []
+                if(!this.roleOptions)
+                    return
+
+                let options = _map(this.roleOptions, 'id')
+                if(checked){
+                    this.selectedRoles = this.filterRole ? _union(this.selectedRoles, options) : options
+                } else {
+                    this.selectedRoles = this.filterRole ? _difference(this.selectedRoles, options) : []
+                }
             },
 
             /* Dropzone methods */
