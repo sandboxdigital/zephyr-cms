@@ -9,6 +9,12 @@ class CmsFileFolder extends Model
 {
     use NodeTrait;
 
+    protected $fillable = [
+        'title',
+        'created_at',
+        'updated_at',
+    ];
+
     public function folderFiles(){
         return $this->hasMany(CmsFileFolderFile::class, 'folder_id');
     }

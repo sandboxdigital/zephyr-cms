@@ -8,18 +8,20 @@ use Intervention\Image\ImageServiceProvider;
 use Sandbox\Cms\Commands\DemoPages;
 use Sandbox\Cms\Commands\InitMenus;
 use Sandbox\Cms\Commands\InitPages;
+use Sandbox\Cms\Commands\InitFileFolders;
 
 class ZephyrServiceProvider extends ServiceProvider {
 
     protected $commands = [
         InitPages::class,
         InitMenus::class,
+        InitFileFolders::class
     ];
 
     public function register() {
         /*
-            * Register the service provider for the dependency.
-            */
+        * Register the service provider for the dependency.
+        */
 
         $this->app->register(ImageServiceProvider::class );
         /*
