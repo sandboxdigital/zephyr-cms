@@ -234,16 +234,19 @@
         },
 
         created () {
-
-
             Events.$on('fm-change-directory', node => {
                 // console.log('Event: directory changed')
-                this.getFiles(node.id);
-                this.selectedDirectoryNode = node;
+                if (node) {
+                    this.getFiles(node.id);
+                    this.selectedDirectoryNode = node;
+                }
+                
             });
+            
             this.getTree(true);
             this.getRoles()
         },
+
         methods : {
             createLink(){
                 let node = this.selectedDirectoryNode.id;
