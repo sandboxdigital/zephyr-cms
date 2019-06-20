@@ -88,15 +88,16 @@
 
         <b-modal id="create-update-directory" ref="create-update-directory">
             <div slot="modal-header">{{directoryCreate ? "Create Directory" : "Update Directory"}}</div>
-            <b-form-group
-                    label="Name"
-            >
-                <b-form-input
-                        v-model="form.directory.title"
-                        required
-                        placeholder="Enter name"
-                ></b-form-input>
-            </b-form-group>
+
+            <form @submit.prevent="createUpdateDirectory()">
+                <b-form-group label="Name">
+                    <b-form-input
+                            v-model="form.directory.title"
+                            required
+                            placeholder="Enter name"
+                    ></b-form-input>
+                </b-form-group>
+            </form>
             <div slot="modal-footer">
                 <b-button v-if="directoryCreate" @click="createUpdateDirectory" variant="primary">Save</b-button>
                 <b-button v-if="!directoryCreate" @click="createUpdateDirectory" variant="primary">Save</b-button>
@@ -270,6 +271,11 @@
             },
             openCreateUpdateDirectory(update = false){
                 this.directoryCreate = !update;
+
+
+                this.form.directory.title = update ?  this.selectedDirectoryNode.title : ''
+
+
                 this.$refs['create-update-directory'].show()
             },
             createUpdateDirectory(){
@@ -283,7 +289,7 @@
                 var r = confirm("Are you sure you want to delete?");
                 if (r === true) {
                     FileService.deleteDirectory(this.selectedDirectoryNode.id).then(response => {
-                        this.getTree();
+                        this.getTree(true);
                     })
                 }
             },
