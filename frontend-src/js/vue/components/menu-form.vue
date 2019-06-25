@@ -82,6 +82,12 @@
 
             remove () {
                 if (this.menu.id) {
+                    
+                    if (this.menu.path.toLowerCase() === 'main') {
+                        alert('MAIN menu cannot be deleted!');
+                        return false;
+                    }
+
                     if (confirm('Are you sure you want to delete this menu?')) {
                         axios.delete('/cms-api/menus/' + this.menu.id)
                             .then(response => {

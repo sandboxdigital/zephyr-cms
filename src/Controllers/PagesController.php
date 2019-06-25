@@ -43,6 +43,10 @@ class PagesController extends AbstractController {
 
     public function delete(Request $request, CmsPage $page)
     {
+        if (strtolower($page->path) == 'root') {
+            return;
+        }
+
         \Log::debug('delete');
 //        \Log::debug($request->only(['name','path']));
 

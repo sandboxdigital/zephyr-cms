@@ -93,6 +93,11 @@
 
             remove () {
                 if (this.page.id) {
+                    if (this.page.path.toLowerCase() === 'root') {
+                        alert('Homepage cannot be deleted!');
+                        return false;
+                    }
+
                     if (confirm('Are you sure you want to delete this page?')) {
                         axios.delete('/cms-api/pages/' + this.page.id)
                             .then(response => {

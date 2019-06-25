@@ -67,8 +67,11 @@ class MenusController extends AbstractController {
      */
     public function delete(Request $request, CmsMenu $menu)
     {
+        if (strtolower($menu->path) == 'main') {
+            return;
+        }
+
         \Log::debug('delete');
-//        \Log::debug($request->only(['name','path']));
 
         $menu->delete();
 
