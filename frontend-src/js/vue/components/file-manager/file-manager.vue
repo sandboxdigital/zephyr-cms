@@ -28,7 +28,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            <th class="controls"><button class="cms-btn btn-sm float-right" v-b-modal.upload-modal><i class="icon ion-md-cloud-upload"></i> Upload</button></th>
+                            <th class="controls"><button type="button" class="cms-btn btn-sm float-right" v-b-modal.upload-modal><i class="icon ion-md-cloud-upload"></i> Upload</button></th>
                         </tr>
                     </thead>
                     <tbody class="files">
