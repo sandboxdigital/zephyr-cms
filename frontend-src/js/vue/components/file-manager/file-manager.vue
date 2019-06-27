@@ -53,8 +53,10 @@
                 <pagination v-model="page" :records="recordsCount" :options="paginationOption" :per-page="100" @paginate="pageChanged"></pagination>
             </div>
         </div>
-        <b-modal id="upload-modal" size="lg" ref="upload-modal" hide-footer>
-            <div slot="modal-header">Upload file</div>
+        <b-modal id="upload-modal" size="lg" ref="upload-modal" hide-footer title="Upload file">
+            <div slot="modal-header" slot-scope="{ close }">
+                <button type="button" aria-label="Close" class="close" @click.prevent="close()">×</button>
+            </div>
             <div class="row">
                 <div class="col-6">
                     <b-form-group>
