@@ -9,7 +9,7 @@
                         <button class="cms-btn-icon" @mouseenter="addHover" @mouseleave="addLeave"><span class="oi oi-plus"></span></button>
                     </div>
                 </div>
-                <div class="cms-group-body" :id="elPath">
+                <div class="cms-group-body" :id="elPath" ref="groupBody">
                     <cms-group-option v-for="child in children"
                                       :field="child"
                                       :ref="child.ref"
@@ -40,6 +40,19 @@ import {ucword} from "../utils/string";
 import fieldMixins from '../mixins/field'
 import CmsGroupOption from './field-group-option'
 import $ from 'jquery'
+import Sortable from 'sortablejs';
+
+function array_move(arr, old_index, new_index) {
+    if (new_index >= arr.length) {
+        var k = new_index - arr.length + 1;
+        while (k--) {
+            arr.push(undefined);
+        }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr; // for testing
+}
+
 
 export default {
 
@@ -82,6 +95,19 @@ export default {
 
     methods : {
 
+        loadData (data) {
+            // console.log('Group->loadData');
+            // console.log(data);
+
+            for(let option of data.options) {
+                this.addOption(option.id, option.data)
+            }
+
+            this.$nextTick(()=>{
+                this.createSortable(this.$refs.groupBody);
+            });
+        },
+
         getData () {
             // console.log('Group->getData');
             let options = [];
@@ -100,15 +126,6 @@ export default {
             return Object.assign({},data,{
                 options:options
             });
-        },
-
-        loadData (data) {
-            // console.log('Group->loadData');
-            // console.log(data);
-
-            for(let option of data.options) {
-                this.addOption(option.id, option.data)
-            }
         },
 
         addHover (ev) {
@@ -130,9 +147,15 @@ export default {
         hideShowAll () {
             this.allVisible = !this.allVisible;
 
-            for (let compKey in this.$refs) {
-                let comp = this.$refs[compKey][0];
-                comp.visible = this.allVisible;
+            // for (let compKey in this.$refs) {
+            //     console.log(compKey);
+            //
+            //     // let comp = this.$refs[compKey][0];
+            //     // comp.visible = this.allVisible;
+            // }
+            for (let child of this.children) {
+                let childComponenent = this.$refs[child.ref][0];
+                childComponenent.visible = this.allVisible;
             }
 
         },
@@ -146,14 +169,14 @@ export default {
         },
 
         findOptionIndex (option) {
-            for (let i=0;i<this.children.length;i++) {
+            for (let i=0 ; i < this.children.length; i++) {
                 if (this.children[i].ref === option.ref) {
                     console.log(option);
                     return i;
                 }
             }
 
-            return fallse;
+            return false;
         },
 
         addOption (id, data) {
@@ -186,6 +209,32 @@ export default {
                 }
             }
         },
+
+        createSortable (el) {
+            let _this = this;
+
+            if (this.sortable) {
+                this.sortable.destroy();
+            }
+
+            this.sortable = new Sortable(el, {
+                handle: ".cms-group-option-handle",
+                direction: 'horizontal',
+
+                onEnd: function (/**Event*/evt) {
+                    // console.log(evt);
+                    // console.log(_this);
+                    // var itemEl = evt.item;  // dragged HTMLElement
+                    // evt.to;    // target list
+                    // evt.from;  // previous list
+                    // evt.oldIndex;  // element's old index within old parent
+                    // evt.newIndex;  // element's new index within new parent
+                    // console.log(evt.newIndex+':'+evt.oldIndex);
+                    array_move(_this.children, evt.oldIndex, evt.newIndex);
+                    // PageService.reorder(data);
+                },
+            });
+        }
     }
 }
 </script>

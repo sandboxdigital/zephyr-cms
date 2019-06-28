@@ -1,7 +1,7 @@
 <template>
-    <div class="cms-group-option CMSGroupoption CMSGroupoption">
+    <div class="cms-group-option CMSGroupoption">
         <div class="cms-group-option-title">
-            <label>{{label}}</label>
+            <label class="cms-group-option-handle">{{label}} <span class="not-bold">{{subLabel}}</span></label>
         </div>
         <div class="cms-group-option-body" v-show="visible">
             <div v-for="child in fields" v-bind:is="child.component" v-bind:field="child" :ref="child.ref" :key="child.ref"></div>
@@ -26,6 +26,7 @@
 import FormHelper from '../helpers/form';
 import fieldMixins from '../mixins/field';
 import fieldWithChildrenMixins from '../mixins/field-with-children';
+import find from 'lodash-es/find';
 
 export default {
 
@@ -38,12 +39,9 @@ export default {
             output:'group',
             visible:true,
 
-            options : [
-            ],
+            options : [],
 
-            fields : [
-
-            ]
+            fields : []
         }
     },
 
@@ -63,6 +61,16 @@ export default {
     },
 
     computed : {
+        subLabel () {
+            if (this.field.spec.sublabelField) {
+                let field = find(this.field.data, {id:this.field.spec.sublabelField});
+                if (field) {
+                    return ' - ' + field.value
+                }
+            }
+
+            return ''
+        }
     },
 
     methods : {
@@ -102,7 +110,6 @@ export default {
         },
 
         deleteOption () {
-            console.log('dl');
             this.$emit('option-delete', this.field);
         },
 

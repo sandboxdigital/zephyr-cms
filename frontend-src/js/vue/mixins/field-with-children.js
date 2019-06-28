@@ -3,7 +3,6 @@ const mixin = {
 
     methods : {
 
-
         createFields (fields) {
             // console.log('->createFields');
 
