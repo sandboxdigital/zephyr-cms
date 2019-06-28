@@ -29,7 +29,18 @@ const FileService = {
     deleteDirectory (id) {
         return axios.post('/cms-api/files/directory/' + id + '/delete');
     },
-    addDirectoryPermissions(id, permissions) {
+
+    /* Permissions */
+    syncFilePermissions(id, permissions) {
+        let data = {
+            permissions: permissions
+        }
+        return axios.post('/cms-api/files/file/' + id + '/permissions', data)
+    },
+    getFilePermissions(id) {
+        return axios.get('/cms-api/files/file/' + id + '/permissions')
+    },
+    syncDirectoryPermissions(id, permissions) {
         let data = {
             permissions: permissions
         }
@@ -37,9 +48,6 @@ const FileService = {
     },
     getDirectoryPermissions(id) {
         return axios.get('/cms-api/files/directory/' + id + '/permissions')
-    },
-    deleteDirectoryPermission(directoryId, permissionId){
-        return axios.post('/cms-api/files/directory/' + directoryId + '/permissions/' + permissionId + '/delete')
     }
 };
 

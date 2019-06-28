@@ -19,7 +19,11 @@ class CmsFileFolder extends Model
         return $this->hasMany(CmsFileFolderFile::class, 'folder_id');
     }
 
+    public function files() {
+        return $this->belongsToMany(\Sandbox\Cms\Site\CmsFile::class, 'cms_file_folder_files', 'folder_id', 'file_id');
+    }
+
     public function permissions() {
-        return $this->belongsToMany(CmsRole::class, 'cms_folder_file_permissions', 'folder_id', 'role_id');
+        return $this->morphToMany(CmsRole::class,'permissible','cms_folder_file_permissions','permissible_id', 'role_id');
     }
 }

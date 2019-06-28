@@ -38,6 +38,7 @@
                             <td v-if="file.type === 'link'"><a target="_blank" :href="file.link_url">{{file.link_url}}</a></td>
                             <td style="text-align: right">
                                 <button class="cms-btn btn-sm" v-if="hasChoose" @click.prevent="chooseFile(file)">Choose</button>
+                                <button class="cms-btn btn-sm" @click.prevent="openFilePermission(file.id)"><i class="icon ion-md-people"></i></button>
                                 <button class="cms-btn btn-sm" @click.prevent="deleteFile(file.id)"><i class="icon ion-md-trash"></i></button>
                             </td>
                         </tr>
@@ -106,10 +107,10 @@
             </div>
         </b-modal>
 
-        <b-modal size="lg" id="add-directory-permissions" ref="add-directory-permissions">
+        <b-modal size="lg" id="add-directory-permissions" ref="add-directory-permissions" @hide="selectedFileId = null">
             <div slot="modal-header">Add/Update Permissions</div>
             <b-form-group>
-                <b-button class="float-right" @click="addDirectoryPermissions" variant="primary">{{savingPermission ? 'Saving' : 'Save'}}</b-button>
+                <b-button class="float-right" @click="updateFileDirectoryPermissions" variant="primary">{{savingPermission ? 'Saving' : 'Save'}}</b-button>
             </b-form-group>
             <b-form-group>
                 <b-row>
@@ -144,7 +145,7 @@
             </b-form-checkbox-group>
 
             <div slot="modal-footer">
-                <b-button @click="addDirectoryPermissions" variant="primary">{{savingPermission ? 'Saving' : 'Save'}}</b-button>
+                <b-button @click="updateFileDirectoryPermissions" variant="primary">{{savingPermission ? 'Saving' : 'Save'}}</b-button>
             </div>
         </b-modal>
     </div>
@@ -179,12 +180,13 @@
                 recordsCount: 0,
                 page: 1,
                 savingPermission: false,
+                selectedFileId: null,
                 selectedDirectoryNode: {
                     id: null,
                     title: null
                 },
                 directoryCreate: true,
-                directoryPermissions: [],
+                permissions: [],
                 form : {
                     directory : {
                         title : null
@@ -325,22 +327,46 @@
             getDirectoryPermissions(){
                 this.loadingRoles = true;
                 FileService.getDirectoryPermissions(this.selectedDirectoryNode.id).then(response => {
-                    this.directoryPermissions = response.data.permissions;
-                    this.selectedRoles = _map(this.directoryPermissions, 'id');
+                    this.permissions = response.data.permissions;
+                    this.selectedRoles = _map(this.permissions, 'id');
+                    this.loadingRoles = false
+                })
+            },
+            getFilePermissions(){
+                this.loadingRoles = true;
+                FileService.getFilePermissions(this.selectedFileId).then(response => {
+                    this.permissions = response.data.permissions;
+                    this.selectedRoles = _map(this.permissions, 'id')
                     this.loadingRoles = false
                 })
             },
             openAddDirectoryPermissionsModal() {
-                this.$refs['add-directory-permissions'].show();
+                this.$refs['add-directory-permissions'].show()
                 this.getDirectoryPermissions()
             },
-            addDirectoryPermissions() {
+
+            openFilePermission(id) {
+                this.selectedFileId = id
+                this.$refs['add-directory-permissions'].show()
+                this.getFilePermissions()
+            },
+
+            updateFileDirectoryPermissions() {
                 this.savingPermission = true;
-                FileService.addDirectoryPermissions(this.selectedDirectoryNode.id, this.selectedRoles).then(response => {
-                    this.getDirectoryPermissions();
-                    this.savingPermission = false;
-                    // this.$refs['add-directory-permissions'].hide()
-                })
+
+                if(this.selectedFileId){
+                    FileService.syncFilePermissions(this.selectedDirectoryNode.id, this.selectedRoles).then(response => {
+                        this.getFilePermissions();
+                        this.savingPermission = false;
+                    })
+                }else {
+                    FileService.syncDirectoryPermissions(this.selectedDirectoryNode.id, this.selectedRoles).then(response => {
+                        this.getDirectoryPermissions();
+                        this.savingPermission = false;
+                    })
+                }
+
+
             },
 
             /* Roles */

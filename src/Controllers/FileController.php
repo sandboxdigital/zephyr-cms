@@ -170,12 +170,41 @@ class FileController extends AbstractController {
         }
     }
 
-    public function addDirectoryPermissions(Request $request, CmsFileFolder $node)
+    public function syncFilePermissions(Request $request, CmsFile $file)
     {
         $permissions = $request->permissions;
+        $file->permissions()->sync($permissions);
+
+        return response()->json(compact('permissions'));
+    }
+
+    public function filePermissions(CmsFile $file)
+    {
+        $permissions = $file->permissions;
+        return response()->json(compact('permissions'));
+    }
+
+    public function deleteFilePermission(CmsFile $file, $permission)
+    {
+        $result = $file->permissions()->detach($permission);
+        return response()->json(compact('result'));
+    }
+
+
+    public function syncDirectoryPermissions(Request $request, CmsFileFolder $node)
+    {
+        $permissions = $request->permissions;
+
         $node->permissions()->sync($permissions);
+        $node->files->each(function($item, $key) use ($permissions){
+            $item->permissions()->sync($permissions);
+        });
+
         foreach($node->descendants as $child){
             $child->permissions()->sync($permissions);
+            $child->files->each(function($item, $key) use ($permissions){
+                $item->permissions()->sync($permissions);
+            });
         }
 
         return response()->json(compact('permissions'));
@@ -185,12 +214,6 @@ class FileController extends AbstractController {
     {
         $permissions = $node->permissions;
         return response()->json(compact('permissions'));
-    }
-
-    public function deleteDirectoryPermission(CmsFileFolder $node, $permission)
-    {
-        $result = $node->permissions()->detach($permission);
-        return response()->json(compact('result'));
     }
 
     public function createLink(Request $request)

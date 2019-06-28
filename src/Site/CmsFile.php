@@ -41,6 +41,10 @@ class CmsFile extends Model
         return 'storage' . config('zephyr.files_path') . '/' . $this->fullname;
     }
 
+    public function permissions() {
+        return $this->morphToMany(CmsRole::class, 'permissible','cms_folder_file_permissions', 'permissible_id', 'role_id');
+    }
+
     public function getAbsolutePath($size='')
     {
         $fullName = $this->fullname;
