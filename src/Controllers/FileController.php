@@ -200,12 +200,12 @@ class FileController extends AbstractController {
             $item->permissions()->sync($permissions);
         });
 
-        foreach($node->descendants as $child){
-            $child->permissions()->sync($permissions);
-            $child->files->each(function($item, $key) use ($permissions){
-                $item->permissions()->sync($permissions);
-            });
-        }
+//        foreach($node->descendants as $child){
+//            $child->permissions()->sync($permissions);
+//            $child->files->each(function($item, $key) use ($permissions){
+//                $item->permissions()->sync($permissions);
+//            });
+//        }
 
         return response()->json(compact('permissions'));
     }
