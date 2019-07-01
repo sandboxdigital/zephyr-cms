@@ -355,7 +355,7 @@
                 this.savingPermission = true;
 
                 if(this.selectedFileId){
-                    FileService.syncFilePermissions(this.selectedDirectoryNode.id, this.selectedRoles).then(response => {
+                    FileService.syncFilePermissions(this.selectedFileId, this.selectedRoles).then(response => {
                         this.getFilePermissions();
                         this.savingPermission = false;
                     })
