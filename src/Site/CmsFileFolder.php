@@ -26,4 +26,12 @@ class CmsFileFolder extends Model
     public function permissions() {
         return $this->morphToMany(CmsRole::class,'permissible','cms_folder_file_permissions','permissible_id', 'role_id');
     }
+
+    public function syncFilePermissions(){
+        $permissions = $this->permissions->pluck('id');
+
+        $this->files->each(function($item, $key) use ($permissions){
+            $item->permissions()->sync($permissions);
+        });
+    }
 }

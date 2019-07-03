@@ -67,6 +67,10 @@ class FileController extends AbstractController {
         $node = CmsFileFolder::find($request->node);
 
         $uploadedPhotos = [];
+
+        $cmsFileIds = [];
+        $permissions = $node->permissions->pluck('id');
+
         foreach ($photos as $photo){
             $identifier = uniqid();
             $extension = $photo->getClientOriginalExtension();
@@ -79,12 +83,13 @@ class FileController extends AbstractController {
             $cmsFile->identifier = $identifier;
             $cmsFile->save();
 
-            $cmsFileFolderFile = new CmsFileFolderFile;
-            $cmsFileFolderFile->folder_id = $node->id;
-            $cmsFileFolderFile->file_id = $cmsFile->id;
-            $cmsFileFolderFile->save();
+            $cmsFile->permissions()->sync($permissions);
+
+            $cmsFileIds[] = $cmsFile->id;
             $uploadedPhotos[] = $photo->storeAs(config('zephyr.files_path'), $filename, 'public');
         }
+
+        $node->files()->attach($cmsFileIds);
 
         return response()->json($uploadedPhotos);
     }
@@ -196,9 +201,7 @@ class FileController extends AbstractController {
         $permissions = $request->permissions;
 
         $node->permissions()->sync($permissions);
-        $node->files->each(function($item, $key) use ($permissions){
-            $item->permissions()->sync($permissions);
-        });
+        $node->syncFilePermissions();
 
 //        foreach($node->descendants as $child){
 //            $child->permissions()->sync($permissions);
