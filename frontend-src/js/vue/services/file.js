@@ -31,6 +31,18 @@ const FileService = {
     },
 
     /* Permissions */
+    syncMultipleFilePermissions(ids, permissions){
+        let data = {
+            ids: ids,
+            permissions: permissions
+        }
+
+        return axios.post('/cms-api/files/multiple-file/permissions', data)
+    },
+    getMultipleFilePermissions(ids){
+        return axios.get('/cms-api/files/multiple-file/permissions', { params : { ids: ids } })
+    },
+
     syncFilePermissions(id, permissions) {
         let data = {
             permissions: permissions

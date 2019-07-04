@@ -18,7 +18,7 @@ class FileController extends AbstractController {
     public function files(CmsFileFolder $node) {
         $files = CmsFile::whereHas('folders', function($query) use ($node){
             $query->where('cms_file_folders.id', $node->id);
-        })->orderBy('fullname')->get();
+        })->orderBy('name')->get();
         return $files;
     }
 
@@ -203,19 +203,40 @@ class FileController extends AbstractController {
         $node->permissions()->sync($permissions);
         $node->syncFilePermissions();
 
-//        foreach($node->descendants as $child){
-//            $child->permissions()->sync($permissions);
-//            $child->files->each(function($item, $key) use ($permissions){
-//                $item->permissions()->sync($permissions);
-//            });
-//        }
-
         return response()->json(compact('permissions'));
     }
 
     public function directoryPermissions(CmsFileFolder $node)
     {
         $permissions = $node->permissions;
+        return response()->json(compact('permissions'));
+    }
+
+    public function syncMultipleFilePermissions(Request $request){
+        $ids = $request->ids;
+        $permissions = $request->permissions;
+
+        $files = CmsFile::whereIn('id', $ids)->get();
+        foreach($files as $file){
+            $file->permissions()->sync($permissions);
+        }
+
+        return response()->json(compact('permissions'));
+    }
+
+    public function multipleFilePermissions(Request $request){
+        $ids = $request->ids;
+
+        if(!$ids){
+            return response()->json(['permissions' => []]);
+        }
+
+        $filesPermission = CmsFile::whereIn('id', $ids)->with('permissions')->get()->pluck('permissions');
+        $mergedIds = [];
+        foreach($filesPermission as $permission){
+            $mergedIds = array_merge($mergedIds, $permission->toArray());
+        }
+        $permissions = collect($mergedIds)->unique('id');
         return response()->json(compact('permissions'));
     }
 

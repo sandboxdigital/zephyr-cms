@@ -47,6 +47,8 @@ Route::namespace('Sandbox\Cms\Controllers')
 
         Route::prefix('files')->group(function(){
             Route::get('/file/{id}', 'FileController@getFile');
+            Route::get('/multiple-file/permissions', 'FileController@multipleFilePermissions');
+            Route::post('/multiple-file/permissions', 'FileController@syncMultipleFilePermissions');
             Route::get('/get/{node}', 'FileController@files');
             Route::post('/delete/{fileId}', 'FileController@deleteFile');
             Route::get('/tree', 'FileController@tree');

@@ -26,13 +26,18 @@
                 <table class="cms-table">
                     <thead>
                         <tr>
+                            <th><b-checkbox v-model="areAllFilesSelected" @change="toggleSelectAllFiles"><span class="font-weight-normal">All</span></b-checkbox></th>
                             <th>Id</th>
                             <th>Name</th>
-                            <th class="controls"><button type="button" class="cms-btn btn-sm float-right" v-b-modal.upload-modal><i class="icon ion-md-cloud-upload"></i> Upload</button></th>
+                            <th class="controls">
+                                <button type="button" class="cms-btn btn-sm ml-2 float-right" @click="openMultipleFilePermission"><i class="icon ion-md-people"></i> Permissions</button>
+                                <button type="button" class="cms-btn btn-sm float-right" v-b-modal.upload-modal><i class="icon ion-md-cloud-upload"></i> Upload</button>
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="files">
                         <tr v-for="file in files" v-if="file" :key="file.id">
+                            <td><th><b-checkbox v-model="selectedFiles" :value="file.id"></b-checkbox></th></td>
                             <td>{{file.id}}</td>
                             <td v-if="file.type === 'file'"><img :src="file['url-thumbnail']" alt="" width="48px"> {{file.name}}</td>
                             <td v-if="file.type === 'link'"><a target="_blank" :href="file.link_url">{{file.link_url}}</a></td>
@@ -107,7 +112,7 @@
             </div>
         </b-modal>
 
-        <b-modal size="lg" id="add-directory-permissions" ref="add-directory-permissions" @hide="selectedFileId = null">
+        <b-modal size="lg" id="add-directory-permissions" ref="add-directory-permissions" @hide="selectedFileId = null; multipleFilePermission = false">
             <div slot="modal-header">Add/Update Permissions</div>
             <b-form-group>
                 <b-button class="float-right" @click="updateFileDirectoryPermissions" variant="primary">{{savingPermission ? 'Saving' : 'Save'}}</b-button>
@@ -203,7 +208,11 @@
                 roles : [],
                 loadingRoles: false,
                 areAllRolesSelected: false,
-                paginationOption: { theme: 'bootstrap4'}
+                paginationOption: { theme: 'bootstrap4'},
+
+                multipleFilePermission: false,
+                selectedFiles: [],
+                areAllFilesSelected: false
             }
         },
         computed: {
@@ -340,9 +349,24 @@
                     this.loadingRoles = false
                 })
             },
+
+            getMultipleFilePermission(){
+                FileService.getMultipleFilePermissions(this.selectedFiles).then(response => {
+                    this.permissions = response.data.permissions;
+                    this.selectedRoles = _map(this.permissions, 'id')
+                    this.loadingRoles = false
+                })
+            },
+
             openAddDirectoryPermissionsModal() {
                 this.$refs['add-directory-permissions'].show()
                 this.getDirectoryPermissions()
+            },
+
+            openMultipleFilePermission(){
+                this.multipleFilePermission = true;
+                this.$refs['add-directory-permissions'].show()
+                this.getMultipleFilePermission()
             },
 
             openFilePermission(id) {
@@ -353,6 +377,15 @@
 
             updateFileDirectoryPermissions() {
                 this.savingPermission = true;
+
+                if(this.multipleFilePermission){
+                    FileService.syncMultipleFilePermissions(this.selectedFiles, this.selectedRoles).then(response => {
+                        // this.getFilePermissions();
+                        this.multipleFilePermission = false
+                        this.savingPermission = false;
+                    })
+                    return;
+                }
 
                 if(this.selectedFileId){
                     FileService.syncFilePermissions(this.selectedFileId, this.selectedRoles).then(response => {
@@ -384,6 +417,14 @@
                     this.selectedRoles = this.filterRole ? _union(this.selectedRoles, options) : options
                 } else {
                     this.selectedRoles = this.filterRole ? _difference(this.selectedRoles, options) : []
+                }
+            },
+
+            toggleSelectAllFiles(checked){
+                if(checked){
+                    this.selectedFiles = _map(this.files, 'id')
+                } else {
+                    this.selectedFiles = []
                 }
             },
 
