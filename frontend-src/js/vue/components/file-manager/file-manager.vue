@@ -2,6 +2,11 @@
     .VuePagination__count{
         display: none;
     }
+
+    .file-filter-role {
+        width: 150px !important;
+        margin-top: 2px;
+    }
 </style>
 <template>
     <div>
@@ -477,10 +482,3 @@
         }
     }
 </script>
-
-<style>
-    .file-filter-role {
-        width: 150px;
-        margin-top: 2px;
-    }
-</style>
