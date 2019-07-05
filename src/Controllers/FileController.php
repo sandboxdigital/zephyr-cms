@@ -15,10 +15,21 @@ class FileController extends AbstractController {
         $file = CmsFile::find($id);
         return response()->json(compact('file'));
     }
-    public function files(CmsFileFolder $node) {
+    public function files(Request $request, CmsFileFolder $node) {
+
+
         $files = CmsFile::whereHas('folders', function($query) use ($node){
             $query->where('cms_file_folders.id', $node->id);
-        })->orderBy('name')->get();
+        });
+        $roleId = $request->role_id;
+        if($roleId){
+            $files = $files->whereHas('permissions', function($query) use ($roleId) {
+                $query->where('cms_folder_file_permissions.role_id', $roleId);
+            });
+        }
+
+        $files = $files->orderBy('name')->get();
+
         return $files;
     }
 

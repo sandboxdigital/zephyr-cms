@@ -11,8 +11,8 @@ const FileService = {
     getTree () {
         return axios.get('/cms-api/files/tree');
     },
-    getFiles (id) {
-        return axios.get('/cms-api/files/get/' + id);
+    getFiles (id, params) {
+        return axios.get('/cms-api/files/get/' + id, { params : params });
     },
     deleteFile (id) {
         return axios.post('/cms-api/files/delete/' + id , {});

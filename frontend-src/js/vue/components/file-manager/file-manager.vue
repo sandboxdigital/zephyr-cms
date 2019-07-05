@@ -21,18 +21,17 @@
                 </div>
                 <a @click.prevent="pageListVisible = !pageListVisible;" class="cms-btn-icon toggle-pages"><i class="icon" :class="{'ion-md-arrow-dropleft':pageListVisible,'ion-md-arrow-dropright':!pageListVisible}"></i></a>
             </div>
-            <div id="files-table-container" class="zph-page-form" :class="{'list-hidden':!pageListVisible}">
-                <div class="clearfix"></div>
+            <div id="files-table-container" class="zph-page-form pt-1" :class="{'list-hidden':!pageListVisible}">
+                <button type="button" class="cms-btn btn-sm ml-2 float-left" @click="openMultipleFilePermission"><i class="icon ion-md-people"></i> Permissions</button>
+                <button type="button" class="cms-btn btn-sm mr-2 float-right" v-b-modal.upload-modal><i class="icon ion-md-cloud-upload"></i> Upload</button>
+                <b-select class="file-filter-role float-right mr-2" :options="[{id: 0, 'label': 'select one'}].concat(roles)" text-field="label" value-field="id" v-model="fileFilterRole" size="sm"></b-select>
                 <table class="cms-table">
                     <thead>
                         <tr>
                             <th><b-checkbox v-model="areAllFilesSelected" @change="toggleSelectAllFiles"><span class="font-weight-normal">All</span></b-checkbox></th>
                             <th>Id</th>
                             <th>Name</th>
-                            <th class="controls">
-                                <button type="button" class="cms-btn btn-sm ml-2 float-right" @click="openMultipleFilePermission"><i class="icon ion-md-people"></i> Permissions</button>
-                                <button type="button" class="cms-btn btn-sm float-right" v-b-modal.upload-modal><i class="icon ion-md-cloud-upload"></i> Upload</button>
-                            </th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody class="files">
@@ -212,7 +211,16 @@
 
                 multipleFilePermission: false,
                 selectedFiles: [],
-                areAllFilesSelected: false
+                areAllFilesSelected: false,
+
+                fileFilterRole: null
+            }
+        },
+        watch: {
+            fileFilterRole() {
+                if(this.selectedDirectoryNode){
+                    this.getFiles(this.selectedDirectoryNode.id)
+                }
             }
         },
         computed: {
@@ -322,7 +330,10 @@
             getFiles(id){
                 this.loadingFiles = true;
                 this.files = [];
-                FileService.getFiles(id).then(response => {
+
+                let params = this.fileFilterRole ? {role_id: this.fileFilterRole} : {}
+
+                FileService.getFiles(id, params).then(response => {
                     this.files = response.data;
                     this.paginate(response.data);
                     this.loadingFiles = false;
@@ -466,3 +477,10 @@
         }
     }
 </script>
+
+<style>
+    .file-filter-role {
+        width: 150px;
+        margin-top: 2px;
+    }
+</style>
