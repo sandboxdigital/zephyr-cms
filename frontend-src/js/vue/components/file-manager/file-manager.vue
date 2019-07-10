@@ -43,7 +43,7 @@
                         <tr v-for="file in files" v-if="file" :key="file.id">
                             <td><th><b-checkbox v-model="selectedFiles" :value="file.id"></b-checkbox></th></td>
                             <td>{{file.id}}</td>
-                            <td v-if="file.type === 'file'"><img :src="file['url-thumbnail']" alt="" width="48px"> {{file.name}}</td>
+                            <td v-if="file.type === 'file'"><img onerror="this.style.display='none'" :src="file['url-thumbnail']" alt="" width="48px"> {{file.name}}</td>
                             <td v-if="file.type === 'link'"><a target="_blank" :href="file.link_url">{{file.link_url}}</a></td>
                             <td style="text-align: right">
                                 <button class="cms-btn btn-sm" v-if="hasChoose" @click.prevent="chooseFile(file)">Choose</button>
