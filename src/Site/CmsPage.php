@@ -34,6 +34,7 @@ class CmsPage extends Model
         'meta_description',
         'page_template_id',
         'cms_page_template_id',
+        'show_in_sitemap',
     ];
 
     protected $appends = [

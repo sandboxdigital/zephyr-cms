@@ -33,6 +33,7 @@ class PagesController extends AbstractController {
             'meta_description',
             'cms_page_template_id',
             'page_template_id',
+            'show_in_sitemap',
         ]);
 
         $page->fill($data);

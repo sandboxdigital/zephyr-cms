@@ -9,6 +9,15 @@
                 <cms-field-row label="Meta Description">
                     <textarea name="meta_description" type="text" id="meta_description"  v-model="page.meta_description" class="cms-text"></textarea>
                 </cms-field-row>
+                <cms-field-row label="Show in sitemap">
+                    <input name="show_in_sitemap"
+                           type="checkbox"
+                           id="show_in_sitemap"
+                           v-model="page.show_in_sitemap"
+                           class="cms-text"
+                           true-value="1"
+                           false-value="0">
+                </cms-field-row>
 
                 <div class="cms-row-buttons-fixed" v-fixed-in-parent>
                     <div class="cms-row cms-row-buttons">
@@ -43,7 +52,6 @@
         mounted () {
             Events.$on('page-item', (model) => {
                 this.loadPage(model);
-
             });
         },
 

@@ -16,7 +16,7 @@
                 <div class="directory-actions" v-if="pageListVisible">
                     <a class="cms-btn-icon btn-cms-default float-left" href="#" @click.prevent="openCreateUpdateDirectory()"><i class="icon ion-md-folder"></i></a>
                     <a class="cms-btn-icon btn-cms-default float-left" href="#" @click.prevent="openCreateUpdateDirectory(true)"><i class="icon ion-md-create"></i></a>
-                    <a class="cms-btn-icon btn-cms-default float-left" href="#" @click.prevent="openAddDirectoryPermissionsModal()"><i class="icon ion-md-people"></i></a>
+                    <a class="cms-btn-icon btn-cms-default float-left cms-btn-dir-permissions" href="#" @click.prevent="openAddDirectoryPermissionsModal()"><i class="icon ion-md-people"></i></a>
                     <a class="cms-btn-icon btn-cms-default float-left" href="#" @click.prevent="deleteDirectory()"><i class="icon ion-md-trash"></i></a>
                 </div>
                 <div class="lists" v-if="pageListVisible">
@@ -24,30 +24,30 @@
                         <file-manager-child :node="tree[0]" initial-state="open"></file-manager-child>
                     </ul>
                 </div>
-                <a @click.prevent="pageListVisible = !pageListVisible;" class="cms-btn-icon toggle-pages"><i class="icon" :class="{'ion-md-arrow-dropleft':pageListVisible,'ion-md-arrow-dropright':!pageListVisible}"></i></a>
+                <a @click.prevent="pageListVisible = !pageListVisible" class="cms-btn-icon toggle-pages"><i class="icon" :class="{'ion-md-arrow-dropleft':pageListVisible,'ion-md-arrow-dropright':!pageListVisible}"></i></a>
             </div>
             <div id="files-table-container" class="zph-page-form pt-1" :class="{'list-hidden':!pageListVisible}">
-                <button type="button" class="cms-btn btn-sm ml-2 float-left" @click="openMultipleFilePermission"><i class="icon ion-md-people"></i> Permissions</button>
+                <button type="button" class="cms-btn btn-sm ml-2 float-left cms-btn-group-permissions" @click="openMultipleFilePermission"><i class="icon ion-md-people"></i> Permissions</button>
                 <button type="button" class="cms-btn btn-sm mr-2 float-right" v-b-modal.upload-modal><i class="icon ion-md-cloud-upload"></i> Upload</button>
                 <b-select class="file-filter-role float-right mr-2" :options="[{id: 0, 'label': 'select one'}].concat(roles)" text-field="label" value-field="id" v-model="fileFilterRole" size="sm"></b-select>
                 <table class="cms-table">
                     <thead>
                         <tr>
-                            <th><b-checkbox v-model="areAllFilesSelected" @change="toggleSelectAllFiles"><span class="font-weight-normal">All</span></b-checkbox></th>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Action</th>
+                            <th class="file-checkbox"><b-checkbox v-model="areAllFilesSelected" @change="toggleSelectAllFiles"></b-checkbox></th>
+<!--                            <th>Id</th>-->
+                            <th>File</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody class="files">
                         <tr v-for="file in files" v-if="file" :key="file.id">
-                            <td><th><b-checkbox v-model="selectedFiles" :value="file.id"></b-checkbox></th></td>
-                            <td>{{file.id}}</td>
+                            <td class="file-checkbox"><b-checkbox v-model="selectedFiles" :value="file.id"></b-checkbox></td>
+<!--                            <td>{{file.id}}</td>-->
                             <td v-if="file.type === 'file'"><img onerror="this.style.display='none'" :src="file['url-thumbnail']" alt="" width="48px"> {{file.name}}</td>
                             <td v-if="file.type === 'link'"><a target="_blank" :href="file.link_url">{{file.link_url}}</a></td>
                             <td style="text-align: right">
                                 <button class="cms-btn btn-sm" v-if="hasChoose" @click.prevent="chooseFile(file)">Choose</button>
-                                <button class="cms-btn btn-sm" @click.prevent="openFilePermission(file.id)"><i class="icon ion-md-people"></i></button>
+                                <button class="cms-btn btn-sm cms-btn-permissions" @click.prevent="openFilePermission(file.id)"><i class="icon ion-md-people"></i></button>
                                 <button class="cms-btn btn-sm" @click.prevent="deleteFile(file.id)"><i class="icon ion-md-trash"></i></button>
                             </td>
                         </tr>
