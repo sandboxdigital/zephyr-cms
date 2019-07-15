@@ -34,7 +34,7 @@ class FileController extends AbstractController {
     }
 
     public function tree() {
-        $tree = CmsFileFolder::get()->toTree();
+        $tree = CmsFileFolder::orderBy('title')->get()->toTree();
         return response()->json(compact('tree'), 200);
     }
 
