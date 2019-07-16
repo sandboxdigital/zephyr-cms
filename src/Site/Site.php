@@ -2,12 +2,17 @@
 namespace Sandbox\Cms\Site;
 
 use Illuminate\Support\Facades\Route;
+use Log;
 
 class Site
 {
     private static $rootPages = null;
     private static $rootMenus = null;
 
+    /**
+     * @param bool $forceRun
+     * @throws \Exception
+     */
     public static function routes($forceRun = false)
     {
         if (!app()->runningInConsole() || $forceRun == true) {
@@ -15,9 +20,11 @@ class Site
             // Set up CMS routes
             // Note these can be overridden by adding routes below this statement
             $homepage = self::findPage('/');
+
             if ($homepage) {
                 self::mapRoutes($homepage->children, '/ROOT');
             }
+            Log::debug('ROUTES DONE');
         }
     }
 
@@ -103,7 +110,8 @@ class Site
         // Set up CMS routes
         foreach ($pages as $page) {
             $url = $page->url;
-//            \Log::debug($url);
+            //\Log::debug($url);
+
             if (starts_with($url, $prefixToRemove)) {
                 $url = substr($url, strlen($prefixToRemove));
             }
@@ -117,6 +125,7 @@ class Site
             if (count($page->children) > 0) {
                 self::mapRoutes($page->children, $prefixToRemove);
             }
+            //dd($page->children);
         }
     }
 

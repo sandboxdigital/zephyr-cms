@@ -2,15 +2,17 @@
 namespace Sandbox\Cms\Site;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\View;
 use Kalnoy\Nestedset\NodeTrait;
-use Sandbox\Cms\Content\Content;
 use Sandbox\Cms\Content\Model\CmsContent;
 use Sandbox\Cms\Site\Events\CmsPageSaved;
 
 /**
  * Class CmsPage
  * @package Sandbox\Cms\Site
+ *
+ * AR Methods
+ * @method self wherePath($path)
+ * @method self first()
  *
  * @property int id
  * @property int parent_id
@@ -20,6 +22,8 @@ use Sandbox\Cms\Site\Events\CmsPageSaved;
  * @property string url
  *
  * @property  CmsPage[] ancestors
+ * @property  CmsPage[] children
+ * @property  CmsPage parent
  */
 class CmsPage extends Model
 {
@@ -48,7 +52,17 @@ class CmsPage extends Model
 
     public function getUrlAttribute()
     {
-        $parentPages = $this->ancestors;
+        // don't use $this->ancestors as it doesn't seem to get set by CmsPage::get()->toTree();
+        // looping through parents to create ancestors array..
+
+        $parentPages = [];
+        $current = $this;
+        while ($current->parent)
+        {
+            $parentPages[] = $current->parent;
+            $current = $current->parent;
+        }
+
         $paths = [];
 
         foreach ($parentPages as $pp) {
