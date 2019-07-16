@@ -10,11 +10,13 @@ use Sandbox\Cms\Site\CmsFileFolder;
 use Sandbox\Cms\Site\CmsFileFolderFile;
 
 class FileController extends AbstractController {
+
     public function getFile($id)
     {
         $file = CmsFile::find($id);
         return response()->json(compact('file'));
     }
+
     public function files(Request $request, CmsFileFolder $node) {
 
 
@@ -22,7 +24,7 @@ class FileController extends AbstractController {
             $query->where('cms_file_folders.id', $node->id);
         });
         $roleId = $request->role_id;
-        if($roleId){
+        if ($roleId){
             $files = $files->whereHas('permissions', function($query) use ($roleId) {
                 $query->where('cms_folder_file_permissions.role_id', $roleId);
             });
@@ -223,28 +225,30 @@ class FileController extends AbstractController {
         return response()->json(compact('permissions'));
     }
 
-    public function syncMultipleFilePermissions(Request $request){
+    public function syncMultipleFilePermissions(Request $request)
+    {
         $ids = $request->ids;
         $permissions = $request->permissions;
 
         $files = CmsFile::whereIn('id', $ids)->get();
-        foreach($files as $file){
+        foreach ($files as $file) {
             $file->permissions()->sync($permissions);
         }
 
         return response()->json(compact('permissions'));
     }
 
-    public function multipleFilePermissions(Request $request){
+    public function multipleFilePermissions(Request $request)
+    {
         $ids = $request->ids;
 
-        if(!$ids){
+        if (!$ids) {
             return response()->json(['permissions' => []]);
         }
 
         $filesPermission = CmsFile::whereIn('id', $ids)->with('permissions')->get()->pluck('permissions');
         $mergedIds = [];
-        foreach($filesPermission as $permission){
+        foreach ($filesPermission as $permission) {
             $mergedIds = array_merge($mergedIds, $permission->toArray());
         }
         $permissions = collect($mergedIds)->unique('id');

@@ -60,7 +60,19 @@
                     </tbody>
 
                 </table>
-                <pagination v-model="page" :records="recordsCount" :options="paginationOption" :per-page="100" @paginate="pageChanged"></pagination>
+                <div>
+                    <div class="float-left">
+                        <pagination v-model="page"
+                                    :records="recordsCount"
+                                    :options="paginationOption"
+                                    :per-page="recordsPerPage"
+                                    @paginate="pageChanged"></pagination>
+                    </div>
+                    <div class="float-right" style="margin-right: 10px;">
+                        {{pageFirstRecord}} to {{pageLastRecord}} of {{recordsCount}}
+                    </div>
+                </div>
+
             </div>
         </div>
         <b-modal id="upload-modal" size="lg" ref="upload-modal" hide-footer title="Upload file">
@@ -186,8 +198,12 @@
             return {
                 tree: [],
                 files: [],
+
                 recordsCount: 0,
                 page: 1,
+                recordsPerPage:25,
+                paginationOption: { theme: 'bootstrap4'},
+
                 savingPermission: false,
                 selectedFileId: null,
                 selectedDirectoryNode: {
@@ -212,7 +228,6 @@
                 roles : [],
                 loadingRoles: false,
                 areAllRolesSelected: false,
-                paginationOption: { theme: 'bootstrap4'},
 
                 multipleFilePermission: false,
                 selectedFiles: [],
@@ -229,10 +244,18 @@
             }
         },
         computed: {
+            pageFirstRecord () {
+                return ((this.page-1) * this.recordsPerPage) + 1;
+            },
+            pageLastRecord () {
+                let max =  (this.page) * this.recordsPerPage;
+
+                return max < this.recordsCount ? max : this.recordsCount;
+            },
             roleOptions() {
                 let results = _filter(this.roles,(item) => {
-                    let label = item.label.toLowerCase()
-                    let filter = this.filterRole.toLowerCase()
+                    let label = item.label.toLowerCase();
+                    let filter = this.filterRole.toLowerCase();
                     return label.indexOf(filter)>-1;
                 });
 
@@ -299,7 +322,7 @@
                 this.directoryCreate = !update;
 
 
-                this.form.directory.title = update ?  this.selectedDirectoryNode.title : ''
+                this.form.directory.title = update ?  this.selectedDirectoryNode.title : '';
 
 
                 this.$refs['create-update-directory'].show()
@@ -361,7 +384,7 @@
                 this.loadingRoles = true;
                 FileService.getFilePermissions(this.selectedFileId).then(response => {
                     this.permissions = response.data.permissions;
-                    this.selectedRoles = _map(this.permissions, 'id')
+                    this.selectedRoles = _map(this.permissions, 'id');
                     this.loadingRoles = false
                 })
             },
@@ -369,25 +392,25 @@
             getMultipleFilePermission(){
                 FileService.getMultipleFilePermissions(this.selectedFiles).then(response => {
                     this.permissions = response.data.permissions;
-                    this.selectedRoles = _map(this.permissions, 'id')
+                    this.selectedRoles = _map(this.permissions, 'id');
                     this.loadingRoles = false
                 })
             },
 
             openAddDirectoryPermissionsModal() {
-                this.$refs['add-directory-permissions'].show()
+                this.$refs['add-directory-permissions'].show();
                 this.getDirectoryPermissions()
             },
 
             openMultipleFilePermission(){
                 this.multipleFilePermission = true;
-                this.$refs['add-directory-permissions'].show()
+                this.$refs['add-directory-permissions'].show();
                 this.getMultipleFilePermission()
             },
 
             openFilePermission(id) {
-                this.selectedFileId = id
-                this.$refs['add-directory-permissions'].show()
+                this.selectedFileId = id;
+                this.$refs['add-directory-permissions'].show();
                 this.getFilePermissions()
             },
 
@@ -397,9 +420,9 @@
                 if(this.multipleFilePermission){
                     FileService.syncMultipleFilePermissions(this.selectedFiles, this.selectedRoles).then(response => {
                         // this.getFilePermissions();
-                        this.multipleFilePermission = false
+                        this.multipleFilePermission = false;
                         this.savingPermission = false;
-                    })
+                    });
                     return;
                 }
 
@@ -425,10 +448,11 @@
                 })
             },
             toggleSelectedRoles(checked) {
-                if(!this.roleOptions)
-                    return
+                if(!this.roleOptions) {
+                    return;
+                }
 
-                let options = _map(this.roleOptions, 'id')
+                let options = _map(this.roleOptions, 'id');
                 if(checked){
                     this.selectedRoles = this.filterRole ? _union(this.selectedRoles, options) : options
                 } else {
@@ -465,7 +489,7 @@
             paginate(results){
                 this.page = 1;
                 this.recordsCount = results.length;
-                this.results = _chunk(results, 50);
+                this.results = _chunk(results, this.recordsPerPage);
 
                 let files = this.results[this.page - 1];
                 if (files) {

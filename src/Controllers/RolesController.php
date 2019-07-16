@@ -19,18 +19,20 @@ class RolesController extends AbstractController
         return response()->json(compact('file'));
     }
 
-    public function index() {
-        $files = CmsRole::all();
+    public function index()
+    {
+        $files = CmsRole::orderBy('label')->get();
         return $files;
     }
 
-    public function createUpdate(Request $request) {
+    public function createUpdate(Request $request)
+    {
         $request->validate([
             'value' => 'required|unique:cms_roles',
             'label' => 'required'
         ]);
 
-        if($request->id){
+        if ($request->id) {
             $permission = CmsRole::find($request->id);
         } else {
             $permission = new CmsRole;
@@ -42,7 +44,8 @@ class RolesController extends AbstractController
         return $permission;
     }
 
-    public function delete($id) {
-        return response()->json(['deleted'=>  CmsRole::findOrFail($id)->delete()]);
+    public function delete($id)
+    {
+        return response()->json(['deleted' => CmsRole::findOrFail($id)->delete()]);
     }
 }

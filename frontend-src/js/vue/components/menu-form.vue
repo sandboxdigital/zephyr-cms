@@ -29,7 +29,6 @@
                     </select>
                     </div>
                 </cms-field-row>-->
-
                 <div class="cms-row cms-row-buttons">
                     <button class="cms-btn" @click.prevent="update">Save</button>
                     <button class="cms-btn cms-btn-secondary" @click.prevent="remove" v-if="menu.id">Delete</button>

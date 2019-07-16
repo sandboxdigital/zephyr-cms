@@ -4,6 +4,15 @@ namespace Sandbox\Cms\Site;
 use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NodeTrait;
 
+/**
+ * Class CmsMenu
+ * @package Sandbox\Cms\Site
+ *
+ * @property int parent_id
+ * @property string name
+ * @property string path
+ * @property string url
+ */
 class CmsMenu extends Model
 {
     use NodeTrait;
@@ -24,18 +33,16 @@ class CmsMenu extends Model
         return self::wherePath($path)->first();
     }
 
-//    public function getUrlAttribute()
-//    {
-//        $parentPages = $this->ancestors;
-//        $paths = [];
-//        foreach($parentPages as $pp) {
-//            $paths[] = $pp->path;
-//        }
-//        if (count($paths)>0) {
-//            $root = implode('/', $paths);
-//            return '/' . $root . '/' . $this->path;
-//        } else {
-//            return '/' . $this->path;
-//        }
-//    }
+    public function fill(array $attributes)
+    {
+        if (empty($attributes['url'])) {
+            $attributes['url'] = '';
+        }
+        if (empty($attributes['open_in'])) {
+            $attributes['open_in'] = '';
+        }
+
+        parent::fill($attributes);
+
+    }
 }

@@ -52,7 +52,6 @@ class MenusController extends AbstractController {
             'open_in',
         ]);
 
-
         $menu->fill($data);
         $menu->save();
 
