@@ -84,13 +84,13 @@ class FileController extends AbstractController {
         $cmsFileIds = [];
         $permissions = $node->permissions->pluck('id');
 
-        foreach ($photos as $photo){
+        foreach ($photos as $photo) {
             $identifier = uniqid();
             $extension = $photo->getClientOriginalExtension();
             $name = $photo->getClientOriginalName();
             $filename =  substr($name, 0, strrpos($name, ".")) . '_' . $identifier . '.' . $extension;
 
-            $cmsFile = new CmsFile;
+            $cmsFile = new CmsFile();
             $cmsFile->name = $name ;
             $cmsFile->fullname = $filename;
             $cmsFile->identifier = $identifier;

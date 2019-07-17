@@ -11,7 +11,9 @@ use \Storage;
  *
  *
  * @property string size
+ * @property string name
  * @property string fullname
+ * @property string identifier
  */
 class CmsFile extends Model
 {
