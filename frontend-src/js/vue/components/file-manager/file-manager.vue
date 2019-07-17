@@ -266,15 +266,12 @@
                 let all = this.filesAll;
 
                 if (this.fileName) {
-                    console.log('FILTER');
                     let filter = this.fileName.toLowerCase();
                     all = _filter(all,(item) => {
                         // console.log(item);
                         let label = item.name ? item.name.toLowerCase() : item.link_url.toLowerCase();
                         return label.indexOf(filter)>-1;
                     });
-                } else {
-
                 }
 
                 return all;
@@ -463,6 +460,7 @@
                 this.savingPermission = true;
 
                 if (this.multipleFilePermission){
+                    // multiple files
                     FileService.syncMultipleFilePermissions(this.selectedFiles, this.selectedRoles).then(response => {
                         // this.getFilePermissions();
                         this.multipleFilePermission = false;
@@ -472,18 +470,22 @@
 
                         this.$refs['add-directory-permissions'].hide();
                     });
+                } else if (this.selectedFileId) {
+                    // single file
+                    FileService.syncFilePermissions(this.selectedFileId, this.selectedRoles).then(response => {
+                        this.getFilePermissions();
+                        this.savingPermission = false;
+
+                        this.$refs['add-directory-permissions'].hide();
+                    })
                 } else {
-                    if (this.selectedFileId) {
-                        FileService.syncFilePermissions(this.selectedFileId, this.selectedRoles).then(response => {
-                            this.getFilePermissions();
-                            this.savingPermission = false;
-                        })
-                    } else {
-                        FileService.syncDirectoryPermissions(this.selectedDirectoryNode.id, this.selectedRoles).then(response => {
-                            this.getDirectoryPermissions();
-                            this.savingPermission = false;
-                        })
-                    }
+                    // directory
+                    FileService.syncDirectoryPermissions(this.selectedDirectoryNode.id, this.selectedRoles).then(response => {
+                        this.getDirectoryPermissions();
+                        this.savingPermission = false;
+
+                        this.$refs['add-directory-permissions'].hide();
+                    })
                 }
             },
 

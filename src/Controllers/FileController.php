@@ -214,7 +214,8 @@ class FileController extends AbstractController {
         $permissions = $request->permissions;
 
         $node->permissions()->sync($permissions);
-        $node->syncFilePermissions();
+        // TODO - add a checkbox to say replace on children ...
+        //$node->syncFilePermissions();
 
         return response()->json(compact('permissions'));
     }

@@ -53,5 +53,8 @@
         "min": "NODE_ENV=min webpack --config webpack.config.js --progress --mode=production",
         "watch": "webpack --config webpack.config.js --watch --mode=development",
         "analyze": "NODE_ENV=analyze webpack --config webpack.config.js --mode=development"
+    },
+    "jshintConfig": {
+        "esversion": 6
     }
 }

@@ -20,7 +20,7 @@ const FileService = {
     createUpdateDirectory (id, create, data) {
         if(create){
             let url = '/cms-api/files/directory/';
-            url += id ? id : ''
+            url += id ? id : '';
             return axios.post(url, data);
         } else {
             return axios.post('/cms-api/files/directory/' + id + '/update', data);
@@ -35,31 +35,31 @@ const FileService = {
         let data = {
             ids: ids,
             permissions: permissions
-        }
+        };
 
-        return axios.post('/cms-api/files/multiple-file/permissions', data)
+        return axios.post('/cms-api/files/multiple-file/permissions', data);
     },
     getMultipleFilePermissions(ids){
-        return axios.get('/cms-api/files/multiple-file/permissions', { params : { ids: ids } })
+        return axios.get('/cms-api/files/multiple-file/permissions', { params : { ids: ids } });
     },
 
     syncFilePermissions(id, permissions) {
         let data = {
             permissions: permissions
-        }
-        return axios.post('/cms-api/files/file/' + id + '/permissions', data)
+        };
+        return axios.post('/cms-api/files/file/' + id + '/permissions', data);
     },
     getFilePermissions(id) {
-        return axios.get('/cms-api/files/file/' + id + '/permissions')
+        return axios.get('/cms-api/files/file/' + id + '/permissions');
     },
     syncDirectoryPermissions(id, permissions) {
         let data = {
             permissions: permissions
-        }
-        return axios.post('/cms-api/files/directory/' + id + '/permissions', data)
+        };
+        return axios.post('/cms-api/files/directory/' + id + '/permissions', data);
     },
     getDirectoryPermissions(id) {
-        return axios.get('/cms-api/files/directory/' + id + '/permissions')
+        return axios.get('/cms-api/files/directory/' + id + '/permissions');
     }
 };
 
