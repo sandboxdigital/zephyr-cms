@@ -225,7 +225,7 @@ class FileController extends AbstractController {
         return response()->json(compact('permissions'));
     }
 
-    public function syncMultipleFilePermissions(Request $request)
+    public function postMultipleFilePermissions(Request $request)
     {
         $ids = $request->ids;
         $permissions = $request->permissions;

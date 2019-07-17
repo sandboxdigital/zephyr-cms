@@ -52,6 +52,11 @@ class CmsPage extends Model
 
     public function getUrlAttribute()
     {
+        return  $this->getUrl();
+    }
+
+    public function getUrl()
+    {
         // don't use $this->ancestors as it doesn't seem to get set by CmsPage::get()->toTree();
         // looping through parents to create ancestors array..
 
@@ -62,6 +67,8 @@ class CmsPage extends Model
             $parentPages[] = $current->parent;
             $current = $current->parent;
         }
+
+        $parentPages = array_reverse($parentPages);
 
         $paths = [];
 

@@ -28,24 +28,34 @@
             </div>
             <div id="files-table-container" class="zph-page-form pt-1" :class="{'list-hidden':!pageListVisible}">
                 <button type="button" class="cms-btn btn-sm ml-2 float-left cms-btn-group-permissions" @click="openMultipleFilePermission"><i class="icon ion-md-people"></i> Permissions</button>
+                <b-select class="file-filter-role float-left ml-2" :options="[{id: 0, 'label': 'Select role'}].concat(roles)" text-field="label" value-field="id" v-model="fileFilterRole" size="sm"></b-select>
                 <button type="button" class="cms-btn btn-sm mr-2 float-right" v-b-modal.upload-modal><i class="icon ion-md-cloud-upload"></i> Upload</button>
-                <b-select class="file-filter-role float-right mr-2" :options="[{id: 0, 'label': 'select one'}].concat(roles)" text-field="label" value-field="id" v-model="fileFilterRole" size="sm"></b-select>
                 <table class="cms-table">
                     <thead>
                         <tr>
                             <th class="file-checkbox"><b-checkbox v-model="areAllFilesSelected" @change="toggleSelectAllFiles"></b-checkbox></th>
 <!--                            <th>Id</th>-->
-                            <th>File</th>
+                            <th >
+<!--                                <span class="float-left">File</span>-->
+                                <div class="input-group input-group-sm float-left" style="width: 200px;">
+                                    <input v-model="fileName" placeholder="Filter files" class="form-control" />
+                                    <div class="input-group-append" v-if="fileName !== ''">
+                                        <button class="btn btn-outline-secondary" @click="fileName=''"><i class="icon ion-md-close"></i></button>
+                                    </div>
+                                </div>
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody class="files">
                         <tr v-for="file in files" v-if="file" :key="file.id">
-                            <td class="file-checkbox"><b-checkbox v-model="selectedFiles" :value="file.id"></b-checkbox></td>
+                            <td class="file-checkbox" style="width: 20px;"><b-checkbox v-model="selectedFiles" :value="file.id"></b-checkbox></td>
 <!--                            <td>{{file.id}}</td>-->
-                            <td v-if="file.type === 'file'"><img onerror="this.style.display='none'" :src="file['url-thumbnail']" alt="" width="48px"> {{file.name}}</td>
+<!--                            <td v-if="file.type === 'file'"><img onerror="this.style.display='none'" :src="file['url-thumbnail']" alt="" width="48px"></td>-->
+                            <td v-if="file.type === 'file'" style="overflow: hidden;text-overflow: ellipsis">{{file.name}}</td>
+<!--                            <td v-if="file.type === 'link'">-</td>-->
                             <td v-if="file.type === 'link'"><a target="_blank" :href="file.link_url">{{file.link_url}}</a></td>
-                            <td style="text-align: right">
+                            <td style="text-align:right;width:100px">
                                 <button class="cms-btn btn-sm" v-if="hasChoose" @click.prevent="chooseFile(file)">Choose</button>
                                 <button class="cms-btn btn-sm cms-btn-permissions" @click.prevent="openFilePermission(file.id)"><i class="icon ion-md-people"></i></button>
                                 <button class="cms-btn btn-sm" @click.prevent="deleteFile(file.id)"><i class="icon ion-md-trash"></i></button>
@@ -128,45 +138,52 @@
             </div>
         </b-modal>
 
-        <b-modal size="lg" id="add-directory-permissions" ref="add-directory-permissions" @hide="selectedFileId = null; multipleFilePermission = false">
-            <div slot="modal-header">Add/Update Permissions</div>
-            <b-form-group>
-                <b-button class="float-right" @click="updateFileDirectoryPermissions" variant="primary">{{savingPermission ? 'Saving' : 'Save'}}</b-button>
-            </b-form-group>
-            <b-form-group>
-                <b-row>
-                    <b-col>
-                        <b-form-checkbox
-                            class="float-left"
-                            v-model="areAllRolesSelected"
-                            aria-describedby="flavours"
-                            aria-controls="flavours"
-                            @change="toggleSelectedRoles"
-                            switch
-                        >
-                            {{ areAllRolesSelected ? 'Un-select All' : 'Select All' }}
-                        </b-form-checkbox>
-                    </b-col>
-                    <div class="col">
-                        <b-form-input v-model="filterRole" />
-                    </div>
-                </b-row>
-            </b-form-group>
+        <b-modal size="lg" id="add-directory-permissions" ref="add-directory-permissions" @hide="onModalPermissionsHide">
+            <div slot="modal-header" style="width: 100%">
+                <div class="float-left">
+                    Add/Update Permissions
+                </div>
+                <div class="float-right">
+                    <b-button @click="updateFileDirectoryPermissions(true)" variant="primary">{{savingPermission ? 'Saving' : 'Save and close'}}</b-button>
+                </div>
+            </div>
+
             <b-form-checkbox-group
-                v-model="selectedRoles"
-                name="selected_roles"
-                aria-label="Roles"
-                switches
-            >
-                <b-table class="cms-table" :items="roleOptions" :fields="['label', 'actions']">
-                    <template slot="actions" slot-scope="row">
-                        <b-form-checkbox :value="row.item.id"></b-form-checkbox>
-                    </template>
-                </b-table>
+                    v-model="selectedRoles"
+                    name="selected_roles"
+                    aria-label="Roles"
+                    switches>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="input-group">
+                                <input v-model="filterRole" placeholder="Filter roles" class="form-control" />
+                                <div class="input-group-append" v-if="filterRole !== ''">
+                                    <button class="btn btn-outline-secondary" @click="filterRole=''"><i class="icon ion-md-close"></i></button>
+                                </div>
+                            </div>
+                        </th>
+                        <th class="text-right">
+                            <span style="margin: 9px 10px 0 0;">Select</span>
+                            <div class="btn-group">
+                                <button @click="toggleSelectedRoles(true)" class="btn btn-outline-secondary">All</button> <button @click="toggleSelectedRoles(false)" class="btn btn-outline-secondary">None</button>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="role in roleOptions">
+                        <td>{{role.label}}</td>
+                        <td class="text-right"><b-form-checkbox :value="role.id"></b-form-checkbox></td>
+                    </tr>
+                </tbody>
+
+            </table>
             </b-form-checkbox-group>
 
             <div slot="modal-footer">
-                <b-button @click="updateFileDirectoryPermissions" variant="primary">{{savingPermission ? 'Saving' : 'Save'}}</b-button>
+                <b-button @click="updateFileDirectoryPermissions(true)" variant="primary">{{savingPermission ? 'Saving' : 'Save and close'}}</b-button>
             </div>
         </b-modal>
     </div>
@@ -197,11 +214,12 @@
         data () {
             return {
                 tree: [],
-                files: [],
+                filesAll: [],
 
+                fileName:'',
                 recordsCount: 0,
                 page: 1,
-                recordsPerPage:25,
+                recordsPerPage:1000,
                 paginationOption: { theme: 'bootstrap4'},
 
                 savingPermission: false,
@@ -244,6 +262,23 @@
             }
         },
         computed: {
+            files () {
+                let all = this.filesAll;
+
+                if (this.fileName) {
+                    console.log('FILTER');
+                    let filter = this.fileName.toLowerCase();
+                    all = _filter(all,(item) => {
+                        // console.log(item);
+                        let label = item.name ? item.name.toLowerCase() : item.link_url.toLowerCase();
+                        return label.indexOf(filter)>-1;
+                    });
+                } else {
+
+                }
+
+                return all;
+            },
             pageFirstRecord () {
                 return ((this.page-1) * this.recordsPerPage) + 1;
             },
@@ -259,7 +294,7 @@
                     return label.indexOf(filter)>-1;
                 });
 
-                this.areAllRolesSelected = !_difference(_map(results, 'id'), this.selectedRoles).length
+                this.areAllRolesSelected = !_difference(_map(results, 'id'), this.selectedRoles).length;
 
                 return results;
             },
@@ -357,17 +392,19 @@
             },
             getFiles(id){
                 this.loadingFiles = true;
-                this.files = [];
+                // this.files = [];
 
-                let params = this.fileFilterRole ? {role_id: this.fileFilterRole} : {}
+                let params = this.fileFilterRole ? {role_id: this.fileFilterRole} : {};
 
                 FileService.getFiles(id, params).then(response => {
-                    this.files = response.data;
+                    this.filesAll = response.data;
                     this.paginate(response.data);
                     this.loadingFiles = false;
                 })
             },
-            refreshFiles(){
+
+            refreshFiles()
+            {
                 this.getFiles(this.selectedDirectoryNode.id);
             },
 
@@ -393,7 +430,7 @@
                 FileService.getMultipleFilePermissions(this.selectedFiles).then(response => {
                     this.permissions = response.data.permissions;
                     this.selectedRoles = _map(this.permissions, 'id');
-                    this.loadingRoles = false
+                    this.loadingRoles = false;
                 })
             },
 
@@ -405,7 +442,14 @@
             openMultipleFilePermission(){
                 this.multipleFilePermission = true;
                 this.$refs['add-directory-permissions'].show();
-                this.getMultipleFilePermission()
+                this.getMultipleFilePermission();
+            },
+
+            onModalPermissionsHide ()
+            {
+                this.selectedFileId = null;
+                this.multipleFilePermission = false;
+                this.filterRole = '';
             },
 
             openFilePermission(id) {
@@ -414,31 +458,33 @@
                 this.getFilePermissions()
             },
 
-            updateFileDirectoryPermissions() {
+            updateFileDirectoryPermissions(close)
+            {
                 this.savingPermission = true;
 
-                if(this.multipleFilePermission){
+                if (this.multipleFilePermission){
                     FileService.syncMultipleFilePermissions(this.selectedFiles, this.selectedRoles).then(response => {
                         // this.getFilePermissions();
                         this.multipleFilePermission = false;
                         this.savingPermission = false;
+
+                        this.refreshFiles();
+
+                        this.$refs['add-directory-permissions'].hide();
                     });
-                    return;
+                } else {
+                    if (this.selectedFileId) {
+                        FileService.syncFilePermissions(this.selectedFileId, this.selectedRoles).then(response => {
+                            this.getFilePermissions();
+                            this.savingPermission = false;
+                        })
+                    } else {
+                        FileService.syncDirectoryPermissions(this.selectedDirectoryNode.id, this.selectedRoles).then(response => {
+                            this.getDirectoryPermissions();
+                            this.savingPermission = false;
+                        })
+                    }
                 }
-
-                if(this.selectedFileId){
-                    FileService.syncFilePermissions(this.selectedFileId, this.selectedRoles).then(response => {
-                        this.getFilePermissions();
-                        this.savingPermission = false;
-                    })
-                }else {
-                    FileService.syncDirectoryPermissions(this.selectedDirectoryNode.id, this.selectedRoles).then(response => {
-                        this.getDirectoryPermissions();
-                        this.savingPermission = false;
-                    })
-                }
-
-
             },
 
             /* Roles */
@@ -448,12 +494,12 @@
                 })
             },
             toggleSelectedRoles(checked) {
-                if(!this.roleOptions) {
+                if (!this.roleOptions) {
                     return;
                 }
 
                 let options = _map(this.roleOptions, 'id');
-                if(checked){
+                if (checked) {
                     this.selectedRoles = this.filterRole ? _union(this.selectedRoles, options) : options
                 } else {
                     this.selectedRoles = this.filterRole ? _difference(this.selectedRoles, options) : []
@@ -478,6 +524,7 @@
             resetUpload(){
                 this.$refs.myVueDropzone.removeAllFiles();
             },
+
             queueComplete (file, response){
                 console.log('queue complete');
                 this.$refs['upload-modal'].hide();
@@ -486,20 +533,23 @@
                     this.resetUpload();
                 }, 1000)
             },
+
             paginate(results){
+                // this.filesAll = results;
                 this.page = 1;
                 this.recordsCount = results.length;
                 this.results = _chunk(results, this.recordsPerPage);
 
-                let files = this.results[this.page - 1];
-                if (files) {
-                    this.files = files;
-                } else {
-                    this.files = [];
-                }
+                // let files = this.results[this.page - 1];
+                // if (files) {
+                //     this.files = files;
+                // } else {
+                //     this.files = [];
+                // }
             },
+
             pageChanged() {
-                this.files = this.results[this.page - 1];
+                // this.files = this.results[this.page - 1];
                 let top = $("#files-table-container").offset().top;
                 $('html,body').animate({ scrollTop: top}, 500);
             },

@@ -47,11 +47,11 @@ Route::namespace('Sandbox\Cms\Controllers')
 
         Route::prefix('files')->group(function(){
             Route::get('/file/{id}', 'FileController@getFile');
-            Route::get('/multiple-file/permissions', 'FileController@multipleFilePermissions');
-            Route::post('/multiple-file/permissions', 'FileController@syncMultipleFilePermissions');
-            Route::get('/get/{node}', 'FileController@files');
+            Route::get ('/multiple-file/permissions', 'FileController@multipleFilePermissions');
+            Route::post('/multiple-file/permissions', 'FileController@postMultipleFilePermissions');
+            Route::get ('/get/{node}', 'FileController@files');
             Route::post('/delete/{fileId}', 'FileController@deleteFile');
-            Route::get('/tree', 'FileController@tree');
+            Route::get ('/tree', 'FileController@tree');
             Route::post('/directory/{node?}', 'FileController@createDirectory');
             Route::post('/directory/{node}/update', 'FileController@updateDirectory');
             Route::post('/directory/{node}/delete', 'FileController@deleteDirectory');
