@@ -24,7 +24,6 @@ class Site
             if ($homepage) {
                 self::mapRoutes($homepage->children, '/ROOT');
             }
-            Log::debug('ROUTES DONE');
         }
     }
 
