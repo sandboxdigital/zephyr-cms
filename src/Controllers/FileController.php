@@ -99,7 +99,7 @@ class FileController extends AbstractController {
             $cmsFile->permissions()->sync($permissions);
 
             $cmsFileIds[] = $cmsFile->id;
-            $uploadedPhotos[] = $photo->storeAs(config('zephyr.files_path'), $filename, 'public');
+            $uploadedPhotos[] = Storage::disk('zephyrFiles')->putFileAs('/', $photo, $filename);
         }
 
         $node->files()->attach($cmsFileIds);
@@ -109,8 +109,8 @@ class FileController extends AbstractController {
 
     public function deleteFile(Request $request, $fileId){
         $file = CmsFile::find($fileId);
-        if($file->type === 'file'){
-            Storage::delete('public' . config('zephyr.files_path') . '/' . $file->fullname);
+        if ($file->type === 'file') {
+            Storage::disk('zephyrFiles')->delete($file->fullname);
         }
 
         $file->delete();

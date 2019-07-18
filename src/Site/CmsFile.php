@@ -10,6 +10,8 @@ use \Storage;
  * @package Sandbox\Cms\Site
  *
  *
+ *
+ *
  * @property string size
  * @property string name
  * @property string fullname
@@ -40,7 +42,7 @@ class CmsFile extends Model
 
     public function getPath()
     {
-        return 'storage' . config('zephyr.files_path') . '/' . $this->fullname;
+        return Storage::disk('zephyrFiles')->path($this->fullname);
     }
 
     public function permissions() {
@@ -133,7 +135,7 @@ class CmsFile extends Model
 
     /* Helpers */
     public static function files_path($file){
-        return 'storage' . config('zephyr.files_path') . '/' . $file;
+        return Storage::disk('zephyrFiles')->path($file);;
     }
 
     /**
