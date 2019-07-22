@@ -82,6 +82,9 @@ class CmsPage extends Model
             $root = implode('/', $paths);
             return '/' . $root . '/' . $this->path;
         } else {
+            if ($this->path == 'ROOT') {
+                return '/';
+            }
             return '/' . $this->path;
         }
     }

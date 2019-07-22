@@ -22,7 +22,6 @@ trait ContentManaged
     {
         $this->type = $type;
         $this->id = $id;
-//        dd($type.':'.$id);
         if ($content = CmsContent::whereLinkType($this->type)
             ->whereLinkId($this->id)
             ->orderBy('version','DESC')
@@ -39,15 +38,13 @@ trait ContentManaged
             View::share('content', $this->content);
         }
 
-//        dd($this->content);
-
         return $this->content;
     }
 
     public function loadContentForPage (Request $request)
     {
         $path  = $request->getPathInfo();
-//        dd($path);
+        $content = '';
         $page = Site::findPage($path);
 
         if ($page) {
@@ -61,6 +58,9 @@ trait ContentManaged
             }
         }
 
-        return compact('page', 'content');
+        return [
+            'page'=>$page,
+            'content'=>$content
+            ];
     }
 }
