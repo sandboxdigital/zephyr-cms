@@ -11,11 +11,12 @@ class CmsHelper
         $js = '';
         $port = config('zephyr.cms.port');
         $jsFiles = config('zephyr.cms.jsFiles');
+        $coreJs = config('zephyr.cms.coreJs', '/vendor/zephyr/js/cms.js');
 
         if (config('zephyr.cms.hot')){
-            array_unshift($jsFiles, 'http://localhost:'.$port.'/vendor/zephyr/js/cms.js');
+            array_unshift($jsFiles, 'http://localhost:'.$port.$coreJs);
         } else {
-            array_unshift($jsFiles, '/vendor/zephyr/js/cms.js');
+            array_unshift($jsFiles, $coreJs);
         }
 
         foreach($jsFiles as $jsFile) {
@@ -29,9 +30,10 @@ class CmsHelper
     {
         $css = '';
         $cssFiles = config('zephyr.cms.cssFiles');
+        $coreCss = config('zephyr.cms.coreCss','/vendor/zephyr/css/cms.css');
 
         if (!config('zephyr.cms.hot')) {
-            array_unshift($cssFiles, '/vendor/zephyr/css/cms.css');
+            array_unshift($cssFiles, $coreCss);
         }
         foreach($cssFiles as $cssFile) {
             $css .= '<link rel="stylesheet" href="'.$cssFile.'" crossorigin="anonymous" />'."\n";
