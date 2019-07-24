@@ -158,10 +158,15 @@ class FileController extends AbstractController {
                 $filePath = $cmsFile->getAbsolutePath(); /* original path without size */
 
                 $size = $cmsFile->size;
+
                 if ($size == 'original' || $size == '') {
                     if (!is_file($filePath)) {
                         throw new \Exception('File not found - 1');
                     }
+
+                    $url = $cmsFile->getUrl();
+
+                    return redirect($url);
                 } else if (in_array($size, array_keys(config('zephyr.imageSizes', [])))) {
                     $width = config('zephyr.imageSizes.' . $size . '.width', null);
                     $height = config('zephyr.imageSizes.' . $size . '.height', null);
@@ -182,7 +187,6 @@ class FileController extends AbstractController {
 
                 \Log::debug($urlWithSize);
                 $img = Image::make($filePath)->resize($width, $height);
-                \Log::debug('4');
                 $img->save($filePathWithSize);
                 return redirect($urlWithSize);
             } else {
