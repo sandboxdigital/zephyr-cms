@@ -57,14 +57,14 @@ class CmsFile extends Model
             $fullName = $pathInfo['filename'] . '-' . $size . '.' . $pathInfo['extension'];
         }
 
-        $path = trim(config('zephyr.files_path'), '/');
-        return Storage::disk('public')->path($path . '/' . $fullName);
+        //$path = trim(config('zephyr.files_path'), '/');
+        return Storage::disk('zephyrFiles')->path($fullName);
     }
 
     public function getUrl($size='')
     {
-        $path = trim(config('zephyr.files_path'), '/');
-        return Storage::disk('public')->url($path . '/' . $this->getName($size));
+        //$path = trim(config('zephyr.files_path'), '/');
+        return Storage::disk('zephyrFiles')->url($this->getName($size));
     }
 
     public function getName($size='')

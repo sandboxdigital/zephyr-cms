@@ -57,10 +57,10 @@ class ZephyrServiceProvider extends ServiceProvider {
 
         $this->mergeConfigFrom(__DIR__.'/config-defaults.php', 'zephyr');
 
-
         $diskConfig = [
             'driver' => 'local',
-            'root' => app()->config['zephyr.files_path'],
+            'root'   => app()->config['zephyr.files_path'],
+            'url'    => app()->config['zephyr.files_url'],
         ];
 
         app()->config["filesystems.disks.zephyrFiles"] = $diskConfig;

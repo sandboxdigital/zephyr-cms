@@ -125,7 +125,7 @@ class FileController extends AbstractController {
             $path = $request->file->store('public');
             $extension = $request->file->extension();
             $url = asset($path);
-            $url = str_replace('public','storage',$url);
+            $url = str_replace('public', 'storage', $url);
 
             return [
                 'url' => $url,
@@ -139,10 +139,17 @@ class FileController extends AbstractController {
 
     public function viewFile($file)
     {
-        $filePath = CmsFile::files_path($file);
+        //$cmsFile = CmsFile::getFile($file);
 
-        if (is_file($filePath))
-            return redirect($filePath);
+        //dd($cmsFile);
+        //echo $file;
+        //
+        //$filePath = CmsFile::files_path($file);
+        //
+        //dd($filePath);
+        //
+        //if (is_file($filePath))
+        //    return redirect($filePath);
 
         try {
             $cmsFile = CmsFile::getFile($file);
@@ -151,10 +158,9 @@ class FileController extends AbstractController {
                 $filePath = $cmsFile->getAbsolutePath(); /* original path without size */
 
                 $size = $cmsFile->size;
-
                 if ($size == 'original' || $size == '') {
                     if (!is_file($filePath)) {
-                        throw new \Exception('file not found');
+                        throw new \Exception('File not found - 1');
                     }
                 } else if (in_array($size, array_keys(config('zephyr.imageSizes', [])))) {
                     $width = config('zephyr.imageSizes.' . $size . '.width', null);
@@ -174,11 +180,13 @@ class FileController extends AbstractController {
                 $filePathWithSize = $cmsFile->getAbsolutePath($cmsFile->size);
                 $urlWithSize = $cmsFile->getUrl($cmsFile->size);
 
+                \Log::debug($urlWithSize);
                 $img = Image::make($filePath)->resize($width, $height);
+                \Log::debug('4');
                 $img->save($filePathWithSize);
                 return redirect($urlWithSize);
             } else {
-                throw new \Exception('file not found');
+                throw new \Exception('File not found - 2');
             }
 
             return redirect($filePath);

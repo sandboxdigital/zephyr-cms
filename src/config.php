@@ -8,7 +8,8 @@ return [
     'google_map' => [
         'api_key' => env('ZEPHYR_GMAP_API_KEY', null)
     ],
-    'files_path' => env('ZEPHYR_CMS_FILE_PATH', '/files'),
+    'files_path' => env('ZEPHYR_CMS_FILE_PATH', storage_path('app/public/files')),
+    'files_url' => env('ZEPHYR_CMS_FILE_URL', 'storage/files'),
 
     'imageSizes' => [
         'thumbnail' => [
