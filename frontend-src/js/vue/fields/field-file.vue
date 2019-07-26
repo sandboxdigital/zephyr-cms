@@ -70,7 +70,6 @@ export default {
         this.$fileSelect = jQuery(this.$el).find('.fileUpload');
 
         this.$fileSelect.change(function () {
-            console.log(this);
             FileHelper.selectFile (this, {
                 onStart : _this.onStart.bind(_this),
                 onProgress : _this.onProgress.bind(_this),

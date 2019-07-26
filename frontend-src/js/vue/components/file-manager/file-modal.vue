@@ -1,7 +1,9 @@
 
 <template>
     <b-modal class="cms-file-modal" v-model="modalVisible" @hide="onModalHide()" size="lg" title="Files" no-enforce-focus hide-footer >
-        <file-manager @change="onFileManagerFileChanged" :has-choose="true"></file-manager>
+        <file-manager @change="onFileManagerFileChanged"
+                      :has-choose="true"
+                      :show-permissions="false"></file-manager>
     </b-modal>
 </template>
 

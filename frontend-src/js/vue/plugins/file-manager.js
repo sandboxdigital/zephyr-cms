@@ -8,7 +8,7 @@ let fileModalCallback = null;
 
 const FileManager = {
     install (Vue, options) {
-        console.log('FileManager');
+        // console.log('FileManager');
 
         Vue.showFileBrowser = function () {
 

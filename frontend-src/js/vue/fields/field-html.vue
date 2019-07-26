@@ -45,50 +45,67 @@ export default {
             this.loadData(this.field.data)
         }
 
-        let quill = this.$refs.quillEditor.quill;
+        this.quill = this.$refs.quillEditor.quill;
 
-        $( this.$el ).find( '.ql-picker-options .ql-picker-item').click(function() {
-            quill.format('header2', $(this).data('value'));
+        $(this.$el).find('.ql-picker-options .ql-picker-item').click(() => {
+            this.format('header2', $(this).data('value'));
+        });
+
+        this.quill.getModule('toolbar').addHandler('image', () => {
+            this.selectLocalImage();
         });
     },
 
     methods : {
-        loadData (data) {
+        loadData(data) {
             this.value = data.value;
         },
 
-        onQuillEditorChange({ quill, html, text }) {
+        onQuillEditorChange({quill, html, text}) {
             // console.log('editor change!', quill, html, text)
             this.content = html
         },
 
-        toggleCode ()
-        {
+        toggleCode() {
             this.codeVisible = !this.codeVisible;
 
             if (this.codeVisible) {
                 let code = this.value;
 
                 // NL after block
-                code = code.replace(/<\/p></g,"</p>\n<");
-                code = code.replace(/<\/h1></g,"</h1>\n<");
-                code = code.replace(/<\/h2></g,"</h2>\n<");
-                code = code.replace(/<\/h3></g,"</h3>\n<");
-                code = code.replace(/<\/h4></g,"</h4>\n<");
-                code = code.replace(/<\/h5></g,"</h5>\n<");
-                code = code.replace(/<\/li></g,"</li>\n<");
+                code = code.replace(/<\/p></g, "</p>\n<");
+                code = code.replace(/<\/h1></g, "</h1>\n<");
+                code = code.replace(/<\/h2></g, "</h2>\n<");
+                code = code.replace(/<\/h3></g, "</h3>\n<");
+                code = code.replace(/<\/h4></g, "</h4>\n<");
+                code = code.replace(/<\/h5></g, "</h5>\n<");
+                code = code.replace(/<\/li></g, "</li>\n<");
 
 
                 // NL before block
-                code = code.replace(/><li>/g,">\n<li>");
-                code = code.replace(/><ol>/g,">\n<ol>");
+                code = code.replace(/><li>/g, ">\n<li>");
+                code = code.replace(/><ol>/g, ">\n<ol>");
 
                 this.$refs.editor.innerText = code;
             }
         },
 
-        editorUpdate (event) {
+        editorUpdate(event) {
             this.value = event.target.innerText;
+        },
+
+        selectLocalImage() {
+            this.$showFileManager().then(response => {
+                if (response.status === 'success') {
+                    this.insertToEditor(response.data.url);
+                }
+            });
+        },
+
+        insertToEditor(url) {
+            // push image url to rich editor.
+            const range = this.quill.getSelection();
+            this.quill.insertEmbed(range.index, 'image', url);
         }
     }
 }

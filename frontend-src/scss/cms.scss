@@ -44,6 +44,19 @@ $colour-input-text: #000000;
     .cms-nav-tabs-buttons {
         padding: 6px;
     }
+
+    code {
+        font-size: 87.5%;
+        color: #e83e8c;
+        word-break: break-word;
+        display: inline-block;
+        max-width: 330px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-top: 5px;
+        vertical-align: top;
+    }
 }
 
 #ui-datepicker-div {

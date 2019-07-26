@@ -24,6 +24,21 @@
             img {
                 max-height: 50px;
             }
+
+            &.file-name {
+                max-width: 100px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            &.file-controls {
+                max-width: 75px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                text-align: right;
+            }
         }
     }
 
