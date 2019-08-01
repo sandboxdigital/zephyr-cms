@@ -6,14 +6,30 @@
                 <cms-field-row label="Page Title">
                     <input name="name" type="text" id="title"  v-model="page.meta_title" class="cms-text">
                 </cms-field-row>
+
                 <cms-field-row label="Meta Description">
                     <textarea name="meta_description" type="text" id="meta_description"  v-model="page.meta_description" class="cms-text"></textarea>
                 </cms-field-row>
+
+                <cms-field-row label="Meta Canonical">
+                    <input name="canonical" type="text" id="canonical" v-model="page.meta_canonical" class="cms-text">
+                </cms-field-row>
+
                 <cms-field-row label="Show in sitemap">
                     <input name="show_in_sitemap"
                            type="checkbox"
                            id="show_in_sitemap"
                            v-model="page.show_in_sitemap"
+                           class="cms-text"
+                           true-value="1"
+                           false-value="0">
+                </cms-field-row>
+
+                <cms-field-row label="Meta NOINDEX">
+                    <input name="meta_noindex"
+                           type="checkbox"
+                           id="meta_noindex"
+                           v-model="page.meta_noindex"
                            class="cms-text"
                            true-value="1"
                            false-value="0">

@@ -34,6 +34,8 @@ class PagesController extends AbstractController {
             'cms_page_template_id',
             'page_template_id',
             'show_in_sitemap',
+            'meta_canonical',
+            'meta_noindex',
         ]);
 
         $page->fill($data);

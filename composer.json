@@ -18,6 +18,9 @@
     "autoload": {
         "psr-0": {
             "Sandbox\\Cms": "src/"
-        }
+        },
+        "files": [
+            "src/html_helpers.php",
+        ]
     }
 }

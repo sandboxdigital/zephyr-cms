@@ -17,9 +17,12 @@ use Sandbox\Cms\Site\Events\CmsPageSaved;
  * @property int id
  * @property int parent_id
  * @property string name
- * @property string meta_description
  * @property string path
  * @property string url
+ * @property string show_in_sitemap
+ * @property string meta_description
+ * @property string meta_noindex
+ * @property string meta_canonical
  *
  * @property  CmsPage[] ancestors
  * @property  CmsPage[] children
@@ -32,12 +35,14 @@ class CmsPage extends Model
     protected $table = 'cms_pages';
 
     protected $fillable = [
+        'cms_page_template_id',
         'name',
         'path',
         'meta_title',
         'meta_description',
         'page_template_id',
-        'cms_page_template_id',
+        'meta_canonical',
+        'meta_noindex',
         'show_in_sitemap',
     ];
 
