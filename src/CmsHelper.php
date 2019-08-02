@@ -48,18 +48,18 @@ class CmsHelper
         return $css;
     }
 
-    public static function metaRobots(CmsPage $page)
+    public static function metaRobots($page)
     {
-        if ($page->meta_noindex) {
+        if (isset($page->meta_noindex) && $page->meta_noindex) {
             return '<meta name="robots" content="noindex">';
         }
 
         return '';
     }
 
-    public static function metaCanonical(CmsPage $page)
+    public static function metaCanonical($page)
     {
-        if ($page->meta_canonical) {
+        if (isset($page->meta_canonical) && $page->meta_canonical) {
             return '<link rel="canonical" href="'.$page->meta_canonical.'">';
         }
 
