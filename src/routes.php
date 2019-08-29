@@ -2,13 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::namespace('Sandbox\Cms\Controllers')
+Route::namespace('\Sandbox\Cms\Controllers')
     ->prefix('cms-files')
     ->middleware(['web'])
     ->group(function () {
-        Route::get('/view/{file}', 'FileController@viewFile');
+        Route::get('/view/{filePath}', 'FileController@viewFile')
+            ->where([
+                'filePath'=>'[a-zA-Z0-9-_\./]+'
+            ]);
     });
-Route::namespace('Sandbox\Cms\Controllers')
+
+Route::namespace('\Sandbox\Cms\Controllers')
     ->prefix('cms-api')
     ->middleware(['web','auth'])
     ->group(function () {

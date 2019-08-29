@@ -20,5 +20,5 @@ return [
     ],
 
     'files_path' => env('ZEPHYR_CMS_FILE_PATH', storage_path('app/public/files')),
-    'files_url' => env('ZEPHYR_CMS_FILE_URL', 'storage/files'),
+    'files_url' => env('ZEPHYR_CMS_FILE_URL', '/storage/files'),
 ];
