@@ -42,7 +42,7 @@ class CmsMenu extends Model
             $attributes['open_in'] = '';
         }
 
-        parent::fill($attributes);
+        return parent::fill($attributes);
 
     }
 }
