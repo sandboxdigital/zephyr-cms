@@ -8,7 +8,7 @@ Route::namespace('\Sandbox\Cms\Controllers')
     ->group(function () {
         Route::get('/view/{filePath}', 'FileController@viewFile')
             ->where([
-                'filePath'=>'[a-zA-Z0-9-_\./]+'
+                'filePath'=>'[a-zA-Z0-9-_\./\s/]+'
             ]);
     });
 
