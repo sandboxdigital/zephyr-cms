@@ -151,9 +151,9 @@ class FileController extends AbstractController {
         //if (is_file($filePath))
         //    return redirect($filePath);
 
+
         try {
             $cmsFile = CmsFile::getFile($file);
-
             if ($cmsFile) {
                 $filePath = $cmsFile->getAbsolutePath(); /* original path without size */
 
@@ -166,7 +166,7 @@ class FileController extends AbstractController {
 
                     $url = $cmsFile->getUrl();
 
-                    return redirect($url);
+                    return $this->fileResponse($url, $filePath);
                 } else if (in_array($size, array_keys(config('zephyr.imageSizes', [])))) {
                     $width = config('zephyr.imageSizes.' . $size . '.width', null);
                     $height = config('zephyr.imageSizes.' . $size . '.height', null);
@@ -174,29 +174,37 @@ class FileController extends AbstractController {
                     if (!$width || !$height) {
                         throw new \Exception('Size ['.$size.'] found - width or height missing');
                     }
+                } else  if (preg_match('/(\d+)x(\d+)/', $size, $matches) && count($matches) == 3) {
+                    $width = $matches[1];
+                    $height = $matches[2];
                 } else {
-                    if (preg_match('/(\d+)x(\d+)/', $size, $matches) && count($matches) == 3) {
-                        $width = $matches[1];
-                        $height = $matches[2];
-                    } else {
-                        throw new \Exception('Invalid size - ['.$size.'] not found');
-                    }
+                    throw new \Exception('Invalid size - ['.$size.'] not found');
                 }
+
                 $filePathWithSize = $cmsFile->getAbsolutePath($cmsFile->size);
                 $urlWithSize = $cmsFile->getUrl($cmsFile->size);
 
                 \Log::debug($urlWithSize);
                 $img = Image::make($filePath)->resize($width, $height);
                 $img->save($filePathWithSize);
-                return redirect($urlWithSize);
+
+                return $this->fileResponse($urlWithSize, $filePathWithSize);
             } else {
                 throw new \Exception('File not found - 2');
             }
-
-            return redirect($filePath);
         } catch (\Exception $e) {
             return $e->getMessage();
-            return abort(404);
+            return abort(404, $e->getMessage());
+        }
+    }
+
+    private function fileResponse ($url, $filePath)
+    {
+        $redirectOnComplete = config('zephyr.file.redirect_to_static');
+        if ($redirectOnComplete) {
+            return redirect($url);
+        } else {
+            return response()->file($filePath);
         }
     }
 

@@ -27,7 +27,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-module.exports = {
+let config = {
     entry: {
         cms: [
             srcPath + 'js/cms.js',
@@ -62,16 +62,16 @@ module.exports = {
 
     plugins: [
         new WebpackNotifierPlugin({
-            alwaysNotify: true,
+            skipFirstNotification: true
         }),
         new webpack.NamedModulesPlugin(),
         new ExtractTextPlugin({
             filename:"css/[name].css",
             disable: IS_HOT
         }),
-        new webpack.SourceMapDevToolPlugin({
-            filename: 'js/[name].js.map',
-        }),
+        // new webpack.SourceMapDevToolPlugin({
+        //     filename: 'js/[name].js.map',
+        // }),
         new VueLoaderPlugin(),
     ],
 
@@ -130,3 +130,9 @@ module.exports = {
         }
     },
 };
+
+if (IS_HOT) {
+    config.devtool = '';
+}
+
+module.exports = config;

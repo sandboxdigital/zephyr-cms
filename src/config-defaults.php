@@ -19,6 +19,11 @@ return [
         'defaultThumbnail' => '/images/default.png'
     ],
 
+    'file' => [
+        'max_upload_size' => 2,
+        'redirect_to_static' => env('ZEPHYR_CMS_FILE_REDIRECT_TO_STATIC', true)
+    ],
+
     'files_path' => env('ZEPHYR_CMS_FILE_PATH', storage_path('app/public/files')),
     'files_url' => env('ZEPHYR_CMS_FILE_URL', '/storage/files'),
 ];
