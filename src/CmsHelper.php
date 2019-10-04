@@ -17,7 +17,7 @@ class CmsHelper
 
         if (!empty($coreJs)) {
             if (config('zephyr.cms.hot')){
-                array_push($jsFiles, 'http://localhost:'.$port.$coreJs);
+                array_push($jsFiles, 'http://localhost:'.$port.'/vendor/zephyr/js/cms.js');
             } else {
                 array_push($jsFiles, $coreJs);
             }

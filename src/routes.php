@@ -13,6 +13,14 @@ Route::namespace('\Sandbox\Cms\Controllers')
     });
 
 Route::namespace('\Sandbox\Cms\Controllers')
+    ->prefix('cms-assets')
+    ->middleware(['web'])
+    ->group(function () {
+        Route::get('zephyr.js',  'AssetController@js');
+        Route::get('zephyr.css', 'AssetController@css');
+    });
+
+Route::namespace('\Sandbox\Cms\Controllers')
     ->prefix('cms-api')
     ->middleware(['web','auth'])
     ->group(function () {

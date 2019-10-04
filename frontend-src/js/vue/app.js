@@ -22,8 +22,10 @@ const App = {
                     }
                 }
             });
+        } else {
+            console.log ('#cms not found');
         }
     }
-}
+};
 
 export default App;

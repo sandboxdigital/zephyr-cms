@@ -209,7 +209,7 @@
         },
         props: {
             hasChoose: Boolean,
-            dzOption: Object,
+            dzOption: {},
             showPermissions: {
                 type:Boolean,
                 default:true
@@ -315,11 +315,15 @@
                     maxFilesize: 20
                 };
 
-                if(this.dzOption && typeof this.dzOption === 'object'){
-                    return Object.assign({}, defaultOptions, this.dzOption)
+                let options = {};
+
+                if (this.dzOption && typeof this.dzOption === 'object') {
+                    options = this.dzOption;
+                } else if (this.dzOption && typeof this.dzOption === 'string') {
+                    options = JSON.parse(this.dzOption);
                 }
 
-                return defaultOptions
+                return Object.assign({}, defaultOptions, options);
             }
         },
 
