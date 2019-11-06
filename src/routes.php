@@ -16,8 +16,11 @@ Route::namespace('\Sandbox\Cms\Controllers')
     ->prefix('cms-assets')
     ->middleware(['web'])
     ->group(function () {
-        Route::get('zephyr.js',  'AssetController@js');
-        Route::get('zephyr.css', 'AssetController@css');
+        Route::get('bootstrap.css',  'AssetController@bootstrapCss');
+        Route::get('bootstrap.js',  'AssetController@bootstrapJs');
+        Route::get('jquery.js',  'AssetController@jqueryJs');
+        Route::get('zephyr.js',  'AssetController@coreJs');
+        Route::get('zephyr.css', 'AssetController@coreCss');
     });
 
 Route::namespace('\Sandbox\Cms\Controllers')
