@@ -28,7 +28,12 @@ class AssetController extends AbstractController
 
     public function jqueryJs()
     {
-        return $this->loadCss('jquery.min.js');
+        return $this->loadJs('jquery.min.js');
+    }
+
+    public function popperJs()
+    {
+        return $this->loadJs('popper.min.js');
     }
 
     /**

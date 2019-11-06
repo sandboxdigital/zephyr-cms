@@ -24,7 +24,11 @@ class GroupOption extends AbstractField
 	
 	function __toString()
 	{
-		return 'GroupOption does not return a string. <br />Try accessing a child - keys: '.implode (',',array_keys($this->_elements));
+	    $keys = implode (',',array_keys($this->_elements));
+	    $id = $this->_id;
+		return "GroupOption does not return a string. <br />
+  - id: $id <br /> 
+  - blocks: $keys <br /><br />";
 	}
 
 	public function toJson ()

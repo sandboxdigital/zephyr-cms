@@ -19,6 +19,7 @@ Route::namespace('\Sandbox\Cms\Controllers')
         Route::get('bootstrap.css',  'AssetController@bootstrapCss');
         Route::get('bootstrap.js',  'AssetController@bootstrapJs');
         Route::get('jquery.js',  'AssetController@jqueryJs');
+        Route::get('popper.js',  'AssetController@popperJs');
         Route::get('zephyr.js',  'AssetController@coreJs');
         Route::get('zephyr.css', 'AssetController@coreCss');
     });
