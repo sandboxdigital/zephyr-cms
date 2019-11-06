@@ -3,7 +3,7 @@
 namespace Sandbox\Cms\Site;
 
 use Illuminate\Database\Eloquent\Model;
-use \Storage;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class CmsFile
@@ -64,7 +64,8 @@ class CmsFile extends Model
     public function getUrl($size='')
     {
         //$path = trim(config('zephyr.files_path'), '/');
-        return Storage::disk('zephyrFiles')->url($this->getName($size));
+        //return Storage::disk('zephyrFiles')->url($this->getName($size));
+        return '/cms-files/view/' . $this->addSize($size) ;
     }
 
     public function getName($size='')
@@ -135,7 +136,7 @@ class CmsFile extends Model
 
     /* Helpers */
     public static function files_path($file){
-        return Storage::disk('zephyrFiles')->path($file);;
+        return Storage::disk('zephyrFiles')->path($file);
     }
 
     /**

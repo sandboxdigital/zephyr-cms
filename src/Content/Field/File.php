@@ -1,6 +1,8 @@
 <?php
 namespace Sandbox\Cms\Content\Field;
 
+use Sandbox\Cms\Site\CmsFile;
+
 class File extends AbstractField
 {
     private $_files = [];
@@ -46,6 +48,16 @@ class File extends AbstractField
 	{
 	    if (count($this->_files) && isset($this->_files[0]->url)) {
             return $this->_files[0];
+        }
+
+		return null;
+	}
+
+	function getCmsFile ()
+	{
+	    if ($file = $this->getFile()) {
+
+	        return CmsFile::find($file->id);
         }
 
 		return null;
