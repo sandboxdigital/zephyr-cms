@@ -25,4 +25,4 @@ As of version "1.0.0" it will be considered stable.
 
    `php artisan vendor:publish --provider="Sandbox\Cms\ZephyrServiceProvider" --force`
    
-4) Run `php artisan migrate` to create CMS DB tables
+4) Run `php artisan migrate` to create CMS DB tables# zephyr-cms-js
