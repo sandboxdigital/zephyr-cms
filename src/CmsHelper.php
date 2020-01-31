@@ -17,7 +17,7 @@ class CmsHelper
 
         if (!empty($coreJs)) {
             if (config('zephyr.cms.hot')){
-                array_push($jsFiles, 'http://localhost:'.$port.'/vendor/zephyr/js/cms.js');
+                array_push($jsFiles, 'http://localhost:'.$port.$coreJs);
             } else {
                 array_push($jsFiles, $coreJs);
             }
@@ -33,11 +33,14 @@ class CmsHelper
     public static function css()
     {
         $css = '';
+        $port = config('zephyr.cms.port');
         $cssFiles = config('zephyr.cms.cssFiles');
-        $coreCss = config('zephyr.cms.coreCss','/vendor/zephyr/css/cms.css');
+        $coreCss = config('zephyr.cms.coreCss', '/vendor/zephyr/css/cms.css');
 
         if (!empty($coreCss)) {
-            if (!config('zephyr.cms.hot')) {
+            if (config('zephyr.cms.hot')){
+                array_push($cssFiles, 'http://localhost:'.$port.$coreCss);
+            } else {
                 array_push($cssFiles, $coreCss);
             }
         }

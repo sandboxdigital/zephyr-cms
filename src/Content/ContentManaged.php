@@ -1,11 +1,10 @@
 <?php
 namespace Sandbox\Cms\Content;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use Mockery\Exception;
 use Sandbox\Cms\Content\Model\CmsContent;
-use Sandbox\Cms\Site\CmsPage;
 use Sandbox\Cms\Site\Site;
 
 trait ContentManaged
@@ -44,6 +43,17 @@ trait ContentManaged
     public function loadContentForPage (Request $request)
     {
         $path  = $request->getPathInfo();
+
+        return $this->loadContentForPath($path);
+    }
+
+    /**
+     * @param $path
+     * @return array
+     * @throws Exception
+     */
+    protected function loadContentForPath($path): array
+    {
         $content = '';
         $page = Site::findPage($path);
 
@@ -53,14 +63,12 @@ trait ContentManaged
             View::share('cmsPageTitle', $pageTitle);
             $content = $this->loadContent('PAGE', $page->id);
         } else {
-            if (app()->environment() == 'local') {
-                throw new Exception('Could not find CmsPage for '.$path);
-            }
+            abort(404, 'Could not find content for for ' . $path);
         }
 
         return [
-            'page'=>$page,
-            'content'=>$content
-            ];
+            'page'    => $page,
+            'content' => $content
+        ];
     }
 }
