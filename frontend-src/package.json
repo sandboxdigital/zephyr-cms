@@ -3,7 +3,7 @@
         "axios": "^0.18.1",
         "bootstrap": "^4.1.1",
         "bootstrap-vue": "^2.0.0-rc.16",
-        "jquery": "^3.4.0",
+        "jquery": "^3.5.0",
         "lodash-es": "^4.17.14",
         "popper.js": "^1.14.3",
         "vee-validate": "^2.2.7",
