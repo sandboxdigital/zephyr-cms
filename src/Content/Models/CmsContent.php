@@ -1,5 +1,5 @@
 <?php
-namespace Sandbox\Cms\Content\Model;
+namespace Sandbox\Cms\Content\Models;
 
 use Sandbox\Cms\Content\Events\CmsContentSaved;
 

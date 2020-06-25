@@ -3,7 +3,7 @@
 namespace Sandbox\Cms\Controllers;
 
 use Illuminate\Http\Request;
-use Sandbox\Cms\Content\Model\CmsContent;
+use Sandbox\Cms\Content\Models\CmsContent;
 
 class ContentController extends AbstractController {
 

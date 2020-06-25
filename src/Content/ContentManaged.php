@@ -4,7 +4,7 @@ namespace Sandbox\Cms\Content;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use Sandbox\Cms\Content\Model\CmsContent;
+use Sandbox\Cms\Content\Models\CmsContent;
 use Sandbox\Cms\Site\Site;
 
 trait ContentManaged

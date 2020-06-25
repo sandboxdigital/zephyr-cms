@@ -4,7 +4,7 @@ namespace Sandbox\Cms\Content\Events;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
-use Sandbox\Cms\Content\Model\CmsContent;
+use Sandbox\Cms\Content\Models\CmsContent;
 
 class CmsContentSaved
 {

@@ -1,11 +1,11 @@
 <?php
-namespace Sandbox\Cms\Content\Model;
+namespace Sandbox\Cms\Content\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class CmsContentTemplate
- * @package Sandbox\Cms\Content\Model
+ * @package Sandbox\Cms\Content\Models
  *
  * @method self[] get
  *

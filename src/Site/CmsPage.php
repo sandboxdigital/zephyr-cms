@@ -3,7 +3,7 @@ namespace Sandbox\Cms\Site;
 
 use Illuminate\Database\Eloquent\Model;
 use Kalnoy\Nestedset\NodeTrait;
-use Sandbox\Cms\Content\Model\CmsContent;
+use Sandbox\Cms\Content\Models\CmsContent;
 use Sandbox\Cms\Site\Events\CmsPageSaved;
 
 /**
