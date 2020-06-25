@@ -16,8 +16,8 @@
         "intervention/image": "^2.4@dev"
     },
     "autoload": {
-        "psr-0": {
-            "Sandbox\\Cms": "src/"
+        "psr-4": {
+            "Sandbox\\Cms\\": "src/"
         },
         "files": [
             "src/html_helpers.php"
