@@ -12,3 +12,7 @@ function meta_robots ($page) {
 function meta_canonical ($page) {
     return \Sandbox\Cms\CmsHelper::metaCanonical($page);
 }
+
+function str_start($haystack,$needle) {
+    return strpos( $haystack , $needle ) === 0;
+}
