@@ -11,8 +11,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=7.1.0",
-        "kalnoy/nestedset": "^4.3",
+        "php": ">=7.2.0",
+        "kalnoy/nestedset": "^5.0",
         "intervention/image": "^2.4@dev"
     },
     "autoload": {
