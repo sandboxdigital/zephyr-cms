@@ -100,7 +100,7 @@ class Site
             return $path == $page->url;
         }
         else {
-            return starts_with($path, $page->url);
+            return str_start($path, $page->url);
         }
     }
 
@@ -111,7 +111,7 @@ class Site
             $url = $page->url;
             //\Log::debug($url);
 
-            if (starts_with($url, $prefixToRemove)) {
+            if (str_start($url, $prefixToRemove)) {
                 $url = substr($url, strlen($prefixToRemove));
             }
             if ($page->template && $page->template->route_action) {
