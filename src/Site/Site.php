@@ -36,7 +36,7 @@ class Site
     public static function findPage ($path, $rootPath = 'ROOT')
     {
 //        echo ($path).'<br>';
-        if (str_start($path,'/')) {
+        if (\Str::startsWith($path,'/')) {
             // first char is /
             $path = substr($path, 1);
         }
@@ -100,7 +100,7 @@ class Site
             return $path == $page->url;
         }
         else {
-            return str_start($path, $page->url);
+            return \Str::startsWith($path, $page->url);
         }
     }
 
@@ -111,7 +111,7 @@ class Site
             $url = $page->url;
             //\Log::debug($url);
 
-            if (str_start($url, $prefixToRemove)) {
+            if (\Str::startsWith($url, $prefixToRemove)) {
                 $url = substr($url, strlen($prefixToRemove));
             }
             if ($page->template && $page->template->route_action) {
