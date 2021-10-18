@@ -1,8 +1,9 @@
 <?php
- 
+
 namespace Sandbox\Cms\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Sandbox\Cms\Site\CmsMenu;
 
 class MenusController extends AbstractController {
@@ -30,7 +31,7 @@ class MenusController extends AbstractController {
 
         $menu = new CmsMenu ($request->all());
         $menu->parent_id = $request->get('parent_id');
-        $menu->path = str_slug($request->get('name'));
+        $menu->path = Str::slug($request->get('name'));
         $menu->save ();
 
         return $menu;

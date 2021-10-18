@@ -1,9 +1,10 @@
 <?php
- 
+
 namespace Sandbox\Cms\Controllers;
 
 use Illuminate\Http\Request;
 use Sandbox\Cms\Site\CmsPage;
+use Illuminate\Support\Str;
 
 class PagesController extends AbstractController {
 
@@ -18,7 +19,7 @@ class PagesController extends AbstractController {
     {
         $page = new CmsPage ($request->all());
         $page->parent_id = $request->get('parent_id');
-        $page->path = str_slug($request->get('name'));
+        $page->path = Str::slug($request->get('name'));
         $page->save ();
 
         return $page;
